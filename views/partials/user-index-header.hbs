@@ -3,57 +3,6 @@
     <img src="user-assets/images/loader.gif" alt="Loading..." />
 </div>
 <div class="page-wrapper">
-
-    <!--Header-->
-    <div class="top-header-wrapper">
-        <div class="top-header">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-8 col-sm-8 col-md-4 col-lg-4 text-left d-none d-sm-none d-md-none d-lg-block">
-                        <a href="tel:440011104420833"><i class="anm anm-phone-l"></i> +440 0(111) 044 833</a>
-                        <a href="mailto:sales@yourstorename.com"><i class="anm anm-envelope-l"></i>
-                            sales@storename.com</a>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-4 text-center d-xs-block d-sm-block d-lg-block">
-                        Increase &amp; Maximize sales with AVONE.
-                    </div>
-                    <div class="col-4 col-sm-4 col-md-4 col-lg-4 text-right d-none d-sm-none d-md-none d-lg-block">
-                        Follow Us:
-                        <ul class="header-social-icons">
-                            <li><a href="#" target="_blank"><i class="icon icon-facebook"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="icon icon-twitter"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="icon icon-pinterest"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="icon icon-instagram"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="icon icon-youtube"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <header class="header animated d-flex align-items-center header-2">
         <div class="container-fluid">
             <div class="row">
@@ -499,9 +448,13 @@
                     </div>
                     <div id="settingsBox">
                         <div class="customer-links">
-                            <p><a href="login.html" class="btn">Login</a></p>
-                            <p class="text-center">New User? <a href="register.html" class="register">Create an
+                            {{#if userSession}}
+                            <p><a href="/login/logout" class="btn">Logout</a></p>
+                            {{else}}
+                            <p><a href="/login" class="btn">Login</a></p>
+                            <p class="text-center">New User? <a href="/signup" class="register">Create an
                                     Account</a></p>
+                            {{/if}}
                             <p class="text-center">Default welcome msg!</p>
                         </div>
                         <div class="currency-picker">

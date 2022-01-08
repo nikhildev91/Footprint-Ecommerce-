@@ -5,12 +5,16 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const {create}= require('express-handlebars');
 var bodyParser = require('body-parser');
+const session = require('express-session')
 
 var indexRouter = require('./routes/user/index');
 var usersRouter = require('./routes/users');
 var userSignupRouter = require('./routes/user/signup');
 var userLoginRouter = require('./routes/user/login');
 var adminRouter = require('./routes/admin/index');
+
+
+var database = require('./dataConfig/databaseConnection')
 
 var app = express();
 
@@ -33,7 +37,27 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(session({secret:"Key", cookie:{maxAge:40000000}}));
+
+
+app.use((req, res, next)=>{
+ res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+ next()
+})
+
+
+database.connect((err)=>{
+  if (err){
+    console.log("connection error", err);
+  }else{
+    console.log("DataBase Connected");
+  }
+})
+
+
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

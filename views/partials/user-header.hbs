@@ -3,11 +3,6 @@
     <img src="user-assets/images/loader.gif" alt="Loading..." />
 </div>
 <div class="page-wrapper">
-    <!--Promotion Bar-->
-	<div class="notification-bar mobilehide">
-    	<a href="#" class="notification-bar__message"><b>Mutipurpose E-Commerce</b> PURCHASE THIS INCREDIBLE Temaplate NOW!</a>
-        <span class="close-announcement"><i class="anm anm-times-l" aria-hidden="true"></i></span>
-    </div>
 
         <!--Header-->
     <header class="header animated d-flex align-items-center header-1">
@@ -316,8 +311,12 @@
                     </div>
                     <div id="settingsBox">
                     	<div class="customer-links">
-                        	<p><a href="login.html" class="btn">Login</a></p>
-                            <p class="text-center">New User? <a href="register.html" class="register">Create an Account</a></p>
+                            {{#if userSession}}
+                             <p><a href="/login/logout" class="btn">Logout</a></p>
+                             {{else}}
+                        	<p><a href="/login" class="btn">Login</a></p>
+                            <p class="text-center">New User? <a href="/signup" class="register">Create an Account</a></p>
+                            {{/if}}
                             <p class="text-center">Default welcome msg!</p>
                         </div>
                         <div class="currency-picker">
