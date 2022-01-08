@@ -1,53 +1,117 @@
-<div id="page-content">        
-        <!--Body Container-->
-        <!--Breadcrumbs-->
-        <div class="breadcrumbs-wrapper">
-        	<div class="container">
-            	<div class="breadcrumbs"><a href="index.html" title="Back to the home page">Home</a> <span aria-hidden="true">|</span> <span>Login</span></div>
-            </div>
-        </div>
-        <!--End Breadcrumbs-->
-        <!--Page Title with Image-->
-        <div class="page-title"><h1>Login</h1></div>
-        <!--End Page Title with Image-->
+<div id="page-content">
+    <!--Body Container-->
+    <!--Breadcrumbs-->
+    <div class="breadcrumbs-wrapper">
         <div class="container">
-            <div class="row" style="display: flex;justify-content: center;">
-				<!--Main Content-->
-              
-				<div class="col-12 col-sm-12 col-md-6 col-lg-6 box" style="">
-                	<div class="mb-4">
-                       <form method="post" action="#" class="contact-form">	
-                       <h3>Registered Customers</h3>
-						<p>If you have an account with us, please log in.</p>
-                          <div class="row">
+            <div class="breadcrumbs"><a href="index.html" title="Back to the home page">Home</a> <span
+                    aria-hidden="true">|</span> <span>Login</span></div>
+        </div>
+    </div>
+    <!--End Breadcrumbs-->
+    <!--Page Title with Image-->
+    <div class="page-title">
+        <h1>Login</h1>
+    </div>
+    <!--End Page Title with Image-->
+    <div class="container">
+        <div class="row" style="display: flex;justify-content: center;">
+            <!--Main Content-->
+
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 box" style="">
+                <div class="mb-4">
+                    <form method="post" action="#" class="contact-form" id="userLoginForm">
+                        <h3>Registered Customers</h3>
+                        <p>If you have an account with us, please log in.</p>
+                        <div class="row">
                             <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-group">
-                                    <label for="CustomerEmail">Username <span class="required">*</span></label>
-                                    <input type="email" name="username" placeholder="" id="CustomerEmail">
+                                    <label for="CustomerUsername">Username <span class="required">*</span></label>
+                                    <input type="text" name="username" placeholder="Enter Username"
+                                        id="CustomerUsername">
                                 </div>
                             </div>
                             <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="CustomerPassword">Password <span class="required">*</span></label>
-                                    <input type="password" value="" name="password" placeholder="" id="CustomerPassword" class="">                        	
+                                    <input type="text" name="password" placeholder="Enter Password"
+                                        id="CustomerPassword" class="">
                                 </div>
                             </div>
-                          </div>
-                          <div class="row">
+                        </div>
+                        <div class="row">
                             <div class="text-left col-12 col-sm-12 col-md-12 col-lg-12">
                                 <input type="submit" class="btn mb-3" value="Sign In">
                                 <p class="mb-4">
-									<a href="forgot-your-password.html">Forgot your password?</a> &nbsp; | &nbsp;
-								    <a href="register.html" id="customer_register_link">Create account</a>
+                                    <a href="/signup" id="customer_register_link" style="float: right;">Create
+                                        account</a>
                                 </p>
                             </div>
-                         </div>
-                     </form>
-                    </div>
-               	</div>
-				<!--End Main Content-->
-			</div>
-        
-        </div><!--End Body Container-->
-        
-    </div><!--End Page Wrapper-->
+                        </div>
+                    </form>
+                </div>
+
+
+
+
+
+
+
+
+                <div class="mb-4">
+                    <form method="post" action="#" class="contact-form" id="userOtpMobile">
+                        <h3>Login With Mobile Number</h3>
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="CustomerEmail">Mobile Number<span class="required">*</span></label>
+                                    <input type="email" name="phone" placeholder="Enter Mobile Number"
+                                        id="CustomerEmail">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="text-left col-12 col-sm-12 col-md-12 col-lg-12">
+                                <input type="submit" class="btn mb-3" value="Send Code" style="float: right;">
+
+                            </div>
+                        </div>
+                       
+                    </form>
+
+
+
+
+
+                    <form method="post" action="#" class="contact-form" id="userOtp">
+                        
+                        <div class="row">
+
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="Otp">OTP Code<span class="required">*</span></label>
+                                    <input type="text" value="" name="otp" placeholder="Enter OTP Code"
+                                        id="Otp" class="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="text-left col-12 col-sm-12 col-md-12 col-lg-12">
+                                <input type="submit" class="btn mb-3" value="Verify">
+                                <p class="mb-4">
+                                    <a href="/signup" id="customer_register_link" style="float: right;">Create
+                                        account</a>
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--End Main Content-->
+        </div>
+
+    </div>
+    <!--End Body Container-->
+
+</div>
+<!--End Page Wrapper-->

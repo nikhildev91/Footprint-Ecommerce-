@@ -10,4 +10,11 @@ router.get('/', function(req, res, next) {
   res.render('user/login',{isUser});
 });
 
+router.post('/', function(req, res, next) {
+
+console.log(req.body);
+
+  res.redirect('/');
+});
+
 module.exports = router;

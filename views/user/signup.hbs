@@ -13,7 +13,7 @@
             <div class="col-12 col-sm-12 col-md-12 col-lg-12 box">
                 <div class="mb-4">
                     <h3>Personal Information</h3>
-                    <form method="post" action="#" accept-charset="UTF-8" class="contact-form">
+                    <form id="userSignupForm" method="post" action="/signup" class="contact-form">
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                                 <div class="form-group">
@@ -37,7 +37,7 @@
                             <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="CustomerEmail">Email Address <span class="required">*</span></label>
-                                    <input id="CustomerEmail" type="email" name="email" placeholder="" class=""
+                                    <input id="CustomerEmail" type="text" name="email" placeholder="" class=""
                                         autocorrect="off" autocapitalize="off" autofocus>
                                 </div>
                             </div>
@@ -46,27 +46,15 @@
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                                 <div class="form-group">
-                                    <label for="CustomerFirstName">Username <span class="required">*</span></label>
-                                    <input id="CustomerFirstName" type="text" name="username" placeholder="" class=""
+                                    <label for="CustomerUsername">Username <span class="required">*</span></label>
+                                    <input id="CustomerUsername" type="text" name="username" placeholder="" class=""
                                         autocorrect="off" autocapitalize="off" autofocus>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                                 <div class="form-group">
-                                    <label for="CustomerLastName">Phone Number <span class="required">*</span></label>
-                                    <input id="CustomerLastName" type="text" name="phone" placeholder="" class=""
-                                        autocorrect="off" autocapitalize="off" autofocus>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div class="row">
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    <label for="CustomerEmail">Address <span class="required">*</span></label>
-                                    <input id="CustomerEmail" type="text" name="address" placeholder="" class=""
+                                    <label for="CustomerPhoneNumber">Phone Number <span class="required">*</span></label>
+                                    <input id="CustomerPhoneNumber" type="text" name="phone" placeholder="" class=""
                                         autocorrect="off" autocapitalize="off" autofocus>
                                 </div>
                             </div>
@@ -77,8 +65,20 @@
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-group">
-                                    <label for="CustomerEmail">Town/City <span class="required">*</span></label>
-                                    <input id="CustomerEmail" type="email" name="town/city" placeholder="" class=""
+                                    <label for="CustomerAddress">Address <span class="required">*</span></label>
+                                    <input id="CustomerAddress" type="text" name="address" placeholder="" class=""
+                                        autocorrect="off" autocapitalize="off" autofocus>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="CustomerTownCity">Town/City <span class="required">*</span></label>
+                                    <input id="CustomerTownCity" type="email" name="townCity" placeholder="" class=""
                                         autocorrect="off" autocapitalize="off" autofocus>
                                 </div>
                             </div>
@@ -88,15 +88,15 @@
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                                 <div class="form-group">
-                                    <label for="CustomerFirstName">State <span class="required">*</span></label>
-                                    <input id="CustomerFirstName" type="text" name="state" placeholder="" class=""
+                                    <label for="CustomerState">State <span class="required">*</span></label>
+                                    <input id="CustomerState" type="text" name="state" placeholder="" class=""
                                         autocorrect="off" autocapitalize="off" autofocus>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                                 <div class="form-group">
-                                    <label for="CustomerLastName">Pincode <span class="required">*</span></label>
-                                    <input id="CustomerLastName" type="text" name="pincode" placeholder="" class=""
+                                    <label for="CustomerPincode">Pincode <span class="required">*</span></label>
+                                    <input id="CustomerPincode" type="text" name="pincode" placeholder="" class=""
                                         autocorrect="off" autocapitalize="off" autofocus>
                                 </div>
                             </div>
@@ -106,16 +106,16 @@
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                                 <div class="form-group">
-                                    <label for="CustomerFirstName">New Password <span class="required">*</span></label>
-                                    <input id="CustomerFirstName" type="text" name="newpassword" placeholder="" class=""
+                                    <label for="CustomerNewPassword">New Password <span class="required">*</span></label>
+                                    <input id="CustomerNewPassword" type="text" name="password" placeholder="" class=""
                                         autocorrect="off" autocapitalize="off" autofocus>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                                 <div class="form-group">
-                                    <label for="CustomerLastName">Confirm Password <span
+                                    <label for="CustomerConfirmPassword">Confirm Password <span
                                             class="required">*</span></label>
-                                    <input id="CustomerLastName" type="text" name="confirmpassword" placeholder=""
+                                    <input id="CustomerConfirmPassword" type="text" name="confirmpassword" placeholder=""
                                         class="" autocorrect="off" autocapitalize="off" autofocus>
                                 </div>
                             </div>
@@ -128,7 +128,7 @@
                                 <input type="submit" class="btn mb-3" value="SIGN UP">
                             </div>
                             <div class="text-right col-12 col-sm-12 col-md-6 col-lg-6">
-                                <a href="login.html">Already have an account.</a>
+                                <a href="/login">Already have an account.</a>
                             </div>
                         </div>
                     </form>

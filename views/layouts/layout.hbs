@@ -3,7 +3,20 @@
 
     <head>
         {{#if isUser }}
-            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+                    {{#if otpverify}}
+                    <meta charset="utf-8" />
+                    <title>Login Page | Simple - Responsive Bootstrap 4 Admin Dashboard</title>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <meta content="Responsive bootstrap 4 admin template" name="description" />
+                    <meta content="Coderthemes" name="author" />
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                    <link rel="shortcut icon" href="/admin-assets/images/favicon.ico">
+                    <link href="/admin-assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap-stylesheet" />
+                    <link href="/admin-assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+                    <link href="/admin-assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-stylesheet" />
+                {{else}}
+                     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
             <meta http-equiv="x-ua-compatible" content="ie=edge">
             <title>Home Demo2 - Avone Multipurpose eCommerce Bootstrap 4 Html Template</title>
             <meta name="description" content="description">
@@ -12,6 +25,42 @@
             <link rel="stylesheet" href="/user-assets/css/plugins.css">
             <link rel="stylesheet" href="/user-assets/css/style.css">
             <link rel="stylesheet" href="/user-assets/css/responsive.css">
+                {{/if}}
+
+                {{!-- <link rel="stylesheet" href="/stylesheets/main-style.css"> --}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            {{!-- <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge">
+            <title>Home Demo2 - Avone Multipurpose eCommerce Bootstrap 4 Html Template</title>
+            <meta name="description" content="description">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="shortcut icon" href="/user-assets/images/favicon.png" />
+            <link rel="stylesheet" href="/user-assets/css/plugins.css">
+            <link rel="stylesheet" href="/user-assets/css/style.css">
+            <link rel="stylesheet" href="/user-assets/css/responsive.css"> --}}
         {{else}}
             {{#if isadmin}}
                 {{#if adminLogin}}
@@ -37,13 +86,29 @@
                     <link href="/admin-assets/css/icons.min.css" rel="stylesheet" type="text/css" />
                     <link href="/admin-assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-stylesheet" />
                       <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+                      <link rel="stylesheet" href="/stylesheets/admin-style.css">
                 {{/if}}
             {{/if}}
         {{/if}}
+         <link rel="stylesheet" href="/stylesheets/main-style.css">
     </head>
 
     {{#if isUser }}
-        {{#if isUserIndex }}
+
+
+
+
+    {{#if otpverify}}
+     <body>
+                    {{{body}}}
+                    <script src="/admin-assets/js/vendor.min.js"></script>
+                    <script src="/admin-assets/js/app.min.js"></script>
+                </body
+    
+
+
+    {{else}}
+     {{#if isUserIndex }}
             {{>user-index-header}}
         {{else }}
             {{>user-header}}
@@ -56,13 +121,32 @@
             {{>user-footer}}
         {{/if}}
 
+
+
+    {{/if}}
+
+
+
+        {{!-- {{#if isUserIndex }}
+            {{>user-index-header}}
+        {{else }}
+            {{>user-header}}
+        {{/if}}
+        {{{ body }}}
+
+        {{#if isUserIndex }}
+            {{>user-index-footer}}
+        {{else }}
+            {{>user-footer}}
+        {{/if}} --}}
+
     {{else}}
         {{#if isadmin}}
             {{#if adminLogin}}
                 <body>
                     {{{body}}}
-                    <script src="assets/js/vendor.min.js"></script>
-                    <script src="assets/js/app.min.js"></script>
+                    <script src="/admin-assets/js/vendor.min.js"></script>
+                    <script src="/admin-assets/js/app.min.js"></script>
                 </body>
             {{else }}
             <body>
@@ -101,12 +185,18 @@
         {{/if }}
 
 
+
+    {{/if}}
+{{/if}}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
       
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
         <script src="/javascripts/admin-script.js"></script>
 
-    {{/if}}
-{{/if}}
+
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+
+        <script src="/javascripts/user-script.js"></script>
+        <script src="/javascripts/admin-script.js"></script>
 </html>
