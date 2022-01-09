@@ -12,6 +12,7 @@ var usersRouter = require('./routes/users');
 var userSignupRouter = require('./routes/user/signup');
 var userLoginRouter = require('./routes/user/login');
 var adminRouter = require('./routes/admin/index');
+var productsRouter = require('./routes/admin/products')
 
 
 var database = require('./dataConfig/databaseConnection')
@@ -66,6 +67,7 @@ app.use('/users', usersRouter);
 app.use('/signup',userSignupRouter);
 app.use('/login',userLoginRouter);
 app.use('/admin', adminRouter);
+// app.use('/products',productsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

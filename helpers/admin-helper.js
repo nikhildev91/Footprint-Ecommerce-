@@ -45,4 +45,23 @@ module.exports={
         })
     },
 
+    addProduct : (productDetails)=>{
+        
+        return new Promise ((resolve, reject)=>{
+            database.get().collection("products").insertOne(productDetails).then((result)=>{
+                
+                return resolve(result.insertedId)
+            })
+        })
+    },
+
+    getAllProducts:()=>{
+        return new Promise (async(resolve, reject)=>{
+            var allProducts = await database.get().collection("products").find().toArray()
+            
+             resolve(allProducts)
+
+        })
+    }
+
 }

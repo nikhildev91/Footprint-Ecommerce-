@@ -20,16 +20,18 @@
       </tr>
     </thead>
     <tbody id="myTable">
+      {{#each allProducts}}
       <tr>
-        <td>image, Product name</td>
-        <td>100001</td>
-        <td>12999</td>
-        <td>5000</td>
-        <td>Men</td>
-        <td>Formal</td>
-        <td>Adidas</td>
-        <td>Edit, Delete</td>
+        <td><img style="width: 100px; height: 100px;" src="/product-images/{{this._id}}.jpg" alt=""> {{this.productTitle}}</td>
+        <td>{{this._id}}</td>
+        <td>{{this.price}}</td>
+        <td>{{this.quantity}}</td>
+        <td>{{this.category}}</td>
+        <td>{{this.subCategory}}</td>
+        <td>{{this.brand}}</td>
+        <td><a href="/admin/edit-product"><i class="fas fa-edit" style="font-size: 25px; color: blue;"></i> </a><a href=""><i class="fas fa-trash ml-3" style="font-size: 25px; color: red;"></i></a></td>
          </tr>
+         {{/each}}
      
     </tbody>
   </table>
