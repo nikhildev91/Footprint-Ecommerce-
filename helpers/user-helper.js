@@ -7,6 +7,8 @@ module.exports={
 
     insertNewUserData :(NewUserData)=>{
 
+        NewUserData.block = false;
+
         return new Promise ((resolve, reject)=>{
 
             database.get().collection("usersData").insertOne(NewUserData).then((result)=>{
@@ -28,12 +30,22 @@ module.exports={
         console.log(userLoginData);
 
         return new Promise (async(resolve, reject)=>{
-           var user = await database.get().collection("usersData").findOne({username:userLoginData.username, password:userLoginData.password})
+           var user = await database.get().collection("usersData").findOne({username:userLoginData.username, password:userLoginData.password,block:false})
         
            if(user){
                return resolve({status : true, user});
            }else{
-               return resolve({status : false});
+
+            if (await database.get().collection('usersData').findOne({username:userLoginData.username, password:userLoginData.password})){
+                return resolve({status : false, errorMsg : 'Currently You are blocked '})
+            }
+
+            if (await database.get().collection('usersData').findOne({username:userLoginData.username})){
+                return resolve({status : false, errorMsg : 'Invalid Password '})
+            }
+            
+            return resolve({status : false, errorMsg : 'Invalid email or password '})
+
            }
         })
         

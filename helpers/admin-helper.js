@@ -16,7 +16,33 @@ module.exports={
 
         })
 
-    }
-
+    },
+    allusers : ()=>{
+        
+        return new Promise (async(resolve, reject)=>{
+            var getAllUsers = await database.get().collection("usersData").find().toArray()
+            if(getAllUsers){
+                resolve(getAllUsers)
+            }
+        })
+    },
+    blockUser : (userID)=>{
+        return new Promise ((resolve, reject)=>{
+            database.get().collection("usersData").updateOne({_id:ObjectId(userID)},
+            {$set:{block:true}}
+            ).then(()=>{
+                return resolve(true)
+            })
+        })
+    },
+    unblockUser : (userID)=>{
+        return new Promise ((resolve, reject)=>{
+            database.get().collection("usersData").updateOne({_id:ObjectId(userID)},
+            {$set:{block:false}}
+            ).then(()=>{
+                return resolve(true)
+            })
+        })
+    },
 
 }

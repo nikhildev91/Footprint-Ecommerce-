@@ -61,9 +61,42 @@ router.get('/add-product', function(req, res, next) {
   });
 
   router.get('/manage-users', function(req, res, next) {
-    res.render('admin/manage-user',{isadmin});
+
+    console.log("manage user router vannu");
+    adminHelper.allusers().then((userData)=>{
+      console.log(userData);
+      
+      res.render('admin/manage-user',{isadmin,userData});
+    })
   });
 
+  router.get('/block/:id', function(req, res, next) {
+
+    var userID = req.params.id
+    adminHelper.blockUser(userID).then((response)=>{
+
+      if (response){
+        
+        res.redirect('/admin/manage-users');
+      }
+     
+      
+    })
+  });
+
+  router.get('/unblock/:id', function(req, res, next) {
+
+    var userID = req.params.id
+    adminHelper.unblockUser(userID).then((response)=>{
+
+      if (response){
+        
+        res.redirect('/admin/manage-users');
+      }
+     
+      
+    })
+  });
 
 
 

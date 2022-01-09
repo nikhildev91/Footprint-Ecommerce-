@@ -24,6 +24,7 @@ router.post('/',(req, res, next)=>{
   console.log(req.body);
 var NewUserData = req.body;
 
+
 userHelper.insertNewUserData(NewUserData).then((response)=>{
   if (response.status){
     req.session.user = response.user;

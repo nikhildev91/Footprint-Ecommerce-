@@ -18,13 +18,29 @@
       </tr>
     </thead>
     <tbody id="myTable">
+      {{#each userData}}
       <tr>
-        <td>Nikhil Dev</td>
-        <td>nikhil345</td>
-        <td>nikhil@gmail.com</td>
-        <td>98576434</td>
-        <td>block/ Unblock</td>
+        <td>{{this.firstname}} {{this.lastname}}</td>
+        <td>{{this.username}}</td>
+        <td>{{this.email}}</td>
+        <td>{{this.phone}}</td>
+        <td  style="text-align: center;">
+          {{#if this.block}}
+          <a href="/admin/unblock/{{this._id}}"><i class="fas fa-unlock" style="color: green;"></i></a>
+
+          {{else}}
+
+          <a href="/admin/block/{{this._id}}"> <i class="fas fa-ban" style="color: red;"></i></a>
+
+          {{/if}}
+        
+          
+          
+          </td>
+       
+        
          </tr>
+         {{/each}}
      
     </tbody>
   </table>

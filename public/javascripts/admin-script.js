@@ -25,3 +25,8 @@ $(document).ready(function(){
         
     }
 });
+
+
+$(document).ready( function () {
+  $('.tb_datatable').DataTable();
+} );
