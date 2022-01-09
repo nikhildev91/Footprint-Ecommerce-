@@ -3,9 +3,9 @@
 
 <div class="co1-12 mt-3">
 
-  <input class="form-control w-25 float-right" id="myInput" type="text" placeholder="Search..">  <br>
+  <input class="form-control" id="myInput" type="text" placeholder="Search..">  <br>
 
-  <table class="table table-bordered mt-5 tb_datatable">
+  <table class="table table-bordered mt-2 tb_datatable">
     <thead>
       <tr>
         <th>Product</th>
@@ -29,7 +29,7 @@
         <td>{{this.category}}</td>
         <td>{{this.subCategory}}</td>
         <td>{{this.brand}}</td>
-        <td><a href="/admin/edit-product"><i class="fas fa-edit" style="font-size: 25px; color: blue;"></i> </a><a href=""><i class="fas fa-trash ml-3" style="font-size: 25px; color: red;"></i></a></td>
+        <td><a href="/admin/edit-product/{{this._id}}"><i class="fas fa-edit" style="font-size: 25px; color: blue;"></i> </a><a href="/admin/delete-product/{{this._id}}"><i class="fas fa-trash ml-3" style="font-size: 25px; color: red;"></i></a></td>
          </tr>
          {{/each}}
      

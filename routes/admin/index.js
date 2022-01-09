@@ -1,3 +1,4 @@
+const { response } = require('express');
 var express = require('express');
 var router = express.Router();
 var adminHelper = require('../../helpers/admin-helper')
@@ -72,11 +73,34 @@ router.get('/add-product', function(req, res, next) {
     })
   })
 
-  router.get('/edit-product', function(req, res, next) {
-    console.log(req.body);
-    console.log(req.files.image);
-    res.render('admin/edit-product',{isadmin});
+  router.get('/edit-product/:id', function(req, res, next) {
+    
+    adminHelper.findUpdatingProduct(req.params.id).then((foundProduct)=>{
+      
+      res.render('admin/edit-product',{isadmin, foundProduct});
+    })
+    
   });
+  router.post('/edit-product/:id', function(req, res, next) {
+    
+    console.log(req.body);
+    // console.log(req.files.image);
+
+  adminHelper.updateProduct(req.params.id,req.body).then((response)=>{
+    if(response){
+
+      res.redirect('/admin/manage-products');
+    }
+  })
+  });
+  
+  router.get('/delete-product/:id', (req, res)=>{
+    adminHelper.deleteProduct(req.params.id).then((respose)=>{
+      if(response){
+        res.redirect('/admin/manage-products')
+      }
+    })
+  })
 
   router.get('/manage-products', function(req, res, next) {
     adminHelper.getAllProducts().then((allProducts)=>{
