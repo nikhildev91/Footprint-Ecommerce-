@@ -52,6 +52,11 @@ router.get('/add-product', function(req, res, next) {
     res.render('admin/add-product',{isadmin});
   });
 
+  router.post('/add-product', (req, res, next)=>{
+    console.log(req.body);
+    console.log(req.files.image);
+  })
+
   router.get('/edit-product', function(req, res, next) {
     res.render('admin/edit-product',{isadmin});
   });

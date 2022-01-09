@@ -17,6 +17,7 @@ var adminRouter = require('./routes/admin/index');
 var database = require('./dataConfig/databaseConnection')
 
 var app = express();
+var fileUpload = require('express-fileupload');
 
 
 
@@ -38,6 +39,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(fileUpload())
 
 app.use(session({secret:"Key", cookie:{maxAge:40000000}}));
 
