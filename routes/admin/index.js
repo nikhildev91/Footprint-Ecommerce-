@@ -58,7 +58,7 @@ router.get('/add-product', function(req, res, next) {
   });
 
   router.post('/add-product', (req, res, next)=>{
-    // console.log(req.body);
+    console.log(req.body);
     // console.log(req.files.image);
 
     adminHelper.addProduct(req.body).then((id)=>{
@@ -104,7 +104,7 @@ router.get('/add-product', function(req, res, next) {
 
   router.get('/manage-products', function(req, res, next) {
     adminHelper.getAllProducts().then((allProducts)=>{
-      console.log(allProducts);
+      
 
       res.render('admin/manage-products',{isadmin, allProducts});
     })

@@ -22,7 +22,11 @@
     <tbody id="myTable">
       {{#each allProducts}}
       <tr>
-        <td><img style="width: 100px; height: 100px;" src="/product-images/{{this._id}}.jpg" alt=""> {{this.productTitle}}</td>
+        <td>
+          {{#each this.images}}
+          <img style="width: 100px; height: 100px;" src="{{this}}" alt="">
+          {{/each }}
+           {{this.productTitle}}</td>
         <td>{{this._id}}</td>
         <td>{{this.price}}</td>
         <td>{{this.quantity}}</td>

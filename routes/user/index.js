@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var userHelper = require('../../helpers/user-helper')
 
 const isUser = true;
 let userSession;
@@ -21,7 +22,14 @@ router.get('/search-result', function(req, res, next) {
 
 
 router.get('/category-men', function(req, res, next) {
-  res.render('user/mencategoryprodudts', {isUser, userSession});
+
+  userHelper.getMenProducts().then((menProducts)=>{
+
+    res.render('user/mencategoryprodudts', {isUser, userSession, menProducts});
+  })
+  
+
+
 });
 
 router.get('/product-details', function(req, res, next) {

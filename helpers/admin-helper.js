@@ -48,6 +48,13 @@ module.exports={
     addProduct : (productDetails)=>{
         
         return new Promise ((resolve, reject)=>{
+            if (!Array.isArray(productDetails['images[]'])){
+                productDetails['images'] = [ productDetails['images[]'] ]
+            }else{
+                productDetails['images'] = productDetails['images[]']
+            }
+
+            productDetails['images[]'] = null;
             database.get().collection("products").insertOne(productDetails).then((result)=>{
                 
                 return resolve(result.insertedId)
@@ -85,7 +92,7 @@ module.exports={
   subCategory:productUpdateDetails.subCategory,
   colour:productUpdateDetails.colour,
   material: productUpdateDetails.material,
-  'size[]':productUpdateDetails.size,
+  'size[]':productUpdateDetails['size[]'],
   quantity: productUpdateDetails.quantity,
   price: productUpdateDetails.price
             }}).then(()=>{

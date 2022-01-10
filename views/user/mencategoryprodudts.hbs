@@ -519,16 +519,17 @@
                     <div class="product-load-more">
                         <div class="grid-products grid--view-items">
                             <div class="row">
+                                {{#each menProducts}}
                                 <div class="col-6 col-sm-6 col-md-4 col-lg-4 item">
                                     <!-- start product image -->
                                     <div class="product-image">
                                         <!-- start product image -->
                                         <a href="product-layout1.html" class="product-img">
                                             <!-- image -->
-                                            <img class="primary blur-up lazyload" data-src="/user-assets/images/product-images/product1.jpg" src="/user-assets/images/product-images/product1.jpg" alt="" title="">
+                                            <img class="primary blur-up lazyload" data-src="/product-images/{{this._id}}.jpg" src="/product-images/{{this._id}}.jpg" alt="" title="">
                                             <!-- End image -->
                                             <!-- Hover image -->
-                                            <img class="hover blur-up lazyload" data-src="/user-assets/images/product-images/product1-1.jpg" src="/user-assets/images/product-images/product1-1.jpg" alt="" title="">
+                                            <img class="hover blur-up lazyload" data-src="/product-images/{{this._id}}.jpg" src="/product-images/{{this._id}}.jpg" alt="" title="">
                                             <!-- End hover image -->
                                             <!-- product label -->
                                             <div class="product-labels"><span class="lbl on-sale">Sale</span></div>
@@ -615,7 +616,8 @@
                                     </div>
                                     <!-- End product details -->
                                 </div>
-                                <div class="col-6 col-sm-6 col-md-4 col-lg-4 item">
+                                {{/each}}
+                                {{!-- <div class="col-6 col-sm-6 col-md-4 col-lg-4 item">
                                     <!-- start product image -->
                                     <div class="product-image">
                                         <!-- start product image -->
@@ -1801,7 +1803,7 @@
                                         <!--End Product Review-->
                                     </div>
                                     <!-- End product details -->
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <!--End Product Grid-->

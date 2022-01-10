@@ -49,6 +49,15 @@ module.exports={
            }
         })
         
+    },
+
+    getMenProducts : ()=>{
+        return new Promise (async(resolve, reject)=>{
+          var menProducts = await database.get().collection("products").find({category:"Men"}).toArray()
+          console.log(menProducts);
+          console.log("vannu illa");
+          resolve(menProducts)
+        })
     }
 
 
