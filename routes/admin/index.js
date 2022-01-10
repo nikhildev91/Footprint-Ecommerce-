@@ -57,21 +57,17 @@ router.get('/add-product', function(req, res, next) {
     res.render('admin/add-product',{isadmin});
   });
 
-  router.post('/add-product', (req, res, next)=>{
-    console.log(req.body);
-    // console.log(req.files.image);
+  
+      
+        router.post('/add-product',(req, res, next)=>{
+          console.log(req.body);
+          adminHelper.addProduct(req.body).then((response)=>{
+            if(response){
+              res.redirect('/admin/manage-products')
+            }
 
-    adminHelper.addProduct(req.body).then((id)=>{
-      let image = req.files.image
-      image.mv('./public/product-images/'+id+".jpg",(err, done)=>{
-        if(!err){
-          res.redirect('/admin/add-product')
-        }else{
-          console.log(err);
-        }
-      })
-    })
-  })
+          })
+        })
 
   router.get('/edit-product/:id', function(req, res, next) {
     
@@ -104,6 +100,8 @@ router.get('/add-product', function(req, res, next) {
 
   router.get('/manage-products', function(req, res, next) {
     adminHelper.getAllProducts().then((allProducts)=>{
+
+      console.log("image vannu : "+allProducts['images[]']);
       
 
       res.render('admin/manage-products',{isadmin, allProducts});

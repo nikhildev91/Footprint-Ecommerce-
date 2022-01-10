@@ -50,11 +50,13 @@ $(document).ready(function(){
 			reader.onloadend = function(){
 				var base64data = reader.result;
                 $('.new_preview').append(`
-                <img src="${base64data}" style="weight:50px; height:60px" > <br>
-                <input hidden name="images[]" value="${base64data}>
+                <img src="${base64data}">
+                <input hidden name="images[]" value="${base64data}">
                 `)
                 
 				console.log(base64data)
+
+				console.log("crop");
                 $modal.modal('hide');
 			};
 		});

@@ -32,8 +32,11 @@ router.get('/category-men', function(req, res, next) {
 
 });
 
-router.get('/product-details', function(req, res, next) {
+router.get('/product-details/:id', function(req, res, next) {
+  console.log("nikhil dev");
+  console.log(req.params.id);
   res.render('user/product-details', {isUser, userSession});
 });
+
 
 module.exports = router;

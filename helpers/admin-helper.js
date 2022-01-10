@@ -55,9 +55,9 @@ module.exports={
             }
 
             productDetails['images[]'] = null;
-            database.get().collection("products").insertOne(productDetails).then((result)=>{
+            database.get().collection("products").insertOne(productDetails).then(()=>{
                 
-                return resolve(result.insertedId)
+                return resolve(true)
             })
         })
     },
