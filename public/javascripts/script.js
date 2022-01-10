@@ -27,8 +27,8 @@ $(document).ready(function(){
 
 	$modal.on('shown.bs.modal', function() {
 		cropper = new Cropper(image, {
-			aspectRatio: 2,
-			viewMode: 3,
+			aspectRatio: 4/5,
+			viewMode: 1,
 			preview:'.preview'
 		});
 	}).on('hidden.bs.modal', function(){
@@ -50,8 +50,8 @@ $(document).ready(function(){
 			reader.onloadend = function(){
 				var base64data = reader.result;
                 $('.new_preview').append(`
-                <img src="${base64data}" > <br>
-                <input hidden name="images[]" value="${base64data}">
+                <img src="${base64data}" style="weight:50px; height:60px" > <br>
+                <input hidden name="images[]" value="${base64data}>
                 `)
                 
 				console.log(base64data)
