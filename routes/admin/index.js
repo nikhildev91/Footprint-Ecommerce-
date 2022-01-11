@@ -1,7 +1,13 @@
+
 const { response } = require('express');
 var express = require('express');
 var router = express.Router();
+var fs = require('fs')
+var path = require('path')
 var adminHelper = require('../../helpers/admin-helper')
+var productHelper = require('../../helpers/product-helpers')
+
+
 
 const isadmin = true
 
@@ -53,45 +59,90 @@ router.get('/login', function(req, res, next) {
 
 router.get('/add-product', function(req, res, next) {
 
+  if(req.session.isadminLoggedin){
 
     res.render('admin/add-product',{isadmin});
+  }else{
+    res.redirect('/admin/login')
+  }
+
+
   });
 
   
       
         router.post('/add-product',(req, res, next)=>{
+
           console.log(req.body);
-          adminHelper.addProduct(req.body).then((response)=>{
-            if(response){
-              res.redirect('/admin/manage-products')
+          console.log(req.files.image1);
+
+          productHelper.addproduct(req.body).then((response)=>{
+
+            console.log(response.Id);
+            var productID =response.Id
+
+            if(response.status){
+
+              var image1 = req.files.image1
+              image1.mv('./public/product-images/'+productID+".jpg", (err, done)=>{
+                if(!err){
+                  res.redirect('/admin/manage-products')
+                } 
+              }) 
+            }else{
+              res.redirect('/admin/add-product')
             }
 
+            
           })
         })
 
   router.get('/edit-product/:id', function(req, res, next) {
-    
-    adminHelper.findUpdatingProduct(req.params.id).then((foundProduct)=>{
+    if(req.session.isadminLoggedin){
       
-      res.render('admin/edit-product',{isadmin, foundProduct});
-    })
+      productHelper.findUpdatingProduct(req.params.id).then((foundProduct)=>{
+        
+        res.render('admin/edit-product',{isadmin, foundProduct});
+      })
+    }else{
+      res.redirect('/admin/login')
+    }
+    
     
   });
   router.post('/edit-product/:id', function(req, res, next) {
     
     console.log(req.body);
-    // console.log(req.files.image);
+     console.log(req.files.image1);
 
-  adminHelper.updateProduct(req.params.id,req.body).then((response)=>{
-    if(response){
+  productHelper.updateProduct(req.params.id,req.body).then((response)=>{
 
-      res.redirect('/admin/manage-products');
+    console.log(response.status);
+    console.log(response.id);
+    var productID=response.id
+
+    if(response.status){
+
+      var image1 = req.files.image1
+      image1.mv('./public/product-images/'+productID+".jpg", (err, done)=>{
+        if(!err){
+          res.redirect('/admin/manage-products')
+        } 
+      }) 
+    }else{
+      res.redirect('/admin/edit-product')
     }
+
+
+    // if(response){
+
+    //   res.redirect('/admin/manage-products');
+    // }
   })
   });
   
   router.get('/delete-product/:id', (req, res)=>{
-    adminHelper.deleteProduct(req.params.id).then((respose)=>{
+    productHelper.deleteProduct(req.params.id).then((respose)=>{
       if(response){
         res.redirect('/admin/manage-products')
       }
@@ -99,25 +150,40 @@ router.get('/add-product', function(req, res, next) {
   })
 
   router.get('/manage-products', function(req, res, next) {
-    adminHelper.getAllProducts().then((allProducts)=>{
 
-      console.log("image vannu : "+allProducts['images[]']);
-      
+    if(req.session.isadminLoggedin){
 
-      res.render('admin/manage-products',{isadmin, allProducts});
-    })
+      productHelper.getAllProducts().then((allProducts)=>{
+        res.render('admin/manage-products',{isadmin, allProducts});
+  
+      })
+    }else{
+      res.redirect('/admin/login')
+    }
+
+
+  //   if(req.session.isadminLoggedin){
+  //     adminHelper.getAllProducts().then((allProducts)=>{
+  //       res.render('admin/manage-products',{isadmin, allProducts});
+  //     })
+  // }else{
+  //   res.redirect('/admin/login')
+  // }
   });
 
   //end Product Section
 
   router.get('/manage-users', function(req, res, next) {
 
-    console.log("manage user router vannu");
-    adminHelper.allusers().then((userData)=>{
-      console.log(userData);
-      
-      res.render('admin/manage-user',{isadmin,userData});
-    })
+    if(req.session.isadminLoggedin){
+
+      adminHelper.allusers().then((userData)=>{
+       
+        res.render('admin/manage-user',{isadmin,userData});
+      })
+    }else{
+      res.redirect('/admin/login')
+    }
   });
 
   router.get('/block/:id', function(req, res, next) {

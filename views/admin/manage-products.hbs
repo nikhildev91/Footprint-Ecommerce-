@@ -23,9 +23,9 @@
       {{#each allProducts}}
       <tr>
         <td>
-          {{#each this.images}}
-          <img style="width: 100px; height: 100px;" src="{{this}}" alt="">
-          {{/each }}
+         
+          <img style="width: 100px; height: 100px;" src="/product-images/{{this._id}}.jpg" alt="">
+         
            {{this.productTitle}}</td>
         <td>{{this._id}}</td>
         <td>{{this.price}}</td>

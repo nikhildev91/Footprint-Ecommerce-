@@ -3,10 +3,10 @@
 
 <div class="co1-12 mt-3">
 
-  <input class="form-control w-25 float-right" id="myInput" type="text" placeholder="Search..">  <br>
+  
 
-  <table class="table table-bordered mt-5">
-    <thead>
+  <table class="table table-bordered mt-2 tb_datatable">
+   <thead>
       <tr>
         <th>Customer Name</th>
          <th>Username</th>
@@ -18,7 +18,7 @@
       </tr>
     </thead>
     <tbody id="myTable">
-      {{#each userData}}
+     {{#each userData}}
       <tr>
         <td>{{this.firstname}} {{this.lastname}}</td>
         <td>{{this.username}}</td>
