@@ -29,8 +29,8 @@
                     <h5>{{banner.title4}}</h5>
                 </td>
                 <td style="text-align: center;">
-                    <a href="/admin/block/{{this._id}}"> <i class="fas fa-trash mt-5"
-                            style="color: red; font-size: 30px;"></i></a>
+                    <a href="/admin/delete-mainbanner"> <i class="fas fa-trash mt-5"
+                            style="color: red; font-size: 30px;" onclick="delete()"></i></a>
                 </td>
             </tr>
         </tbody>
@@ -47,7 +47,7 @@
             </tr>
         </thead>
         <tbody id="myTable">
-            <tr>
+            <tr id="mainBanner">
                 <td style="width: 300px;">
                     <img class="mt-3" style="width: 360px; height: 300px;" src="/banner-images/{{CategoryBanner._id}}men.jpg"
                         alt=""><br>
@@ -55,7 +55,7 @@
                         alt="">
                 </td>
                 <td style="text-align: center;">
-                    <a href="/admin/block/{{this._id}}"> <i class="fas fa-trash mt-5"
+                    <a href="/admin/delete-categorybanner"> <i class="fas fa-trash mt-5"
                             style="color: red; font-size: 30px;"></i></a>
                 </td>
             </tr>
@@ -74,16 +74,23 @@
             </tr>
         </thead>
         <tbody id="myTable">
-            <tr>
-                <td style="width: 300px;">
-                    <img class="mt-3" style="width: 360px; height: 300px;" src="/banner-images/{{productBanner._id}}image.jpg"
+            <tr id="mainBanner">
+   
+                <td style="width: 460px;">
+                    <img class="mt-3" style="width: 435px; height: 150px;" src="/banner-images/{{productBanner._id}}image.jpg"
                         alt="">
                 </td>
                 <td style="text-align: center;">
-                    <a href="/admin/block/{{this._id}}"> <i class="fas fa-trash mt-5"
+                    <a href="/admin/delete-product-banner"> <i class="fas fa-trash mt-5"
                             style="color: red; font-size: 30px;"></i></a>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
+
+<script>
+    function delete(){
+        document.getElementById('#mainBanner').style.display="none"
+    }
+</script>

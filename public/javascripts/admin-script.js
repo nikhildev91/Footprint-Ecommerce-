@@ -175,6 +175,21 @@ $("#add-Banner").validate({
 
     }})
 
+    //Add Category form validation
+
+    $("#manageCategoryForm").validate({
+          rules:{
+            category :{
+              required : true,
+              normalizer: function(value) {
+                return $.trim(value);
+              }
+
+            }
+
+          }
+        })
+ 
 
 
 
