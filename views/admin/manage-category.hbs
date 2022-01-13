@@ -1,0 +1,67 @@
+
+<h1 style="text-align: center;">Manage Category</h1>        
+        <div class="account-pages my-5 pt-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-6">
+                        <div class="card">
+                            <div class="card-body">
+                               
+                                <form action="/admin/manage-category" class="p-2" method="post" id="manageCategoryForm">
+                                    <div class="form-group">
+                                        <label for="emailaddress">New Category Name</label>
+                                        <input class="form-control" type="text" id="category" name="category" placeholder="Enter New Category Name">
+                                    </div>
+                                   
+                                    <div class="mb-3 text-center">
+                                        <button class="btn btn-primary btn-block" type="submit"> Add </button>
+                                    </div>
+                                </form>
+                            </div>
+                          
+                        </div>
+                       
+                    </div>
+                   
+                </div>
+              
+            </div>
+           
+        </div>
+
+
+
+<h4>Existing Categories</h4>
+
+
+<div class="co1-12 mt-3 w-50" style="margin-left: 10%">
+
+  
+
+  <table class="table table-bordered mt-2 tb_datatable">
+    <thead>
+      <tr>
+        <th>Category Name</th>
+        <th>Action</th>
+       
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      {{#each category}}
+      <tr>
+    
+        <td>{{this.category}}</td>
+        <td style="text-align: center;"><a href="/admin/delete-category/{{this._id}}"><i class="fas fa-trash text-danger" style="font-size: 20px;"></i></a></td>
+       
+         </tr>
+         {{/each}}
+        
+     
+    </tbody>
+  </table>
+  
+
+</div>
+
+        
+  

@@ -2,7 +2,8 @@
 
   <div class="card p-5">
 
-      <form class="form-validation" style="display: flex;flex-direction: column;align-items: center;" action="/admin/add-product" enctype="multipart/form-data" method="post">
+      <form class="form-validation" style="display: flex;flex-direction: column;align-items: center;" id="add-Product"
+          action="/admin/add-product" enctype="multipart/form-data" method="post">
           <div class="form-group row" style="min-width: 600px;">
               <label for="inputEmail3" class="col-md-4 form-control-label">Product Title<span
                       class="text-danger">*</span></label>
@@ -15,7 +16,8 @@
               <label for="hori-pass1" class="col-md-4 form-control-label">Product Description<span
                       class="text-danger">*</span></label>
               <div class="col-md-7">
-  <textarea class="form-control" rows="5" id="example-textarea" name="productDescription" placeholder="Product Description"></textarea>
+                  <textarea class="form-control" rows="5" id="example-textarea" name="productDescription"
+                      placeholder="Product Description"></textarea>
 
               </div>
           </div>
@@ -23,56 +25,54 @@
               <label for="hori-pass2" class="col-md-4 form-control-label">Brand Name
                   <span class="text-danger">*</span></label>
               <div class="col-md-7">
-                      <select name="brand" class="form-control select2">
-                          <option>Select</option>
-                                                <option value="Adidas">Adidas</option>
-                                                <option value="Nike">Nike</option>
-                                                <option value="Puma">Puma</option>
-                                                <option value="GUCCI">GUCCI</option>
-                                                <option value="MERREL">MERREL</option>
-                                            </select>
-                                           
-              </div>
-          </div>
+                  <select name="brand" class="form-control select2">
 
-             <div class="form-group row" style="min-width: 600px;">
-              <label for="hori-pass2" class="col-md-4 form-control-label">Category
-                  <span class="text-danger">*</span></label>
-              <div class="col-md-7">
-                      <select name="category" class="form-control select2">
-                          <option value="">Select</option>
-                                                <option value="Men">Men</option>
-                                                <option value="Women">Women</option>
-                                                <option value="Kids">Kids</option>
-                                                
-                                            </select>
-                                           
-              </div>
-          </div>
+                      <option value="Adidas">Adidas</option>
+                      <option value="Nike">Nike</option>
+                      <option value="Puma">Puma</option>
+                      <option value="GUCCI">GUCCI</option>
+                      <option value="MERREL">MERREL</option>
+                  </select>
 
-             <div class="form-group row" style="min-width: 600px;">
-              <label for="hori-pass2" class="col-md-4 form-control-label">Sub-Category
-                  <span class="text-danger">*</span></label>
-              <div class="col-md-7">
-                      <select name="subCategory" class="form-control select2">
-                          <option value="">Select</option>
-                                                <option value="Formal">Formal</option>
-                                                <option value="Casual">Casual</option>
-                                                <option value="Sports">Sports</option>
-                                            </select>
-                                           
               </div>
           </div>
 
           <div class="form-group row" style="min-width: 600px;">
-              <label for="webSite" class="col-md-4 form-control-label">Colour<span
-                      class="text-danger">*</span></label>
+              <label for="hori-pass2" class="col-md-4 form-control-label">Category
+                  <span class="text-danger">*</span></label>
               <div class="col-md-7">
-                  <input type="text"class="form-control" id="colour" placeholder="Colour" name="colour">
+                  <select name="category" class="form-control select2">
+                      {{#each categories}}
+                      <option value={{this.category}}>{{this.category}}</option>
+                      {{/each}}
+
+                  </select>
+
               </div>
           </div>
 
-                 <div class="form-group row" style="min-width: 600px;">
+          <div class="form-group row" style="min-width: 600px;">
+              <label for="hori-pass2" class="col-md-4 form-control-label">Sub-Category
+                  <span class="text-danger">*</span></label>
+              <div class="col-md-7">
+                  <select name="subCategory" class="form-control select2">
+
+                      <option value="Formal">Formal</option>
+                      <option value="Casual">Casual</option>
+                      <option value="Sports">Sports</option>
+                  </select>
+
+              </div>
+          </div>
+
+          <div class="form-group row" style="min-width: 600px;">
+              <label for="webSite" class="col-md-4 form-control-label">Colour<span class="text-danger">*</span></label>
+              <div class="col-md-7">
+                  <input type="text" class="form-control" id="colour" placeholder="Colour" name="color">
+              </div>
+          </div>
+
+          <div class="form-group row" style="min-width: 600px;">
               <label for="webSite" class="col-md-4 form-control-label">Meterial<span
                       class="text-danger">*</span></label>
               <div class="col-md-7">
@@ -83,17 +83,17 @@
 
 
 
-                    <div class="form-group row" style="min-width: 600px;">
+          <div class="form-group row" style="min-width: 600px;">
               <label for="hori-pass2" class="col-md-4 form-control-label">Size
                   <span class="text-danger">*</span></label>
               <div class="col-md-7">
-                      <select class="form-control select2" name="size[]" multiple="multiple">
-                          
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                                <option value="7">7</option>
-                                            </select>
-                                           
+                  <select class="form-control select2" name="size[]" multiple="multiple">
+
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                  </select>
+
               </div>
           </div>
 
@@ -103,78 +103,82 @@
               <label for="webSite" class="col-md-4 form-control-label">Quantity<span
                       class="text-danger">*</span></label>
               <div class="col-md-7">
-                  <input type="text" class="form-control" id="webSite" placeholder="Quantity" name="quantity">
+                  <input type="text" class="form-control" id="webSite" placeholder="130000" name="quantity">
               </div>
           </div>
 
           <div class="form-group row" style="min-width: 600px;">
-              <label for="webSite" class="col-md-4 form-control-label">Price<span
+              <label for="webSite" class="col-md-4 form-control-label">Price (Rs.)<span
                       class="text-danger">*</span></label>
               <div class="col-md-7">
-                  <input type="text"class="form-control" id="webSite" placeholder="Price" name="price">
+                  <input type="text" class="form-control" id="webSite" placeholder="1000" name="price">
               </div>
           </div>
 
-          <div class="form-group row" style="min-width: 600px;">
-              <label for="webSite" class="col-md-4 form-control-label">Images<span
-                      class="text-danger">*</span></label>
-              <div class="col-md-7">
-                <input type="file" name="image1" placeholder="select image" class="image" id="upload_image"  onchange="fileValidation()"/>
-            </div>
-        </div>
 
-        
-        {{!-- <div class="form-group row new_preview"></div> --}}
+          <div class="row">
 
-              {{!---------------------------------------------- Modal Start -------------------------------------------}}
+              <img src="" alt="" style="width: 300px; height:auto" id="imgview1">
+              <img src="" alt="" style="width: 300px; height:auto" id="imgview2">
+              <img src="" alt="" style="width: 300px; height:auto" id="imgview3">
+              <img src="" alt="" style="width: 300px; height:auto" id="imgview4">
 
-                       {{!-- <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-			  	<div class="modal-dialog modal-lg" role="document">
-			    	<div class="modal-content">
-			      		<div class="modal-header">
-			        		<h5 class="modal-title">Crop Image Before Upload</h5>
-			        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			          			<span aria-hidden="true">×</span>
-			        		</button>
-			      		</div>
-			      		<div class="modal-body">
-			        		<div class="img-container">
-			            		<div class="row d-flex justify-content-center">
-			                		<div class="col-md-11 p-0">
-			                    		<img src="" id="sample_image" />
-			                		</div>
-			                		<div class="col-md-4">
-			                    		<div class="preview" style="width: 50px; height: 60px;"></div>
-			                		</div>
-			            		</div>
-			        		</div>
-			      		</div>
-			      		<div class="modal-footer">
-			      			<button type="button" id="crop" class="btn btn-primary">Crop</button>
-			        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-			      		</div>
-			    	</div>
-			  	</div>
-			</div> --}}
-
-            {{!-- end modal --}}
-
-
-
-          <div class="form-group row justify-content-end" style="min-width: 600px;">
-              <div class="col-md-8">
-                  
-                  <button  type="submit" class="btn btn-primary waves-effect waves-light mr-1">
-                      Submit
-                  </button>
-                  <button type="reset" class="btn btn-danger waves-effect">
-                      Cancel
-                  </button>
-              </div>
           </div>
-      </form>
+
+
+
+
+
+
+          <div class="row">
+              <div id="image-box1" style="width: 300px; height: 350px; display: none;">
+              </div>
+              <div>
+                  <button class="btn btn-primary mt-2" type="button" style="display: none;" id="crop-btn1">Done</button>
+              </div>
+              <div class="mt-5 col-md-6">
+                  <label for="">Thumbnail Image</label>
+
+                  <input type="file" name="image1" id="file1" class="form-control mt-2"
+                      onchange="return fileValidation1()">
+              </div>
+              <div class="mt-5 col-md-6">
+                  <label for="">Image 2</label>
+
+                  <input type="file" name="image2" id="file2" class="form-control mt-2"
+                      onchange="return fileValidation2()">
+              </div>
+              <div class="mt-5 col-md-6">
+                  <label for="">Image 3</label>
+
+                  <input type="file" name="image3" id="file3" class="form-control" onchange="return fileValidation3()">
+              </div>
+              <div class="mt-5 col-md-6">
+                  <label for="">Image 4</label>
+
+                  <input type="file" name="image4" id="file4" class="form-control" onchange="return fileValidation4()">
+              </div>
+
+          </div>
+
+
 
   </div>
 
 
- 
+  <div class="form-group row">
+
+      <div class="col-md-8">
+          <button type="reset" class="btn btn-danger waves-effect" style="float: right;">
+              Cancel
+          </button>
+
+          <button type="submit" id="confirm-btn1" class="btn btn-primary waves-light mr-1" style="float: right;">
+              Submit
+          </button>
+
+      </div>
+  </div>
+  </form>
+
+  </div>

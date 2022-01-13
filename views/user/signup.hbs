@@ -13,6 +13,12 @@
             <div class="col-12 col-sm-12 col-md-12 col-lg-12 box">
                 <div class="mb-4">
                     <h3>Personal Information</h3>
+                    {{#if err}}
+                    <div class="alert alert-danger">
+                        {{err}}
+                    </div>
+
+                    {{/if}}
                     <form id="userSignupForm" method="post" action="/signup" class="contact-form">
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6">

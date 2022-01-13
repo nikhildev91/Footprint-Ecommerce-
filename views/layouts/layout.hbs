@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
-
     <head>
-    
 
+        	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="https://unpkg.com/dropzone/dist/dropzone.css" />
+		<link href="https://unpkg.com/cropperjs/dist/cropper.css" rel="stylesheet"/>
+		<script src="https://unpkg.com/dropzone"></script>
+		<script src="https://unpkg.com/cropperjs"></script>
+   
+
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        
         {{#if isUser }}
         {{!----------------------- User Header Files Started ----------------------------------------}}
             {{#if otpverify}}
                 {{!----------------------- User OTP Page Files Started ----------------------------------------}}
                 <meta charset="utf-8" />
-                <title>Login Page | Simple - Responsive Bootstrap 4 Admin Dashboard</title>
+                <title>Footwear</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <meta content="Responsive bootstrap 4 admin template" name="description" />
                 <meta content="Coderthemes" name="author" />
@@ -23,14 +33,14 @@
                 {{!----------------------- User Other than OTP Page Files Started ----------------------------------------}}
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
                 <meta http-equiv="x-ua-compatible" content="ie=edge">
-                <title>Home Demo2 - Avone Multipurpose eCommerce Bootstrap 4 Html Template</title>
+                <title>Footwear</title>
                 <meta name="description" content="description">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <link rel="shortcut icon" href="/user-assets/images/favicon.png" />
                 <link rel="stylesheet" href="/user-assets/css/plugins.css">
                 <link rel="stylesheet" href="/user-assets/css/style.css">
                 <link rel="stylesheet" href="/user-assets/css/responsive.css">
-                {{/if}}
+            {{/if}}
                 {{!----------------------- User Other than OTP Page Files Started ----------------------------------------}}
 
         {{else}}
@@ -38,7 +48,7 @@
                 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
                 {{#if adminLogin}}
                     <meta charset="utf-8" />
-                    <title>Login Page | Simple - Responsive Bootstrap 4 Admin Dashboard</title>
+                    <title>Footwear</title>
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <meta content="Responsive bootstrap 4 admin template" name="description" />
                     <meta content="Coderthemes" name="author" />
@@ -49,7 +59,7 @@
                     <link href="/admin-assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-stylesheet" />
                 {{else}}
                     <meta charset="utf-8" />
-                    <title>Dashboard | Simple - Responsive Bootstrap 4 Admin Dashboard</title>
+                    <title>Footwear</title>
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <meta content="Responsive bootstrap 4 admin template" name="description" />
                     <meta content="Coderthemes" name="author" />
@@ -73,52 +83,29 @@
          <link rel="stylesheet" href="/stylesheets/main-style.css"> --}}
     </head>
 
+
     {{#if isUser }}
+    <body>
+        {{#if otpverify}}
+            {{{body}}}
+            <script src="/admin-assets/js/vendor.min.js"></script>
+            <script src="/admin-assets/js/app.min.js"></script>
+        {{else}}
+            {{#if isUserIndex }}
+                {{>user-index-header}}
+            {{else }}
+                {{>user-header}}
+            {{/if}}
 
-
-
-
-    {{#if otpverify}}
-     <body>
-                    {{{body}}}
-                    <script src="/admin-assets/js/vendor.min.js"></script>
-                    <script src="/admin-assets/js/app.min.js"></script>
-                </body
+            {{{ body }}}
     
-
-
-    {{else}}
-     {{#if isUserIndex }}
-            {{>user-index-header}}
-        {{else }}
-            {{>user-header}}
+            {{#if isUserIndex }}
+                {{>user-index-footer}}
+            {{else }}
+                {{>user-footer}}
+            {{/if}}
         {{/if}}
-        {{{ body }}}
-
-        {{#if isUserIndex }}
-            {{>user-index-footer}}
-        {{else }}
-            {{>user-footer}}
-        {{/if}}
-
-
-
-    {{/if}}
-
-
-
-        {{!-- {{#if isUserIndex }}
-            {{>user-index-header}}
-        {{else }}
-            {{>user-header}}
-        {{/if}}
-        {{{ body }}}
-
-        {{#if isUserIndex }}
-            {{>user-index-footer}}
-        {{else }}
-            {{>user-footer}}
-        {{/if}} --}}
+    </body>
 
     {{else}}
         {{#if isadmin}}

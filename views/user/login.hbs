@@ -65,13 +65,19 @@
 
 
                 <div class="mb-4">
-                    <form method="post" action="#" class="contact-form" id="userOtpMobile">
+                    <form method="post" action="/login/mobile" class="contact-form" id="userOtpMobile">
                         <h3>Login With Mobile Number</h3>
+                        {{#if loginMob}}
+                        <div class="alert alert-danger">
+                        {{loginMob}}
+                        </div>
+
+                        {{/if}}
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="CustomerEmail">Mobile Number<span class="required">*</span></label>
-                                    <input type="email" name="phone" placeholder="Enter Mobile Number"
+                                    <input type="number" name="phone" placeholder="Enter Mobile Number"
                                         id="CustomerEmail">
                                 </div>
                             </div>
@@ -90,7 +96,7 @@
 
 
 
-                    <form method="post" action="#" class="contact-form" id="userOtp">
+                    <form method="post" action="/login/otp" class="contact-form" id="userOtp">
                         
                         <div class="row">
 

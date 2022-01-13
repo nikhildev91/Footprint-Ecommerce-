@@ -6,6 +6,7 @@ var fs = require('fs')
 var path = require('path')
 var adminHelper = require('../../helpers/admin-helper')
 var productHelper = require('../../helpers/product-helpers')
+var bannerHelper = require('../../helpers/banner-helper')
 
 
 
@@ -61,7 +62,11 @@ router.get('/add-product', function(req, res, next) {
 
   if(req.session.isadminLoggedin){
 
-    res.render('admin/add-product',{isadmin});
+    productHelper.takeCategory().then((categories)=>{
+      
+          res.render('admin/add-product',{isadmin, categories});
+
+    })
   }else{
     res.redirect('/admin/login')
   }
@@ -84,11 +89,32 @@ router.get('/add-product', function(req, res, next) {
             if(response.status){
 
               var image1 = req.files.image1
-              image1.mv('./public/product-images/'+productID+".jpg", (err, done)=>{
+              var image2 = req.files.image2
+              var image3 = req.files.image3
+              var image4 = req.files.image4
+              image1.mv('./public/product-images/'+productID+"first.jpg", (err)=>{
                 if(!err){
-                  res.redirect('/admin/manage-products')
-                } 
+                  
+                  image2.mv('./public/product-images/'+productID+"second.jpg", (err)=>{
+                    if(!err){
+
+                      image3.mv('./public/product-images/'+productID+"third.jpg", (err)=>{
+                        if(!err){
+                          image4.mv('./public/product-images/'+productID+"fourth.jpg", (err)=>{
+                            if(!err){
+                              res.redirect('/admin/manage-products')
+
+                            }
+                          }) 
+
+                        }
+                      }) 
+                    }
+                  }) 
+                }
               }) 
+              
+              
             }else{
               res.redirect('/admin/add-product')
             }
@@ -212,6 +238,134 @@ router.get('/add-product', function(req, res, next) {
      
       
     })
+  });
+
+  router.get('/manage-category', (req, res, next)=>{
+    productHelper.getAllCategory().then((category)=>{
+      
+      res.render('admin/manage-category', {isadmin , category})
+    })
+  })
+
+
+  router.post('/manage-category', (req, res, next)=>{
+  let category = req.body
+  productHelper.insertCategory(category).then((response)=>{
+    if(response){
+      res.redirect('/admin/manage-category')
+    }
+  })
+  });
+
+  router.get('/delete-category/:id', (req, res, next)=>{
+
+    productHelper.deleteCategory(req.params.id).then((response)=>{
+      if(response){
+        res.redirect('/admin/manage-category')
+      }
+    })
+
+  });
+
+  router.get('/manage-banners', (req, res, next)=>{
+    bannerHelper.getMainBanner().then((banner)=>{
+      bannerHelper.getCategoryBanner().then((CategoryBanner)=>{
+        bannerHelper.getProductListBanner().then((productBanner)=>{
+          
+          res.render('admin/manage-banner',{isadmin, banner, CategoryBanner, productBanner});
+        })
+        
+      })
+    })
+  });
+
+  router.get('/add-banner', (req, res, next)=>{
+    res.render('admin/add-banners',{isadmin});
+  });
+  router.post('/add-banner', (req, res, next)=>{
+    console.log(req.body);
+  console.log(req.files.image1);
+  bannerHelper.addHomePageMainBanner(req.body).then((response)=>{
+    if(response.status){
+      var bannerID = response.bannerID
+      var image1 = req.files.image1
+              var image2 = req.files.image2
+              var image3 = req.files.image3
+              var image4 = req.files.image4
+              image1.mv('./public/banner-images/'+bannerID+"first.jpg", (err)=>{
+                if(!err){
+                  
+                  image2.mv('./public/banner-images/'+bannerID+"second.jpg", (err)=>{
+                    if(!err){
+
+                      image3.mv('./public/banner-images/'+bannerID+"third.jpg", (err)=>{
+                        if(!err){
+                          image4.mv('./public/banner-images/'+bannerID+"fourth.jpg", (err)=>{
+                            if(!err){
+                              res.redirect('/admin/manage-banners')
+
+                            }
+                          }) 
+
+                        }
+                      }) 
+                    }
+                  }) 
+                }
+              }) 
+              
+    }
+
+  })
+  });
+
+  router.get('/add-category-banner', (req, res, next)=>{
+    res.render('admin/home-page-category-banner',{isadmin});
+  });
+  router.post('/add-category-banner', (req, res, next)=>{
+    console.log(req.files.image1);
+    let image1 = req.files.image1;
+    let image2 = req.files.image2;
+    let place= "homecategory"
+    bannerHelper.insertCategoryBanner(place).then((response)=>{
+      if(response.status){
+       
+        var bannerID = response.bannerID
+        console.log(bannerID);
+        image1.mv('./public/banner-images/'+bannerID+"men.jpg", (err)=>{
+          if(!err){
+            image2.mv('./public/banner-images/'+bannerID+"women.jpg", (err)=>{
+              if(!err){
+                res.redirect('/admin/manage-banners')
+              }
+            })
+          }
+        })
+
+      } 
+
+    })
+  });
+  router.get('/add-product-banner', (req, res, next)=>{
+    res.render('admin/product-list-banner',{isadmin});
+  });
+  router.post('/add-product-banner', (req, res, next)=>{
+    console.log(req.files.image1);
+    let image1 = req.files.image1;
+    let place = "productBanner"
+    bannerHelper.insertProductBanner(place).then((response)=>{
+      if(response.status){
+        let bannerID = response.bannerID;
+        image1.mv('./public/banner-images/'+bannerID+"image.jpg",(err)=>{
+          if(!err){
+           
+            res.redirect('/admin/manage-banners')
+          }
+        })
+      }
+      
+    })
+
   });
 
 

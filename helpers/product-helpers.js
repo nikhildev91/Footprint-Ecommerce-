@@ -63,5 +63,37 @@ var database = require('../dataConfig/databaseConnection');
                 resolve(true)
             })
         })
+    },
+
+    insertCategory : (category)=>{
+        return new Promise ((resolve, reject)=>{
+            database.get().collection('category').insertOne(category).then(()=>{
+                return resolve(true)
+            })
+        })
+    },
+    getAllCategory : ()=>{
+        return new Promise (async(resolve, reject)=>{
+            let category = database.get().collection("category").find().toArray()
+
+            if(category){
+                return resolve(category)
+            }
+        })
+    },
+
+    deleteCategory : (categoryID)=>{
+        return new Promise((resolve, reject)=>{
+            database.get().collection("category").deleteOne({_id:ObjectId(categoryID)}).then(()=>{
+                return resolve(true)
+            })
+        })
+    },
+
+    takeCategory :()=>{
+        return new Promise(async(resolve, reject)=>{
+            var categoryName = await database.get().collection("category").find().toArray()
+            return resolve(categoryName)
+        })
     }
     }

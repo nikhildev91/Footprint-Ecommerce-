@@ -11,3 +11,9 @@ img {
     cursor: default;
     border: 1px solid black;
   }
+
+
+  /* Error color for form validation */
+ .error{
+   color: red;
+ }

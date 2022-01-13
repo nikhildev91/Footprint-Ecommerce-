@@ -7,7 +7,8 @@
                     aria-hidden="true">|</span> <span>Shop Left Sidebar</span></div>
         </div>
     </div>
-    <!--End Breadcrumbs-->
+
+
     <div class="container">
         <div class="row">
             <!--Sidebar-->
@@ -45,8 +46,8 @@
                             </ul>
                         </div>
                     </div>
-                    <!--Categories-->
-                    <!--Price Filter-->
+
+
                     <div class="sidebar_widget filterBox filter-widget">
                         <div class="widget-title">
                             <h2>Price</h2>
@@ -63,8 +64,7 @@
                             </div>
                         </form>
                     </div>
-                    <!--End Price Filter-->
-                    <!--Size Swatches-->
+
                     <div class="sidebar_widget filterBox filter-widget size-swacthes">
                         <div class="widget-title">
                             <h2>Size</h2>
@@ -82,8 +82,7 @@
                             </ul>
                         </div>
                     </div>
-                    <!--End Size Swatches-->
-                    <!--Color Swatches-->
+
                     <div class="sidebar_widget filterBox filter-widget">
                         <div class="widget-title">
                             <h2>Color</h2>
@@ -120,8 +119,7 @@
                             </ul>
                         </div>
                     </div>
-                    <!--End Color Swatches-->
-                    <!--Brand-->
+
                     <div class="sidebar_widget filterBox filter-widget brand-filter">
                         <div class="widget-title">
                             <h2>Brands</h2>
@@ -149,8 +147,8 @@
                             </li>
                         </ul>
                     </div>
-                    <!--End Brand-->
-                    <!--Popular Products-->
+
+
                     <div class="sidebar_widget sidePro">
                         <div class="widget-title">
                             <h2>Popular Products</h2>
@@ -478,13 +476,11 @@
                         </div>
                     </div>
 
-                    <!--End Popular Products-->
-                    <!--Banner-->
+
                     <div class="sidebar_widget static-banner">
                         <a href="#"><img src="/user-assets/images/collection-side-banner.png" alt=""></a>
                     </div>
-                    <!--Banner-->
-                    <!--Information-->
+
                     <div class="sidebar_widget">
                         <div class="widget-title">
                             <h2>GLOBAL TEXT BLOCK</h2>
@@ -494,8 +490,7 @@
                             <p>Describe a product, share announcements, or welcome customers to your store.</p>
                         </div>
                     </div>
-                    <!--end Information-->
-                    <!--Product Tags-->
+
                     <div class="sidebar_widget">
                         <div class="widget-title">
                             <h2>Product Tags</h2>
@@ -547,18 +542,19 @@
                             <span class="btn btn--small btnview">View all</span>
                         </div>
                     </div>
-                    <!--end Product Tags-->
                 </div>
             </div>
-            <!--End Sidebar-->
-            <!--Main Content-->
-            <div class="col-12 col-sm-12 col-md-9 col-lg-9 main-col">
+
+
+
+                        <div class="col-12 col-sm-12 col-md-9 col-lg-9 main-col">
                 <div class="page-title">
                     <h1>Shop Left Sidebar</h1>
                 </div>
+                
                 <div class="category-banner">
-                    <img src="/user-assets/images/collection-banner/collection-banner.jpg"
-                        data-src="/user-assets/images/collection-banner/collection-banner.jpg" alt="">
+                    <img src="/banner-images/{{productBanner._id}}image.jpg"
+                        data-src="/banner-images/{{productBanner._id}}image.jpg" alt="">
                 </div>
                 <div class="category-description">
                     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
@@ -611,28 +607,31 @@
                 <!--Product Grid-->
                 <div class="product-load-more">
                     <div class="grid-products grid--view-items">
+
+
                         <div class="row">
-                            {{#each menProducts}}
+                            {{#each products}}
+
+                            <h1>{{products}}</h1>
                             <div class="col-6 col-sm-6 col-md-4 col-lg-4 item">
                                 <!-- start product image -->
                                 <div class="product-image" style="">
                                     <!-- start product image -->
 
-                                    {{#each this.images}}
+                                    
                                     <a href="product-details/{{this._id}}" class="product-img">
                                         <!-- image -->
-                                        <img class="primary blur-up lazyload" data-src="{{this}}" src="{{this}}" alt=""
+                                        <img class="primary blur-up lazyload" data-src="/product-images/{{this._id}}first.jpg" src="/product-images/{{this._id}}first.jpg" alt=""
                                             title="">
                                         <!-- End image -->
                                         <!-- Hover image -->
-                                        <img class="hover blur-up lazyload" data-src="{{this}}" src="{{this}}" alt=""
+                                        <img class="hover blur-up lazyload" data-src="/product-images/{{this._id}}first.jpg" src="/product-images/{{this._id}}first.jpg" alt=""
                                             title="">
                                         <!-- End hover image -->
                                         <!-- product label -->
                                         <div class="product-labels"><span class="lbl on-sale">Sale</span></div>
                                         <!-- End product label -->
-                                    </a>
-                                    {{/each}}
+                            
                                     <!-- end product image -->
 
 
@@ -654,11 +653,11 @@
                                             </li>
                                             <li>
                                                 <!--Quick View Button-->
-                                                <a href="#quickView-modal" title="Quick View"
+                                                {{!-- <a href="#quickView-modal" title="Quick View"
                                                     class="btn-icon quick-view-popup">
                                                     <i class="icon anm anm-search-plus-l"></i>
                                                     <span class="tooltip-label">Quick View</span>
-                                                </a>
+                                                </a> --}}
                                                 <!--End Quick View Button-->
                                             </li>
                                             <li>
@@ -674,13 +673,13 @@
                                             </li>
                                             <li>
                                                 <!--Compare Button-->
-                                                <div class="compare-btn">
+                                                {{!-- <div class="compare-btn">
                                                     <a class="btn-icon compare add-to-compare"
                                                         href="compare-style2.html" title="Add to Compare">
                                                         <i class="icon icon-reload"></i>
                                                         <span class="tooltip-label">Add to Compare</span>
                                                     </a>
-                                                </div>
+                                                </div> --}}
                                                 <!--End Compare Button-->
                                             </li>
                                         </ul>
@@ -692,16 +691,16 @@
                                 <div class="product-details text-center">
                                     <!-- product name -->
                                     <div class="product-name">
-                                        <a href="product-layout1.html">Martha Knit Top</a>
+                                        <a href="product-layout1.html">{{this.productTitle}}</a>
                                     </div>
                                     <!-- End product name -->
                                     <!-- product price -->
                                     <div class="product-price">
-                                        <span class="price"><b>Rs.399.01</b></span>
+                                        <span class="price"><b>Rs. {{this.price}}</b></span>
                                     </div>
                                     <!-- End product price -->
 
-                                    <a href="" class="btn btn-dark">Buy Now</a>
+                                    <a href="product-details/{{this._id}}" class="btn btn-dark">Buy Now</a>
 
                                 </div>
                                 <!-- End product details -->
@@ -709,6 +708,9 @@
                             {{/each}}
 
                         </div>
+                    
+
+
                     </div>
                     <!--End Product Grid-->
                     <!--Load More Button-->
