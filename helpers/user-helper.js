@@ -151,9 +151,9 @@ getThisProduct : (productID)=>{
 })
 
 },
-takeSubCategory:()=>{
+takeCategory:()=>{
     return new Promise( async(resolve, reject)=>{
-        let subcategories = await database.get().collection("category").aggregate([
+        let categories = await database.get().collection("category").aggregate([
             {$lookup:{
                 from:"subCategory",
                 localField:"_id",
@@ -163,7 +163,7 @@ takeSubCategory:()=>{
             }}
         ]).toArray()
 
-        return resolve(subcategories)
+        return resolve(categories)
     })
 }
 

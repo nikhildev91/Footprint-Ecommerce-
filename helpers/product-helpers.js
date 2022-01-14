@@ -108,12 +108,21 @@ var database = require('../dataConfig/databaseConnection');
 
     takeCategory :()=>{
         return new Promise(async(resolve, reject)=>{
-            var categoryName = await database.get().collection("category").find().toArray()
-            return resolve(categoryName)
+            var category = await database.get().collection("category").aggregate([
+                {$lookup: {
+                    from:"subCategory",
+                    localField:"_id",
+                    foreignField:"categoryID",
+                    as:"subcategory"
+                }}
+            ]).toArray()
+            return resolve(category)
         })
     },
 
     checkSubCategory : (subCategory, categoryID)=>{
+        console.log(subCategory);
+        console.log(categoryID);
         return new Promise((resolve, reject)=>{
             database.get().collection("subCategory").findOne({$and:[{subcategory:subCategory},{_id:ObjectId(categoryID)}]}).then((result)=>{
                 if(result){

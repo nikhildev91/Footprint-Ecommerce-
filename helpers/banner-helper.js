@@ -124,6 +124,43 @@ var database = require('../dataConfig/databaseConnection');
             })
 
         },
+        checkBrand : (brand)=>{
+            return new Promise((resolve, reject)=>{
+                database.get().collection("brands").findOne(brand).then((result)=>{
+                    if(result){
+                        return resolve(true)
+                    }else{
+                        return resolve(false)
+                    }
+                })
+            })
+
+        },
+
+        insertBrandLog : (brand)=>{
+            return new Promise((resolve, reject)=>{
+                database.get().collection("brands").insertOne(brand).then((result)=>{
+
+                    return resolve({status: true, brandID: result.insertedId})
+                })
+            })
+            
+        },
+        getAllBrands : ()=>{
+            return new Promise(async(resolve, reject)=>{
+               let brands = await database.get().collection("brands").find().toArray()
+               resolve(brands)
+            })
+
+        },
+        deleteBrand : (brandId)=>{
+            return new Promise((resolve, reject)=>{
+                database.get().collection("brands").deleteOne({_id:ObjectId(brandId)}).then(()=>{
+                    return resolve(true)
+                })
+            })
+
+        },
         deleteProductBanner : (()=>{
             return new Promise((resolve, reject)=>{
                 database.get().collection("banner").deleteOne({place: "productBanner"}).then(()=>{

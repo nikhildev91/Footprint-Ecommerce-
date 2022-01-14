@@ -63,10 +63,12 @@ router.get('/add-product', function(req, res, next) {
   if(req.session.isadminLoggedin){
 
     productHelper.takeCategory().then((categories)=>{
-      productHelper.takeSubCategory()
-      
-          res.render('admin/add-product',{isadmin, categories});
 
+      bannerHelper.getAllBrands().then((brands)=>{
+
+        res.render('admin/add-product',{isadmin, categories, brands});
+      })
+ 
     })
   }else{
     res.redirect('/admin/login')
@@ -184,13 +186,7 @@ router.get('/add-product', function(req, res, next) {
     }
 
 
-  //   if(req.session.isadminLoggedin){
-  //     adminHelper.getAllProducts().then((allProducts)=>{
-  //       res.render('admin/manage-products',{isadmin, allProducts});
-  //     })
-  // }else{
-  //   res.redirect('/admin/login')
-  // }
+  
   });
 
   //end Product Section
@@ -505,6 +501,58 @@ router.get('/add-product', function(req, res, next) {
     })
   });
 
+  router.get('/manage-brands', (req, res, next)=>{
+    
+    bannerHelper.getAllBrands().then((brands)=>{
+      let brandErr = req.session.brandErr;
+      req.session.brandErr = null;
+      
+      res.render('admin/manage-brands',{isadmin, brands, brandErr});
+    })
+  });
+
+
+
+  router.post('/manage-brand',(req, res, next)=>{
+
+    
+    console.log(req.body);
+    console.log(req.files.logo);
+    let logo = req.files.logo
+    bannerHelper.checkBrand(req.body).then((response)=>{
+      if(response){
+        req.session.brandErr = "This Brand is already existed"
+        res.redirect('/admin/manage-brands')
+      }else{
+
+        bannerHelper.insertBrandLog(req.body).then((response)=>{
+          if(response){
+            let brandID = response.brandID;
+            logo.mv('./public/brand-images/'+brandID+"logo.jpg",(err)=>{
+              if(!err){
+               
+                res.redirect('/admin/manage-brands')
+              }
+            })
+          }
+          
+        })
+      }
+    })
+
+  });
+
+  router.get('/delete-brand/:id', (req, res, next)=>{
+    bannerHelper.deleteBrand(req.params.id).then((response)=>{
+      if(response){
+        res.redirect('/admin/manage-brands')
+
+      }
+    })
+  })
+
+
+  
 
 
 

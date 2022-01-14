@@ -21,9 +21,12 @@ router.get('/', function(req, res, next) {
     bannerHelper.takebanners().then((banners)=>{
 
       bannerHelper.takeCategoryBanners().then((categoryBanners)=>{
-        userHelper.takeSubCategory().then((category)=>{
+        userHelper.takeCategory().then((category)=>{
           req.session.category=category
-          res.render('user/index', { isUser , isUserIndex : true, userSession, category, banners, categoryBanners });
+          bannerHelper.getAllBrands().then((brands)=>{
+
+            res.render('user/index', { isUser , isUserIndex : true, userSession, category, banners, categoryBanners, brands });
+          })
 
         })
         

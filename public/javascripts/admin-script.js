@@ -13,6 +13,10 @@ $(document).ready(function(){
 
 
 
+
+
+
+
   $("#adminLoginForm").validate({
     rules: {
         email:{
@@ -199,6 +203,26 @@ $("#add-Banner").validate({
               normalizer: function(value) {
                 return $.trim(value);
               }
+
+            }
+
+          }
+        });
+
+
+
+        $("#add-Brand").validate({
+          rules:{
+            logo :{
+              required : true
+            },
+            brand :{
+
+              required : true,
+              normalizer: function(value) {
+                return $.trim(value);
+              }
+
 
             }
 

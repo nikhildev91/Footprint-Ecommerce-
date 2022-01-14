@@ -26,12 +26,10 @@
                   <span class="text-danger">*</span></label>
               <div class="col-md-7">
                   <select name="brand" class="form-control select2">
-
-                      <option value="Adidas">Adidas</option>
-                      <option value="Nike">Nike</option>
-                      <option value="Puma">Puma</option>
-                      <option value="GUCCI">GUCCI</option>
-                      <option value="MERREL">MERREL</option>
+                        {{#each brands}}
+                      <option value={{this.brand}}>{{this.brand}}</option>
+                      {{/each}}
+                      
                   </select>
 
               </div>
@@ -41,12 +39,13 @@
               <label for="hori-pass2" class="col-md-4 form-control-label">Category
                   <span class="text-danger">*</span></label>
               <div class="col-md-7">
-                  <select name="category" class="form-control select2">
+                  <select name="category" class="form-control select2" id="category">
                       {{#each categories}}
-                      <option onclick="takeSubCatgory()" value={{this.category}}>{{this.category}}</option>
+                      <option value={{this.category}}>{{this.category}}</option>
                       {{/each}}
 
                   </select>
+                 
 
               </div>
           </div>
@@ -55,12 +54,16 @@
               <label for="hori-pass2" class="col-md-4 form-control-label">Sub-Category
                   <span class="text-danger">*</span></label>
               <div class="col-md-7">
-                  <select name="subCategory" class="form-control select2">
-
-                      <option value="Formal">Formal</option>
-                      <option value="Casual">Casual</option>
-                      <option value="Sports">Sports</option>
-                  </select>
+                   <select name="category" class="form-control select2">
+                      {{#each categories}}
+                          <optgroup label="{{this.category}}">
+                            {{#each this.subcategory}}
+                            <option value={{this.subcategory}}>{{this.subcategory}}</option>
+                            {{/each}}
+                          </optgroup>
+  
+                      {{/each}}
+                    </select>
 
               </div>
           </div>
@@ -182,6 +185,10 @@
   </form>
 
   </div>
+
+
+     
+   
 
 
 

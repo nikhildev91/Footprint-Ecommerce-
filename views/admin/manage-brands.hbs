@@ -1,0 +1,90 @@
+<h1 style="text-align: center;">Manage Brands</h1>
+
+
+
+<div class="card p-3 mt-4">
+    <h4>Add New Brands</h4>
+    {{#if brandErr}}
+    <div class="alert alert-danger">
+        {{brandErr}}
+    </div>
+    {{/if}}
+
+  
+
+              <img src="" alt="" style="width: 300px; height:auto; justify-content: center;" id="imgview1" class="mt-3">
+              
+
+          
+
+    <form action="/admin/manage-brand" method="post" enctype="multipart/form-data" id="add-Brand">
+        <div class="row">
+              <div id="image-box1" style="width: 400px; height: 250px; display: none;">
+              </div>
+              <div>
+                  <button class="btn btn-primary mt-2" type="button" style="display: none;" id="crop-btn1">Done</button>
+              </div>
+              <div class="mt-5 col-md-6">
+                  <label for="">Brand Logo</label>
+
+                  <input type="file" name="logo" id="file1" class="form-control mt-2"
+                      onchange="return cropBrandLogo()">
+
+                      <br><label for="" class="mt-3">Brand Name</label>
+        <input type="text" name="brand" class="form-control" placeholder="Enter Brand Name">
+              </div>
+              
+
+          </div>
+           <div class="form-group mt-5">
+
+      <div class="col-md-8">
+          <button type="reset" class="btn btn-danger waves-effect" style="float: right;">
+              Cancel
+          </button>
+
+          <button type="submit" id="confirm-btn1" class="btn btn-primary waves-light mr-1" style="float: right;">
+              Submit
+          </button>
+
+      </div>
+  </div>
+    </form>
+</div>
+<h4>Existing Brands</h4>
+
+
+<div class="co1-12 mt-3 w-50" style="margin-left: 10%">
+
+  
+
+  <table class="table table-bordered mt-2 tb_datatable">
+    <thead>
+      <tr>
+        <th>Brand Logo</th>
+        <th>Brand Name</th>
+        <th>Action</th>
+       
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      {{#each brands}}
+      <tr>
+    
+        <td><img src="/brand-images/{{this._id}}logo.jpg" style="width: 150px; height: auto;" alt=""></td>
+        <td>{{this.brand}}</td>
+        <td style="text-align: center;"><a href="/admin/delete-brand/{{this._id}}" onclick="return confirm('Are You Sure Delete This Brand')"><i class="fas fa-trash text-danger" style="font-size: 20px;"></i></a></td>
+       
+         </tr>
+         {{/each}}
+        
+     
+    </tbody>
+  </table>
+  
+
+</div>
+
+
+
+

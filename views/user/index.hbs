@@ -1689,25 +1689,12 @@ kids --}}
                 <div class="row">
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                         <div class="logo-bar">
+                            {{#each brands}}
                             <div class="logo-bar__item">
-                                <a href="#;"><img src="user-assets/images/logo/brandlogo1.png" alt="" title="" /></a>
+                                <a href="#;"><img src="/brand-images/{{this._id}}logo.jpg" alt="" title="" /></a>
                             </div>
-                            <div class="logo-bar__item">
-                                <a href="#;"><img src="user-assets/images/logo/brandlogo2.png" alt="" title="" /></a>
-                            </div>
-                            <div class="logo-bar__item">
-                                <a href="#;"><img src="user-assets/images/logo/brandlogo3.png" alt="" title="" /></a>
-                            </div>
-                            <div class="logo-bar__item">
-                                <a href="#;"><img src="user-assets/images/logo/brandlogo4.png" alt="" title="" /></a>
-                            </div>
-                            <div class="logo-bar__item">
-                                <a href="#;"><img src="user-assets/images/logo/brandlogo5.png" alt="" title="" /></a>
-                            </div>
-                            <div class="logo-bar__item">
-                                <a href="#;"><img src="user-assets/images/logo/brandlogo6.png" alt="" title="" /></a>
-                            </div>
-                        </div>
+                            {{/each}}
+                          
                     </div>
                 </div>
             </div>
