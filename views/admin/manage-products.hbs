@@ -33,11 +33,12 @@
         <td>{{this.category}}</td>
         <td>{{this.subCategory}}</td>
         <td>{{this.brand}}</td>
-        <td><a href="/admin/edit-product/{{this._id}}"><i class="fas fa-edit" style="font-size: 25px; color: blue;"></i> </a><a href="/admin/delete-product/{{this._id}}"><i class="fas fa-trash ml-3" style="font-size: 25px; color: red;"></i></a></td>
+        <td><a href="/admin/edit-product/{{this._id}}" onclick="return confirm('Are You Sure Edit This Product?') "><i class="fas fa-edit" style="font-size: 25px; color: blue;"></i> </a><a href="/admin/delete-product/{{this._id}}" onclick="return confirm('Are You Sure Delete This Product?')"><i class="fas fa-trash ml-3" style="font-size: 25px; color: red;"></i></a></td>
          </tr>
          {{/each}}
+         
      
-    </tbody>
+    </tbody> 
   </table>
   
 

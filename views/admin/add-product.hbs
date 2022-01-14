@@ -43,7 +43,7 @@
               <div class="col-md-7">
                   <select name="category" class="form-control select2">
                       {{#each categories}}
-                      <option value={{this.category}}>{{this.category}}</option>
+                      <option onclick="takeSubCatgory()" value={{this.category}}>{{this.category}}</option>
                       {{/each}}
 
                   </select>
@@ -182,3 +182,7 @@
   </form>
 
   </div>
+
+
+
+  

@@ -33,24 +33,23 @@
                     <!--Desktop Menu-->
                     <nav class="grid__item" id="AccessibleNav">
                         <ul id="siteNav" class="site-nav medium left hidearrow">
-                            <li class="lvl1 parent megamenu mdropdown"><a href="/">HOME <i
+                            <li class="lvl1 parent dropdown"><a href="/">HOME <i
                                         class="anm anm-angle-down-l"></i></a>
                             </li>
                                 {{#each category}}
-                            <li class="lvl1 parent megamenu"><a href="/category-check/{{this.category}}">{{this.category}}<i class="anm anm-angle-down-l"></i></a>
+                            <li class="lvl1 parent dropdown"><a href="/category-check/{{this.category}}">{{this.category}}<i class="anm anm-angle-down-l"></i></a>
                                 
-
+                                        {{#if this.subcategory}}
 
                                 <ul class="dropdown">
-                                    <li><a href="lookbook-2columns.html" class="site-nav">2 Columns</a></li>
-                                    <li><a href="lookbook-3columns.html" class="site-nav">3 Columns</a></li>
-                                    <li><a href="lookbook-4columns.html" class="site-nav">4 Columns</a></li>
-                                    <li><a href="lookbook-5columns.html" class="site-nav">5 Columns + Fullwidth</a></li>
-                                    <li><a href="lookbook-shop.html" class="site-nav">Lookbook Shop</a></li>
+                                    {{#each this.subcategory }}
+                                    <li><a href="lookbook-2columns.html" class="site-nav">{{ this.subcategory }}</a></li>
+                                    {{/each }}
                                 </ul>
+                                {{/if}}
                             </li>
                             {{/each}}
-                             <li class="lvl1 parent megamenu mdropdown"><a href="/brands"> BRANDS <i
+                             <li class="lvl1 parent dropdown"><a href="/brands"> BRANDS <i
                                         class="anm anm-angle-down-l"></i></a>
                             </li>
                         </ul>
@@ -355,3 +354,17 @@
         </ul>
     </div>
     <!--End Mobile Menu-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+

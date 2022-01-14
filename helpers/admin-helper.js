@@ -43,5 +43,6 @@ module.exports={
                 return resolve(true)
             })
         })
-    }
+    },
+    
 }

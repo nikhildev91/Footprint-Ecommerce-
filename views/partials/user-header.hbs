@@ -36,19 +36,25 @@
             <!--Desktop Menu-->
             <nav class="grid__item" id="AccessibleNav">
               <ul id="siteNav" class="site-nav medium center hidearrow">
-                <li class="lvl1 parent megamenu mdropdown"><a href="/">HOME <i class="anm anm-angle-down-l"></i></a>
+                <li class="lvl1 parent dropdown"><a href="/">HOME <i class="anm anm-angle-down-l"></i></a>
                   
                 </li>
                 {{#each category}}
-                <li class="lvl1 parent megamenu"><a href="/category-check/{{this.category}}">{{this.category}}<i class="anm anm-angle-down-l"></i></a>
-                 
+                <li class="lvl1 parent dropdown"><a href="/category-check/{{this.category}}">{{this.category}}<i class="anm anm-angle-down-l"></i></a>
+                      {{#if this.subcategory}}
+
+                                <ul class="dropdown">
+                                    {{#each this.subcategory }}
+                                    <li><a href="lookbook-2columns.html" class="site-nav">{{ this.subcategory }}</a></li>
+                                    {{/each }}
+                                </ul>
+                                {{/if}}
+
                 </li>
                 {{/each}}
-                <li class="lvl1 parent megamenu mdropdown"><a href="#;">BRANDS<i class="anm anm-angle-down-l"></i></a>
+                <li class="lvl1 parent dropdown"><a href="#;">BRANDS<i class="anm anm-angle-down-l"></i></a>
                   
                 </li>
-              
-
               </ul>
             </nav>
             <!--End Desktop Menu-->

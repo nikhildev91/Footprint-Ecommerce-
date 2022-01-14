@@ -63,6 +63,7 @@ router.get('/add-product', function(req, res, next) {
   if(req.session.isadminLoggedin){
 
     productHelper.takeCategory().then((categories)=>{
+      productHelper.takeSubCategory()
       
           res.render('admin/add-product',{isadmin, categories});
 
@@ -236,20 +237,38 @@ router.get('/add-product', function(req, res, next) {
   });
 
   router.get('/manage-category', (req, res, next)=>{
+
     productHelper.getAllCategory().then((category)=>{
+      let CategoryErr = req.session.ExistingCategoryErr;
+      req.session.ExistingCategoryErr = null;
+
       
-      res.render('admin/manage-category', {isadmin , category})
+      res.render('admin/manage-category', {isadmin , category, CategoryErr})
     })
   })
 
 
   router.post('/manage-category', (req, res, next)=>{
-  let category = req.body
-  productHelper.insertCategory(category).then((response)=>{
+  let value = req.body
+  let category = value.category.toUpperCase()
+
+  console.log(category);
+
+  productHelper.checkCategory(category).then((response)=>{
     if(response){
+      req.session.ExistingCategoryErr = "This Category Already Exist"
       res.redirect('/admin/manage-category')
+
+    }else{
+      productHelper.insertCategory(category).then((response)=>{
+        if(response){
+          res.redirect('/admin/manage-category')
+        }
+      })
+
     }
   })
+ 
   });
 
   router.get('/delete-category/:id', (req, res, next)=>{
@@ -261,6 +280,57 @@ router.get('/add-product', function(req, res, next) {
     })
 
   });
+
+  router.get('/manage-sub-category/:id', (req, res, next)=>{
+    let CatID = req.params.id;
+    console.log(CatID);
+    let subcategoryErr = req.session.subCategoryErr;
+    req.session.subCategoryErr = null;
+    productHelper.findSubCategory(CatID).then((Subcategory)=>{
+
+      res.render('admin/manage-sub-category', {isadmin, categoryId : CatID, subcategoryErr, Subcategory})
+    })
+
+  });
+
+  router.post('/manage-sub-category/:id', (req, res, next)=>{
+    let categoryID = req.params.id;
+    let value = req.body;
+    let subCategory = value.subcategory.toUpperCase()
+    
+    console.log(subCategory);
+    productHelper.checkSubCategory(subCategory, categoryID).then((response)=>{
+      if(response){
+        req.session.subCategoryErr = "This Sub Category is already Existed"
+        res.redirect('/admin/manage-sub-category/'+categoryID)
+      }else{
+        productHelper.insertSubCategory(subCategory, categoryID).then((response)=>{
+          if(response){
+            res.redirect('/admin/manage-sub-category/'+categoryID)
+          }
+        })
+
+      }
+    })
+
+    
+    
+
+  });
+
+
+  router.get('/deletesubcategory/:id',(req, res)=>{
+
+    productHelper.deleteSubCategory(req.params.id).then((response)=>{
+      if(response.status){
+        res.redirect('/admin/manage-sub-category/' + response.categoryID)
+      }
+    })
+  })
+
+
+
+
 
   router.get('/manage-banners', (req, res, next)=>{
     bannerHelper.getMainBanner().then((banner)=>{

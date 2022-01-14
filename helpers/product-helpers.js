@@ -64,10 +64,26 @@ var database = require('../dataConfig/databaseConnection');
             })
         })
     },
+    checkCategory:(category)=>{
+        
+        return new Promise((resolve, reject)=>{
+            database.get().collection("category").findOne({category:category}).then((result)=>{
+
+                if(result){
+                    return resolve(true)
+
+                }else{
+                    return resolve(false)
+                }
+                
+            })
+        })
+        
+    },
 
     insertCategory : (category)=>{
         return new Promise ((resolve, reject)=>{
-            database.get().collection('category').insertOne(category).then(()=>{
+            database.get().collection('category').insertOne({category:category}).then(()=>{
                 return resolve(true)
             })
         })
@@ -94,6 +110,48 @@ var database = require('../dataConfig/databaseConnection');
         return new Promise(async(resolve, reject)=>{
             var categoryName = await database.get().collection("category").find().toArray()
             return resolve(categoryName)
+        })
+    },
+
+    checkSubCategory : (subCategory, categoryID)=>{
+        return new Promise((resolve, reject)=>{
+            database.get().collection("subCategory").findOne({$and:[{subcategory:subCategory},{_id:ObjectId(categoryID)}]}).then((result)=>{
+                if(result){
+                    return resolve(true)
+                }else{
+                    return resolve(false)
+                }
+            })
+
+        })
+    },
+
+    insertSubCategory : (subCategory, categoryID)=>{
+        return new Promise((resolve, reject)=>{
+            database.get().collection("subCategory").insertOne({subcategory : subCategory, categoryID: ObjectId(categoryID) }).then(()=>{
+                return resolve(true)
+            })
+        })
+    },
+    findSubCategory: (CatID)=>{
+        return new Promise (async(resolve, reject)=>{
+            let Subcategory = await database.get().collection("subCategory").find({categoryID:ObjectId(CatID)}).toArray()
+            return resolve(Subcategory)
+        })
+    },
+    deleteSubCategory : (subcategoryID)=>{
+        return new Promise ((resolve, reject)=>{
+            database.get().collection("subCategory").findOne({_id:ObjectId(subcategoryID)}).then((result) => {
+                let categoryID = result.categoryID;
+                database.get().collection("subCategory").deleteOne({_id:ObjectId(subcategoryID)}).then(()=>{
+                    return resolve({ status : true , categoryID })
+                })
+            })
+        })
+    },
+    takeSubCategory : ()=>{
+        return new Promise((resolve, reject)=>{
+            database.get().collection("subCategory").find({$and:[{}]})
         })
     }
     }

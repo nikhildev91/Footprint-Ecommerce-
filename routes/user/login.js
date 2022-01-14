@@ -13,6 +13,14 @@ const client = require('twilio')(accountSSID, authToken)
 
 const isUser = true;
 
+let category;
+router.use(function(req, res, next) {
+  
+  category = req.session.category;
+   
+  next();
+});
+
 
 /* GET users listing. */
 
@@ -30,7 +38,7 @@ router.get('/', function(req, res, next) {
     req.session.loginMob = null;
     var errMsg = req.session.errMsg
     req.session.errMsg = null;
-    res.render('user/login',{isUser, errMsg, loginMob});
+    res.render('user/login',{isUser, errMsg, loginMob, category});
     
   }
   

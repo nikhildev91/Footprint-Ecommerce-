@@ -188,6 +188,21 @@ $("#add-Banner").validate({
             }
 
           }
+        });
+
+
+
+        $("#manageSubCategoryForm").validate({
+          rules:{
+            subcategory :{
+              required : true,
+              normalizer: function(value) {
+                return $.trim(value);
+              }
+
+            }
+
+          }
         })
  
 

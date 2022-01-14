@@ -12,6 +12,14 @@ const client = require('twilio')(accountSSID, authToken)
 
 const isUser = true;
 
+let category;
+router.use(function(req, res, next) {
+  
+  category = req.session.category;
+   
+  next();
+});
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   if (req.session.isLoggedin || req.session.otpUserLoggedin || req.session.isFreshUserLoggedin){
@@ -20,7 +28,7 @@ router.get('/', function(req, res, next) {
   }else{
     let err = req.session.SignupErr 
     req.session.SignupErr = null
-    res.render('user/signup', { isUser, err });
+    res.render('user/signup', { isUser, err, category});
 
   }
 });
