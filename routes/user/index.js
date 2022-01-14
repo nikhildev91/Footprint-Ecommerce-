@@ -15,6 +15,7 @@ router.use(function(req, res, next) {
   next();
 });
 
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
     
@@ -57,7 +58,7 @@ router.get('/category-check/product-details/:id', function(req, res, next) {
 
     console.log(product);
 
-    res.render('user/product-details', {isUser, userSession, product, category});
+    res.render('user/product', {isUser, userSession, product, category});
   })
 });
 

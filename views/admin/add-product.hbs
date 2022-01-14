@@ -41,7 +41,7 @@
               <div class="col-md-7">
                   <select name="category" class="form-control select2" id="category">
                       {{#each categories}}
-                      <option value={{this.category}}>{{this.category}}</option>
+                      <option value="{{this.category}}">{{this.category}}</option>
                       {{/each}}
 
                   </select>
@@ -54,11 +54,11 @@
               <label for="hori-pass2" class="col-md-4 form-control-label">Sub-Category
                   <span class="text-danger">*</span></label>
               <div class="col-md-7">
-                   <select name="category" class="form-control select2">
+                   <select name="subcategory" class="form-control select2">
                       {{#each categories}}
                           <optgroup label="{{this.category}}">
                             {{#each this.subcategory}}
-                            <option value={{this.subcategory}}>{{this.subcategory}}</option>
+                            <option value="{{this.subcategory}}">{{this.subcategory}}</option>
                             {{/each}}
                           </optgroup>
   
@@ -92,9 +92,13 @@
               <div class="col-md-7">
                   <select class="form-control select2" name="size[]" multiple="multiple">
 
-                      <option value="5">5</option>
+                      
                       <option value="6">6</option>
                       <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
                   </select>
 
               </div>
