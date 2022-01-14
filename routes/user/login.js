@@ -34,11 +34,13 @@ router.get('/', function(req, res, next) {
   if(req.session.isLoggedin || req.session.otpUserLoggedin || req.session.isFreshUserLoggedin){
     res.redirect('/');
   }else{
+    userHelper.takeCategory().then((category)=>{
     let loginMob = req.session.loginMob;
     req.session.loginMob = null;
     var errMsg = req.session.errMsg
     req.session.errMsg = null;
     res.render('user/login',{isUser, errMsg, loginMob, category});
+    })
     
   }
   

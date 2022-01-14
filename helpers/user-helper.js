@@ -165,6 +165,13 @@ takeCategory:()=>{
 
         return resolve(categories)
     })
+},
+
+getRecentProducts : ()=>{
+    return new Promise(async(resolve, reject)=>{
+       var recentProduct = await database.get().collection("products").find().toArray()
+       resolve(recentProduct)
+    })
 }
 
     

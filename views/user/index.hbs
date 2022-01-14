@@ -49,21 +49,7 @@
                         </div>
                     </div>
                 </div>
-                {{!-- <div class="slide">
-                	<div class="blur-up lazyload">
-                        <img class="blur-up lazyload desktop-hide" data-src="user-assets/images/shoe1.jpg" src="user-assets/images/shoe1.jpg" alt="The Powerful Theme You can Trust" title="The Powerful Theme You can Trust" />
-                        <img class="blur-up lazyload mobile-hide" data-src="user-assets/images/shoe1.jpg" src="user-assets/images/shoe1.jpg" alt="The Powerful Theme You can Trust" title="The Powerful Theme You can Trust" />
-                        <div class="slideshow__text-wrap slideshow__overlay left">
-                            <div class="slideshow__text-content">
-                                <div class="wrap-caption anim-tru style1 left">
-                                    <h2 class="h1 mega-title slideshow__title">Small studio, Big ideas</h2>
-                                    <span class="mega-subtitle slideshow__subtitle">Creative, Flexible and High Performance Template to make your business shine!</span>
-                                    <span class="btn">Shop now</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
+             
             </div>
         </div>
         <!--End Home slider-->
@@ -137,45 +123,6 @@
 
 
 
-
-                        {{!-- <div class="col-12 col-sm-12 col-md-6 col-lg-6 img-banner-item">
-                            <div class="row">
-                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 img-banner-item">
-                                    <div class="imgBanner-grid-item">
-                                        <div class="inner btmleft">
-                                            <a href="#">
-                                                <span class="img">
-                                                    <img class="blur-up lazyload" data-src="user-assets/images/collection-banner/collection-bn2-style2.jpg" src="user-assets/images/collection-banner/collection-bn2-style2.jpg" alt="" title=" " />
-                                                </span>
-                                                <span class="ttl"><span class="tt-small">Men</span></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-md-6 col-lg-6 img-banner-item last">
-                                    <div class="imgBanner-grid-item">
-                                        <div class="inner btmleft">
-                                            <a href="#">
-                                                <span class="img">
-                                                    <img class="blur-up lazyload" data-src="user-assets/images/collection-banner/collection-bn3-style2.jpg" src="user-assets/images/collection-banner/collection-bn3-style2.jpg" alt="" title=" " />
-                                                </span>
-                                                <span class="ttl"><span class="tt-small">Backpack</span></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="imgBanner-grid-item">
-                                        <div class="inner btmleft">
-                                            <a href="#">
-                                                <span class="img">
-                                                    <img class="blur-up lazyload" data-src="user-assets/images/collection-banner/collection-bn4-style2.jpg" src="user-assets/images/collection-banner/collection-bn4-style2.jpg" alt="" title=" " />
-                                                </span>
-                                                <span class="ttl"><span class="tt-small">Accessories</span></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -1637,7 +1584,7 @@ kids --}}
         <!--Parallax Banner-->
         <div class="section parallax-banner-style1">
             <div class="hero hero--exlarge hero__overlay bg-size">
-                <img class="bg-img" src="user-assets/images/parallax-banner/parallax-banner1-demo2.jpg" alt="">
+                <img class="bg-img" src="/banner-images/{{banners._id}}first.jpg" alt="">
                 <div class="hero__inner">
                     <div class="container">
                         <div class="wrap-text center text-small font-bold">
@@ -1652,38 +1599,87 @@ kids --}}
         </div>
         <!--End Parallax Banner-->
         
-        <!--Featured Content-->
-        <div class="section style1 featured-content no-pt-section">
-            <div class="container">
-                <div class="row display-table">
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 display-table-cell">
-                        <img src="user-assets/images/lookbook/featured-img1.jpg" alt="" title="" />
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 display-table-cell">
-                        <div class="featured-text right">
-                            <h2>Shop the Best Sellers</h2>
-                            <p>Shop our best sellers from emerging and established brands all over the globe</p>
-                            <a href="#" class="btn">Shop It Now</a>
-                        </div>
-                    </div>
+         <!--Related Product Slider-->
+            <div class="related-product grid-products">
+                <div class="section-header">
+                    <h2 class="section-header__title text-center h2"><span>Recent Products</span></h2>
+                    <p class="sub-heading">This is Our New Products</p>
                 </div>
-                <div class="row display-table featured-content-bg">
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 display-table-cell">
-                        <div class="featured-text left">
-                            <h2>Day to Night</h2>
-                            <p>Whether you're going to the bar from the office or out on the town, browse our Day to Night looks to take you through to the evening, hassle-free</p>
-                            <a href="#" class="btn">View Collection</a>
+                <div class="productPageSlider">
+                    {{#each recentProduct}}
+                    <div class="col-12 item">
+                        <!-- start product image -->
+                        <div class="product-image">
+                            <!-- start product image -->
+                            <a href="/category-check/product-details/{{this._id}}" class="product-img">
+                                <!-- image -->
+                                <img class="primary blur-up lazyload" data-src="/product-images/{{this._id}}first.jpg" src="/product-images/{{this._id}}first.jpg" alt="image" title="product">
+                                <!-- End image -->
+                                <!-- Hover image -->
+                                <img class="hover blur-up lazyload" data-src="/product-images/{{this._id}}second.jpg" src="/product-images/{{this._id}}second.jpg" alt="image" title="product">
+                                <!-- End hover image -->
+                                <!-- product label -->
+                                <div class="product-labels rectangular"><span class="lbl pr-label1">new</span></div>
+                                <!-- End product label -->
+                            </a>
+                            <!-- end product image -->
+                            <!--Product Button-->
+                            <div class="button-set style1">
+                            	<ul>
+                                	<li>
+                                    	<!--Cart Button-->
+                                        <form class="add" action="https://www.annimexweb.com/items/avone/cart-variant1.html" method="post">
+                                            <button class="btn-icon btn btn-addto-cart" type="button" tabindex="0">
+                                            	<i class="icon anm anm-cart-l"></i>
+                                                <span class="tooltip-label">Add to Cart</span>
+                                            </button>
+                                        </form>
+                                        <!--end Cart Button-->
+                                    </li>
+                                    <li>
+                                    	
+                                    </li>
+                                    <li>
+                                    	<!--Wishlist Button-->
+                                        <div class="wishlist-btn">
+                                            <a class="btn-icon wishlist add-to-wishlist" href="my-wishlist.html">
+                                                <i class="icon anm anm-heart-l"></i>
+                                                <span class="tooltip-label">Add To Wishlist</span>
+                                            </a>
+                                        </div>
+                                        <!--End Wishlist Button-->
+                                    </li>
+                                    <li>
+                                    	
+                                    </li>
+                                </ul>
+                            </div>
+                            <!--End Product Button-->
                         </div>
+                        <!-- end product image -->
+                        <!--start product details -->
+                        <div class="product-details text-center">
+                            <!-- product name -->
+                            <div class="product-name">
+                                <a href="/category-check/product-details/{{this._id}}">{{this.productTitle}}</a>
+                            </div>
+                            <!-- End product name -->
+                            <!-- product price -->
+                            <div class="product-price">
+                                <span class="price" style="font-weight: bold;">Rs. {{this.price}}</span>
+                            </div>
+                            <!-- End product price -->
+
+                            
+                        </div>
+                        <!-- End product details -->
                     </div>
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 display-table-cell">
-                        <img src="user-assets/images/lookbook/featured-img2.jpg" alt="" title="" />
-                    </div>
+                    {{/each}}
                 </div>
-            </div>
-        </div>
-        <!--End Featured Content-->
-        
-        <!--Brand Logo Slider-->
+                </div>
+            <!--End Related Product Slider-->
+
+       
         <div class="section logo-section no-pt-section">
             <div class="container">
                 <div class="row">
@@ -1699,25 +1695,6 @@ kids --}}
                 </div>
             </div>
         </div>
-        <!--End Brand Logo Slider-->
-        <!--Newsletter Section-->
-        {{!-- <div class="section newsletter-section">
-            <div class="section-header">
-                <h2>Newsletter Subscribe</h2>
-                <p>Sign up to stay in the loop. Receive updates, access to exclusive deals, and more.</p>
-            </div>
-            <div class="display-table">
-                <div class="display-table-cell newsletter-form">
-                    <form action="#" method="post">
-                        <div class="input-group">
-                            <input type="email" class="input-group__field newsletter-input" name="EMAIL" value="" placeholder="Email address" required>
-                            <span class="input-group__btn">
-                                <button type="submit" class="btn newsletter__submit" name="commit" id="Subscribe"><span class="newsletter__submit-text--large">Subscribe</span></button>
-                            </span>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div> --}}
-        <!--Newsletter Section-->
-    </div><!--End Page Wrapper-->
+        
+       
+    </div>

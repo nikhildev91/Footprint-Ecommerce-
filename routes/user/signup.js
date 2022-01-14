@@ -26,9 +26,11 @@ router.get('/', function(req, res, next) {
     res.redirect('/')
 
   }else{
+    userHelper.takeCategory().then((category)=>{
     let err = req.session.SignupErr 
     req.session.SignupErr = null
     res.render('user/signup', { isUser, err, category});
+    })
 
   }
 });

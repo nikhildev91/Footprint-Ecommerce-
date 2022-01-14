@@ -4,6 +4,7 @@ var userHelper = require('../../helpers/user-helper')
 var bannerHelper= require('../../helpers/banner-helper')
 
 
+
 const isUser = true;
 let userSession;
 let category;
@@ -25,8 +26,10 @@ router.get('/', function(req, res, next) {
         userHelper.takeCategory().then((category)=>{
           req.session.category=category
           bannerHelper.getAllBrands().then((brands)=>{
+            userHelper.getRecentProducts().then((recentProduct)=>{
 
-            res.render('user/index', { isUser , isUserIndex : true, userSession, category, banners, categoryBanners, brands });
+            res.render('user/index', { isUser , isUserIndex : true, userSession, category, banners, categoryBanners, brands, recentProduct});
+          })
           })
 
         })
@@ -39,6 +42,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/category-check/:category',(req, res, next)=>{
   
+  userHelper.takeCategory().then((category)=>{
   userHelper.findCategoryProducts(req.params.category).then((products)=>{
    bannerHelper.takeProductBanner().then((productBanner)=>{
 
@@ -47,20 +51,33 @@ router.get('/category-check/:category',(req, res, next)=>{
 
 
   })
+})
+
 });
 
 router.get('/category-check/product-details/:id', function(req, res, next) {
 
-  console.log("call vannu");
+  
 
   var productID = req.params.id;
+  userHelper.takeCategory().then((category)=>{
   userHelper.getThisProduct(productID).then((product)=>{
 
-    console.log(product);
+    userHelper.getRecentProducts().then((recentProduct)=>{
 
-    res.render('user/product', {isUser, userSession, product, category});
+      res.render('user/product', {isUser, userSession, product, category, recentProduct});
+    })
+
   })
+})
 });
+
+
+router.get('/cart',(req, res, next)=>{
+  userHelper.takeCategory().then((category)=>{
+  res.render('user/cart', {isUser, category})
+  })
+})
 
 
 
