@@ -12,13 +12,8 @@ const client = require('twilio')(accountSSID, authToken)
 
 const isUser = true;
 
-let category;
-router.use(function(req, res, next) {
-  
-  category = req.session.category;
-   
-  next();
-});
+
+
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -67,11 +62,11 @@ router.get('/otp',(req, res, next)=>{
   if(req.session.isLoggedin || req.session.otpUserLoggedin || req.session.isFreshUserLoggedin){
     res.redirect('/')
   }else{
-
+    let resendSignUpMsg = req.session.resendSignUpMsg;
+    req.session.resendSignUpMsg = null;
     let otperr = req.session.otpErr
-  
     req.session.otpErr = null;
-    res.render('user/otp',{isUser, otpverify:true, otperr})
+    res.render('user/otp',{isUser, otpverify:true, otperr, resendSignUpMsg})
   }
 
 
@@ -97,8 +92,8 @@ router.post('/otp', (req, res,next)=>{
 
     userHelper.insertNewUserData(req.session.newUser).then((response)=>{
       if(response.status){
-        req.session.freshUser = response.user;
-        req.session.isFreshUserLoggedin = true;
+        req.session.userObj = response.user;
+        req.session.isLoggedin = true;
         res.redirect('/')
       }
     })
@@ -106,7 +101,8 @@ router.post('/otp', (req, res,next)=>{
 
   }else{
     req.session.otpErr = "Incorrect OTP"
-    res.redirect('/signup')
+    req.session.resendSignUpMsg = true;
+    res.redirect('/signup/otp')
   }
 
  
@@ -114,6 +110,23 @@ router.post('/otp', (req, res,next)=>{
 }).catch((err)=>{
   console.log(err);
 })
+})
+
+router.post('/resendOtp',(req, res)=>{
+
+  let NewUserData = req.session.newUser
+client.verify
+        .services(serviceSSID)
+        .verifications.create({
+        to: `+91${NewUserData.phone}`,
+        channel: "sms"
+        })
+        .then((resp)=>{
+        res.send(true)
+        }).catch((resp)=>{
+          res.send(false)
+        })
+
 })
 
 module.exports = router;

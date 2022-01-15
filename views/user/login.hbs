@@ -28,6 +28,11 @@
                                  {{errMsg}}
                         </div>
                         {{/if}}
+                        {{#if accUserErr}}
+                        <div class="alert alert-danger">
+                            {{accUserErr}}
+                        </div>
+                        {{/if}}
                         
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-12 col-lg-12">
@@ -86,37 +91,13 @@
                         <div class="row">
                             <div class="text-left col-12 col-sm-12 col-md-12 col-lg-12">
                                 <input type="submit" class="btn mb-3" value="Send Code" style="float: right;">
-
-                            </div>
-                        </div>
-                       
-                    </form>
-
-
-
-
-
-                    <form method="post" action="/login/otp" class="contact-form" id="userOtp">
-                        
-                        <div class="row">
-
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    <label for="Otp">OTP Code<span class="required">*</span></label>
-                                    <input type="text" value="" name="otp" placeholder="Enter OTP Code"
-                                        id="Otp" class="">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="text-left col-12 col-sm-12 col-md-12 col-lg-12">
-                                <input type="submit" class="btn mb-3" value="Verify">
-                                <p class="mb-4">
-                                    <a href="/signup" id="customer_register_link" style="float: right;">Create
+                                 <p class="mb-4">
+                                    <a href="/signup" id="customer_register_link" style="float: left;">Create
                                         account</a>
                                 </p>
                             </div>
                         </div>
+                       
                     </form>
                 </div>
             </div>

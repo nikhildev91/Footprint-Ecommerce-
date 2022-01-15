@@ -62,10 +62,10 @@ database.connect((err)=>{
 
 
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/signup',userSignupRouter);
 app.use('/login',userLoginRouter);
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
 app.use('/admin', adminRouter);
 // app.use('/products',productsRouter);
 

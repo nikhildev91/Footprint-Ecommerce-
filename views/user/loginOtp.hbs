@@ -3,21 +3,24 @@
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6">
                 <h1 style="text-align: center;">OTP Verification</h1>
-                {{#if otperr}}
+                {{#if mobNumErr}}
                 <div class="alert alert-danger">
-                    {{otperr}}
+                    {{mobNumErr}}
 
                 </div>
                 {{/if}}
                 <div class="card">
                     <div class="card-body">
 
-                        <form action="/signup/otp" class="p-2" method="post">
+                        <form action="/login/otp" class="p-2" method="post">
                             <div class="form-group">
-                                {{#if resendSignUpMsg}}
-                                <a href="/signup" style="float: right;"><span>Re-SignUp</span></a>
-                                {{else}}
+                                {{#if resendMsg}}
+                                <a href="/login" style="float: right;"><span >Edit Mobile Number</span></a>
+                               
+                                 {{else}}
                                 <p id="demo" style="float: right;" class="text-danger" for=""></p>
+
+
                                 {{/if}}
                                 <label for="">OTP Code</label>
                                 <input class="form-control" type="text" name="code" placeholder="Enter OTP Code">
@@ -26,7 +29,7 @@
                                 <button class="btn btn-dark btn-block" type="submit"> Verify </button>
                             </div>
                             <div class="mb-3 text-center btn_resend" style="display: none;">
-                                <button id="otpResend" class="btn btn-danger btn-block" type="button" > Resend </button>
+                                <button id="loginOtpResend" class="btn btn-danger btn-block" type="button" > Resend </button>
                             </div>
                         </form>
                     </div>

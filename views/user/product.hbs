@@ -701,12 +701,15 @@
                                     <div class="product-form__item">
                                       <label class="label">Size:<span class="required">*</span> <span class="slVariant">SELECT A SIZE</span></label>
                                       
-                                      
+                                      {{#each product}}
+                                      {{#each this.size}}
                                       
                                       <div data-value="XS" class="swatch-element xs available">
                                         <input class="swatchInput" id="swatch-1-xs" type="radio" name="option-1" value="XS">
-                                        <label class="swatchLbl medium" for="swatch-1-xs" title="XS">XS</label>
+                                        <label class="swatchLbl medium" for="swatch-1-xs" title="XS">{{this.size}}</label>
                                       </div>
+                                      {{/each}}
+                                      {{/each}}
                                       
                                       
                                       {{!-- <div data-value="S" class="swatch-element s available">
@@ -735,19 +738,12 @@
                                 </p>
                                 <!-- Product Action -->
                                 <div class="product-action clearfix">
-                                    <div class="product-form__item--quantity">
-                                        <div class="wrapQtyBtn">
-                                            <div class="qtyField">
-                                                <a class="qtyBtn minus" href="javascript:void(0);"><i class="fa anm anm-minus-r" aria-hidden="true"></i></a>
-                                                <input type="text" name="quantity" value="1" class="product-form__input qty">
-                                                <a class="qtyBtn plus" href="javascript:void(0);"><i class="fa anm anm-plus-r" aria-hidden="true"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>                                
+                                   
                                     <div class="product-form__item--submit">
-                                        <button type="button" name="add" class="btn product-form__cart-submit">
+                                        <a href="/add-to-cart/{{product._id}}" class="btn product-form__cart-submit">  <span>Add to cart</span></a>
+                                        {{!-- <button type="button" name="add" class="btn product-form__cart-submit">
                                             <span>Add to cart</span>
-                                        </button>
+                                        </button> --}}
                                     </div>
                                    
                                     <div class="buy-it-btn mt-4">
