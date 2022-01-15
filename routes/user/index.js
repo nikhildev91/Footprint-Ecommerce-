@@ -33,9 +33,13 @@ router.get('/category-check/:category', async(req, res, next)=>{
   
   let category = await userHelper.takeCategory()
   userHelper.findCategoryProducts(req.params.category).then((products)=>{
-   bannerHelper.takeProductBanner().then((productBanner)=>{
+   bannerHelper.takeProductBanner().then(async(productBanner)=>{
+    let cartCount = 0;
+    if(userSession){
+      cartCount = await userHelper.getCartCount(userSession._id)
+    }
 
-     res.render('user/category-products', { isUser , userSession , products ,category, productBanner });
+     res.render('user/category-products', { isUser , userSession , products ,category, productBanner, cartCount });
    })
 
 
@@ -49,9 +53,13 @@ router.get('/category-check/product-details/:id',async function(req, res, next) 
   let category = await userHelper.takeCategory()
   userHelper.getThisProduct(productID).then((product)=>{
 
-    userHelper.getRecentProducts().then((recentProduct)=>{
-
-      res.render('user/product', {isUser, userSession, product, category, recentProduct});
+    userHelper.getRecentProducts().then(async(recentProduct)=>{
+      
+      let cartCount = 0;
+      if(userSession){
+        cartCount = await userHelper.getCartCount(userSession._id)
+      }
+      res.render('user/product', {isUser, userSession, product, category, recentProduct, cartCount});
     })
 
   })
@@ -69,12 +77,13 @@ router.use(function(req, res, next){
 })
 router.get('/add-to-cart', async(req, res, next)=>{
   let category = await userHelper.takeCategory()
+  let cartCount = 0;
+  cartCount = await userHelper.getCartCount(userSession._id)
   
-    userHelper.getCartProducts(userSession._id).then((products)=>{
+    let products = await userHelper.getCartProducts(userSession._id)
 
-      console.log(products);
-      res.render('user/cart', {isUser, category, userSession, products})
-    })
+      res.render('user/cart', {isUser, category, userSession, products, cartCount})
+
 
 });
 

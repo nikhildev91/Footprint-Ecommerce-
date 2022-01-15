@@ -1,4 +1,5 @@
 var express = require('express');
+const async = require('hbs/lib/async');
 var router = express.Router();
 var userHelper = require('../../helpers/user-helper');
 require('dotenv').config()
@@ -14,11 +15,15 @@ const client = require('twilio')(accountSSID, authToken)
 const isUser = true;
 
 router.get('/', function (req, res, next) {
-	console.log("login vi");
+	
 	if (req.session.isLoggedin || req.session.otpUserLoggedin || req.session.isFreshUserLoggedin) {
 		res.redirect('/');
 	} else {
-		userHelper.takeCategory().then((category) => {
+		userHelper.takeCategory().then(async(category) => {
+			let cartCount = 0;
+              if(req.session.userObj){
+                cartCount = await userHelper.getCartCount(req.session.userObj._id)
+              }
 			let accUserErr = req.session.UserAccErr;
 			req.session.UserAccErr = null;
 			let loginMob = req.session.loginMob;
@@ -50,8 +55,8 @@ router.post('/', function (req, res, next) {
 /* GET users listing. */
 
 router.get('/logout', function (req, res, next) {
-	req.session.isLoggedin = null;
-	req.session.user = null;
+	req.session.userObj = null;
+	req.session.isLoggedin = false;
 	res.redirect('/login');
 });
 

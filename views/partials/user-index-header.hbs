@@ -119,35 +119,18 @@
                     </div>
                     <div id="settingsBox">
                         <div class="customer-links">
+                            
                             {{#if userSession}}
+                            <p class="text-center" style="font-weight: bold;">Profile</p>
                             <p><a href="/login/logout" class="btn">Logout</a></p>
                             {{else}}
                             <p><a href="/login" class="btn">Login</a></p>
                             <p class="text-center">New User? <a href="/signup" class="register">Create an
                                     Account</a></p>
                             {{/if}}
-                            <p class="text-center">Default welcome msg!</p>
+                            
                         </div>
-                        <div class="currency-picker">
-                            <span class="ttl">Select Currency</span>
-                            <ul id="currencies" class="cnrLangList">
-                                <li class="selected"><a href="#;">INR</a></li>
-                                <li><a href="#;">GBP</a></li>
-                                <li><a href="#;">CAD</a></li>
-                                <li><a href="#;">USD</a></li>
-                                <li><a href="#;">AUD</a></li>
-                                <li><a href="#;">EUR</a></li>
-                                <li><a href="#;">JPY</a></li>
-                            </ul>
-                        </div>
-                        <div class="language-picker">
-                            <span class="ttl">SELECT LANGUAGE</span>
-                            <ul id="language" class="cnrLangList">
-                                <li><a href="#">English</a></li>
-                                <li><a href="#">French</a></li>
-                                <li><a>German</a></li>
-                            </ul>
-                        </div>
+                      
                     </div>
                     <!--End Setting Dropdown-->
                 </div>

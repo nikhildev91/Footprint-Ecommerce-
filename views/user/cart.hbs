@@ -31,6 +31,7 @@
                     		<tbody>
                                 {{#each products}}
                                 <tr class="cart__row border-bottom line1 cart-flex border-top">
+                                    {{#each this.product}}
                                     <td class="cart__image-wrapper cart-flex-item">
                                         <a href="#"><img class="cart__image" src="/product-images/{{this._id}}first.jpg" alt="{{this.productTitle}}"></a>
                                     </td>
@@ -39,25 +40,26 @@
                                             <a href="#">{{this.productTitle}}</a>
                                         </div>
                                         
-                                        <div class="cart__meta-text">
-                                           <br>Size: Small<br>
-                                        </div>
+                                        
                                     </td>
                                     <td class="cart__price-wrapper cart-flex-item text-center">
                                         <span class="money">Rs. {{this.price}}</span>
                                     </td>
+                                    {{/each}}
                                     <td class="cart__update-wrapper cart-flex-item text-center">
                                         <div class="cart__qty text-center">
                                             <div class="qtyField">
-                                                <a class="qtyBtn minus" href="javascript:void(0);"><i class="icon icon-minus"></i></a>
-                                                <input class="cart__qty-input qty" type="text" name="updates[]" value="1" pattern="[0-9]*">
+                                                <a class="qtyBtn minus btn" href="javascript:void(0);"><i class="icon icon-minus"></i></a>
+                                                <p class="cart__qty-input qty" >{{this.quantity}}</p>
                                                 <a class="qtyBtn plus" href="javascript:void(0);"><i class="icon icon-plus"></i></a>
                                             </div>
                                         </div>
                                     </td>
+                                    {{#each this.product}}
                                     <td class="small--hide cart-price text-center">
                                         <div><span class="money">Rs. {{this.price}}</span></div>
                                     </td>
+                                    {{/each}}
                                     <td class="text-center small--hide"><a href="#" class="btn btn--secondary cart__remove" title="Remove tem"><i class="icon icon anm anm-times-l"></i></a></td>
                                 </tr>
                                 {{/each}}

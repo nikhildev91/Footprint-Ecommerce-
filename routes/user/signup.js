@@ -1,4 +1,5 @@
 var express = require('express');
+const async = require('hbs/lib/async');
 var router = express.Router();
 var userHelper = require('../../helpers/user-helper');
 require('dotenv').config()
@@ -21,7 +22,11 @@ router.get('/', function(req, res, next) {
     res.redirect('/')
 
   }else{
-    userHelper.takeCategory().then((category)=>{
+    userHelper.takeCategory().then(async(category)=>{
+      let cartCount = 0;
+              if(req.session.userObj){
+                cartCount = await userHelper.getCartCount(req.session.userObj._id)
+              }
     let err = req.session.SignupErr 
     req.session.SignupErr = null
     res.render('user/signup', { isUser, err, category});
