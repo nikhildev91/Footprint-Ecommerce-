@@ -72,15 +72,17 @@
                                                 <div class="search-category">
                                                     <select id="rgsearch-category">
                                                         <option value="0">All Categories</option>
-                                                        <option value="4">Shop</option>
-                                                        <option value="6">- All</option>
+                                                        {{#each category}}
+                                                        <option value="{{this.category}}">{{this.category}}</option>
+                                                        {{/each}}
+                                                        {{!-- <option value="6">- All</option>
                                                         <option value="8">- Men</option>
                                                         <option value="10">- Women</option>
                                                         <option value="12">- Shoes</option>
                                                         <option value="14">- Blouses</option>
                                                         <option value="16">- Pullovers</option>
                                                         <option value="18">- Bags</option>
-                                                        <option value="20">- Accessories</option>
+                                                        <option value="20">- Accessories</option> --}}
                                                     </select>
                                                 </div>
                                                 <div class="input-box">
@@ -106,7 +108,7 @@
                     <!--End Wishlist-->
                     <!--Minicart Dropdown-->
                     <div class="header-cart iconset">
-                        <a href="#" class="site-header__cart btn-minicart" data-toggle="modal"
+                        <a href="/add-to-cart" class="site-header__cart btn-minicart" data-toggle="modal"
                             data-target="#minicart-drawer">
                             <i class="icon anm anm-bag-l"></i>
                             <span class="site-cart-count">{{cartCount}}</span>

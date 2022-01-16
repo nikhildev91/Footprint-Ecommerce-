@@ -14,7 +14,7 @@
                         <li><a href="#" target="_blank"><i class="icon icon-twitter"></i></a></li>
                         <li><a href="#" target="_blank"><i class="icon icon-pinterest"></i></a></li>
                         <li><a href="#" target="_blank"><i class="icon icon-instagram"></i></a></li>
-                        <li><a href="#" target="_blank"><i class="icon icon-youtube"></i></a></li>
+                        <li><a href="#" target="_blank"><i class="icon icon-youtube"></i></a></li>   
                     </ul>
                 </div>
                 <div class="col-12 col-sm-12 col-md-4 col-lg-3 footer-links">
@@ -91,7 +91,7 @@
 <!--Scoll Top-->
 <span id="site-scroll"><i class="icon anm anm-arw-up"></i></span>
 <!--End Scoll Top-->
-
+{{#if userSession}}
 <!--MiniCart Drawer-->
 <div class="minicart-right-drawer modal right fade" id="minicart-drawer">
     <div class="modal-dialog">
@@ -99,61 +99,37 @@
             <div id="cart-drawer" class="block block-cart">
                 <a href="javascript:void(0);" class="close-cart" data-dismiss="modal" aria-label="Close"><i
                         class="anm anm-times-r"></i></a>
-                <h4>Your cart (2 Items)</h4>
+                <h4>Your cart ({{cartCount}} Items)</h4>
                 <div class="minicart-content">
                     <ul class="clearfix">
+                        {{#each cartProducts}}
                         <li class="item clearfix">
                             <a class="product-image" href="#">
-                                <img src="/user-assets/images/product-images/cart-page-img2.jpg" alt="" title="">
+                                <img src="/product-images/{{this.product._id}}first.jpg" alt="{{this.product.productTitle}}" title="">
                             </a>
                             <div class="product-details">
                                 <a href="#" class="remove"><i class="anm anm-times-sql" aria-hidden="true"></i></a>
                                 <a href="#" class="edit-i remove"><i class="icon icon-pencil"
                                         aria-hidden="true"></i></a>
-                                <a class="product-title" href="cart-style1.html">Backpack With Contrast Bow</a>
-                                <div class="variant-cart">Black / XL</div>
-                                <div class="wrapQtyBtn">
-                                    <div class="qtyField">
-                                        <a class="qtyBtn minus" href="javascript:void(0);"><i class="anm anm-minus-r"
-                                                aria-hidden="true"></i></a>
-                                        <input type="text" name="quantity" value="1" class="qty">
-                                        <a class="qtyBtn plus" href="javascript:void(0);"><i class="anm anm-plus-r"
-                                                aria-hidden="true"></i></a>
+                                <a class="product-title" href="cart-style1.html">{{this.product.productTitle}}</a>
+                                
+                                 <div class="wrapQtyBtn">
+                                        <div class="qtyField">
+                                            <a class="qtyBtn minus" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)"><i class="anm anm-minus-r" aria-hidden="true"></i></a>
+                                            <span class="cart__qty-input qty" id="{{this.product._id}}">{{this.quantity}}</span>
+                                            <a class="qtyBtn plus" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)"><i class="anm anm-plus-r" aria-hidden="true"></i></a>
+                                        </div>
+											
                                     </div>
-                                </div>
                                 <div class="priceRow">
                                     <div class="product-price">
-                                        <span class="money">$59.00</span>
+                                        <span class="money">Rs. {{this.product.price}}</span>
                                     </div>
                                 </div>
                             </div>
                         </li>
-                        <li class="item clearfix">
-                            <a class="product-image" href="#">
-                                <img src="/user-assets/images/product-images/cart-page-img1.jpg" alt="" title="">
-                            </a>
-                            <div class="product-details">
-                                <a href="#" class="remove"><i class="anm anm-times-sql" aria-hidden="true"></i></a>
-                                <a href="#" class="edit-i remove"><i class="icon icon-pencil"
-                                        aria-hidden="true"></i></a>
-                                <a class="product-title" href="cart-style1.html">Innerbloom Puffer</a>
-                                <div class="variant-cart">Red / S</div>
-                                <div class="wrapQtyBtn">
-                                    <div class="qtyField">
-                                        <a class="qtyBtn minus" href="javascript:void(0);"><i class="anm anm-minus-r"
-                                                aria-hidden="true"></i></a>
-                                        <input type="text" name="quantity" value="1" class="qty">
-                                        <a class="qtyBtn plus" href="javascript:void(0);"><i class="anm anm-plus-r"
-                                                aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                                <div class="priceRow">
-                                    <div class="product-price">
-                                        <span class="money">$89.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
+                        {{/each}}
+                       
                     </ul>
                 </div>
                 <div class="minicart-bottom">
@@ -170,13 +146,13 @@
                         <span class="product-price">$93.13</span>
                     </div>
                     <button type="button" class="btn proceed-to-checkout">Proceed to Checkout</button>
-                    <button type="button" class="btn btn-secondary cart-btn">View Cart</button>
+                    <a href="/add-to-cart" class="btn btn-secondary cart-btn">View Cart</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+{{/if}}
      <!-- Including Jquery -->
      <script src="/user-assets/js/vendor/jquery-min.js"></script>
      <script src="/user-assets/js/vendor/js.cookie.js"></script>
