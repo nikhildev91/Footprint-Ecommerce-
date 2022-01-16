@@ -6,7 +6,8 @@ var fs = require('fs')
 var path = require('path')
 var adminHelper = require('../../helpers/admin-helper')
 var productHelper = require('../../helpers/product-helpers')
-var bannerHelper = require('../../helpers/banner-helper')
+var bannerHelper = require('../../helpers/banner-helper');
+const async = require('hbs/lib/async');
 
 
 
@@ -126,13 +127,16 @@ router.get('/add-product', function(req, res, next) {
           })
         })
 
-  router.get('/edit-product/:id', function(req, res, next) {
+  router.get('/edit-product/:id', async function(req, res, next) {
     if(req.session.isadminLoggedin){
       
-      productHelper.findUpdatingProduct(req.params.id).then((foundProduct)=>{
-        
-        res.render('admin/edit-product',{isadmin, foundProduct});
-      })
+   let foundProduct= await productHelper.findUpdatingProduct(req.params.id)
+   let brands = await bannerHelper.getAllBrands()
+   let categories = await productHelper.takeCategory()
+   let editErr = req.session.editProducterr 
+   req.session.editProducterr =null;
+        res.render('admin/edit-product',{isadmin, foundProduct, brands, categories, editErr});
+  
     }else{
       res.redirect('/admin/login')
     }
@@ -140,9 +144,13 @@ router.get('/add-product', function(req, res, next) {
     
   });
   router.post('/edit-product/:id', function(req, res, next) {
+
     
     console.log(req.body);
      console.log(req.files.image1);
+     console.log(req.files.image2);
+     console.log(req.files.image3);
+     console.log(req.files.image4);
 
   productHelper.updateProduct(req.params.id,req.body).then((response)=>{
 
@@ -152,13 +160,29 @@ router.get('/add-product', function(req, res, next) {
 
     if(response.status){
 
-      var image1 = req.files.image1
-      image1.mv('./public/product-images/'+productID+".jpg", (err, done)=>{
+      let image1 = req.files.image1
+      let image2 = req.files.image2;
+      let image3 = req.files.image3;
+      let image4 = req.files.image4; 
+      image1.mv('./public/product-images/'+productID+'first.jpg', (err, done)=>{
         if(!err){
-          res.redirect('/admin/manage-products')
+          image2.mv('./public/product-images/'+productID+'second.jpg',(err, done)=>{
+            if(!err){
+              image3.mv('./public/product-images/'+productID+'third.jpg',(err, done)=>{
+                if(!err){
+                  image4.mv('./public/product-images/'+productID+'fourth.jpg',(err, done)=>{
+                    if(!err){
+                      res.redirect('/admin/manage-products')
+                    }
+                  })
+                }
+              })
+            }
+          })
         } 
       }) 
     }else{
+      req.session.editProducterr ="Edit Product Failed"
       res.redirect('/admin/edit-product')
     }
 
@@ -166,7 +190,18 @@ router.get('/add-product', function(req, res, next) {
   });
   
   router.get('/delete-product/:id', (req, res)=>{
+    let productID = req.params.id
     productHelper.deleteProduct(req.params.id).then((respose)=>{
+      let path1 = './public/product-images/'+productID+'first.jpg'
+      let path2 = './public/product-images/'+productID+'second.jpg'
+      let path3 = './public/product-images/'+productID+'third.jpg'
+      let path4 = './public/product-images/'+productID+'fourth.jpg'
+
+      let path = [path1, path2, path3, path4]
+      for(var i = 0; i<4; i++){
+
+        fs.unlinkSync(path[i])
+      }
       if(response){
         res.redirect('/admin/manage-products')
       }
@@ -276,6 +311,10 @@ router.get('/add-product', function(req, res, next) {
     })
 
   });
+
+
+  /// Start Sub Category 
+
 
   router.get('/manage-sub-category/:id', (req, res, next)=>{
     let CatID = req.params.id;
