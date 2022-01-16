@@ -184,7 +184,7 @@ addtoCart : (proId, userId)=>{
             let proExist = userCart.products.findIndex(product=> product.item==proId)
             console.log(proExist);
             if(proExist!=-1){
-                database.get().collection('cart').updateOne({'products.item':ObjectId(proId)},
+                database.get().collection('cart').updateOne({user:ObjectId(userId),'products.item':ObjectId(proId)},
                 {
                     $inc:{'products.$.quantity':1}
                 }).then(()=>{
@@ -234,9 +234,16 @@ getCartProducts : (userId)=>{
                     foreignField:'_id',
                     as:'product'
                 }
+            },
+            {
+                $project:{
+                    item:1,
+                    quantity:1,
+                    product:{$arrayElemAt:['$product',0]}
+                }
             }
         ]).toArray()
-        console.log(cartItems[0].product);
+        console.log(cartItems);
         resolve(cartItems)
     })
 
@@ -252,6 +259,32 @@ getCartCount : (userId)=>{
         resolve(count)
     })
 
+},
+changeProductQuantity:(details)=>{
+    details.count=parseInt(details.count)
+    details.quantity=parseInt(details.quantity)
+    console.log(typeof details.count);
+
+    return new Promise((resolve, reject)=>{
+        if(details.count==-1 && details.quantity===1){
+            database.get().collection('cart').updateOne({_id:ObjectId(details.cart)},
+            {
+                $pull:{products:{item:ObjectId(details.product)}}
+            }).then((response)=>{
+                resolve({removeProduct:true})
+            })
+        }else{
+
+            database.get().collection('cart').updateOne({_id:ObjectId(details.cart), 'products.item':ObjectId(details.product)},
+            {
+                $inc:{'products.$.quantity':details.count}
+            }).then((response)=>{
+                
+                resolve({status : true})
+            })
+        }
+
+    })
 }
 
     

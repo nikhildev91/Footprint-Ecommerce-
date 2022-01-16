@@ -3,6 +3,7 @@ var router = express.Router();
 var userHelper = require('../../helpers/user-helper')
 var bannerHelper= require('../../helpers/banner-helper');
 const async = require('hbs/lib/async');
+const { load } = require('dotenv');
 
 
 
@@ -94,6 +95,15 @@ router.get('/add-to-cart/:id',async(req, res, next)=>{
       res.redirect('/add-to-cart')
     })
   
+
+});
+router.post('/change-product-quantity',(req, res, next)=>{
+  console.log(req.body);
+  
+  userHelper.changeProductQuantity(req.body).then((response)=>{
+    res.json(response)
+
+  })
 
 })
 

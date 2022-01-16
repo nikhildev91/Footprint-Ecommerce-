@@ -31,40 +31,41 @@
                     		<tbody>
                                 {{#each products}}
                                 <tr class="cart__row border-bottom line1 cart-flex border-top">
-                                    {{#each this.product}}
+                                 
                                     <td class="cart__image-wrapper cart-flex-item">
-                                        <a href="#"><img class="cart__image" src="/product-images/{{this._id}}first.jpg" alt="{{this.productTitle}}"></a>
+                                        <a href="#"><img class="cart__image" src="/product-images/{{this.product._id}}first.jpg" alt="{{this.product.productTitle}}"></a>
                                     </td>
                                     <td class="cart__meta small--text-left cart-flex-item">
                                         <div class="list-view-item__title">
-                                            <a href="#">{{this.productTitle}}</a>
+                                            <a href="#">{{this.product.productTitle}}</a>
                                         </div>
                                         
                                         
                                     </td>
                                     <td class="cart__price-wrapper cart-flex-item text-center">
-                                        <span class="money">Rs. {{this.price}}</span>
+                                        <span class="money">Rs. {{this.product.price}}</span>
                                     </td>
-                                    {{/each}}
+                                    
                                     <td class="cart__update-wrapper cart-flex-item text-center">
                                         <div class="cart__qty text-center">
                                             <div class="qtyField">
-                                                <a class="qtyBtn minus btn" href="javascript:void(0);"><i class="icon icon-minus"></i></a>
-                                                <p class="cart__qty-input qty" >{{this.quantity}}</p>
-                                                <a class="qtyBtn plus" href="javascript:void(0);"><i class="icon icon-plus"></i></a>
+                                                <a class="qtyBtn minus" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)"><i class="icon icon-minus"></i></a>
+                                                <p class="cart__qty-input qty" id="{{this.product._id}}">{{this.quantity}}</p>
+                                                <a class="qtyBtn plus" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)"><i class="icon icon-plus"></i></a>
                                             </div>
                                         </div>
                                     </td>
-                                    {{#each this.product}}
+                                    
                                     <td class="small--hide cart-price text-center">
-                                        <div><span class="money">Rs. {{this.price}}</span></div>
+                                        <div><span class="money">Rs. {{this.product.price}}</span></div>
                                     </td>
-                                    {{/each}}
+                                
+                                 
                                     <td class="text-center small--hide"><a href="#" class="btn btn--secondary cart__remove" title="Remove tem"><i class="icon icon anm anm-times-l"></i></a></td>
                                 </tr>
                                 {{/each}}
                                
-                            </tbody>
+                            </tbody> 
                     		<tfoot>
                                 <tr>
                                     <td colspan="3" class="text-left"><a href="https://www.annimexweb.com/" class="btn btn--link btn--small cart-continue"><i class="anm anm-chevron-cir-left"></i> Continue shopping</a></td>
