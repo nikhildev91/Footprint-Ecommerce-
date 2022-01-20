@@ -8,6 +8,8 @@ var database = require('../dataConfig/databaseConnection');
         addproduct : (products)=>{
 
             return new Promise ((resolve, reject)=>{
+                products.price = parseFloat(products.price);
+                products.quantity = parseInt(products.quantity);
                 database.get().collection("products").insertOne(products).then((result)=>{
                     console.log(result.insertedId);
                     return resolve({status : true, Id : result.insertedId})
@@ -42,10 +44,10 @@ var database = require('../dataConfig/databaseConnection');
       productDescription:productUpdateDetails.productDescription,
       brand:productUpdateDetails.brand,
       category:productUpdateDetails.category,
-      subCategory:productUpdateDetails.subCategory,
+      subcategory:productUpdateDetails.subcategory,
       colour:productUpdateDetails.colour,
       material: productUpdateDetails.material,
-      'size[]':productUpdateDetails['size[]'],
+      size:productUpdateDetails.size,
       quantity: productUpdateDetails.quantity,
       price: productUpdateDetails.price
                 }}).then((result)=>{
@@ -124,8 +126,9 @@ var database = require('../dataConfig/databaseConnection');
         console.log(subCategory);
         console.log(categoryID);
         return new Promise((resolve, reject)=>{
-            database.get().collection("subCategory").findOne({$and:[{subcategory:subCategory},{_id:ObjectId(categoryID)}]}).then((result)=>{
-                if(result){
+            database.get().collection("subCategory").find({$and:[{subcategory:subCategory},{categoryID:ObjectId(categoryID)}]}).toArray().then((result)=>{
+                console.log(result);
+                if(result.length > 0){
                     return resolve(true)
                 }else{
                     return resolve(false)

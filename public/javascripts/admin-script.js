@@ -43,7 +43,6 @@ $("#add-Product").validate({
     productTitle:
       {
           required: true,
-              maxlength: 30,
               normalizer: function(value) {
                   return $.trim(value);
               }
@@ -51,11 +50,18 @@ $("#add-Product").validate({
      
       productDescription :{
           required: true,
-              maxlength: 100,
+          maxlength: 100,
               normalizer: function(value) {
                   return $.trim(value);
               }
           
+      },
+      productDetails:{
+        required: true,
+              normalizer: function(value) {
+                  return $.trim(value);
+              }
+
       },
       brand: {
           required: true,
@@ -130,6 +136,97 @@ $("#add-Product").validate({
 },
   }
 });
+
+
+// Edit Product 
+
+$("#edit-Product").validate({
+  rules: {
+    productTitle:
+      {
+          required: true,
+              normalizer: function(value) {
+                  return $.trim(value);
+              }
+      },
+     
+      productDescription :{
+          required: true,
+          maxlength: 100,
+              normalizer: function(value) {
+                  return $.trim(value);
+              }
+          
+      },
+      productDetails:{
+        required: true,
+              normalizer: function(value) {
+                  return $.trim(value);
+              }
+
+      },
+      brand: {
+          required: true,
+          normalizer: function(value) {
+              return $.trim(value);
+          }
+          
+      },
+      category:{
+          required: true,
+          
+      },
+      subCategory:{
+          required: true,
+          
+      },
+      color: {
+          required: true,
+          lettersonly: true,
+              normalizer: function(value) {
+                  return $.trim(value);
+              }
+          
+      },
+      material : {
+          required : true,
+          lettersonly : true,
+          normalizer: function(value) {
+              return $.trim(value);
+          }
+         
+      },
+      "size[]" :{
+          required : true,
+          normalizer: function(value) {
+              return $.trim(value);
+          }
+          
+      },
+      quantity:{
+          required : true,
+          digits: true,
+          
+          normalizer: function(value) {
+              return $.trim(value);
+          }
+         
+      },
+      price:{
+          required : true,
+          digits:true,
+          normalizer: function(value) {
+              return $.trim(value);
+          }
+          
+      }
+  }
+});
+
+
+
+
+
 
 // Add Home page banner validation
 $("#add-Banner").validate({

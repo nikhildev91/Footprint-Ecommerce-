@@ -17,3 +17,7 @@ img {
  .error{
    color: red;
  }
+ .height-auto{
+  height: auto;
+  width: auto;
+}

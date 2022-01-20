@@ -117,7 +117,7 @@ input, button, select, textarea { font-size:13px; font-family: 'Poppins', sans-s
 input:focus, input:active, button:focus, button:active, select:focus, select:active, textarea:focus, textarea:active { outline:none; border-color:#5b77d8; }
 input, select, textarea { width: 100%; font-size: 14px; box-shadow:none; -webkit-box-shadow:none; border-radius:0; -webkit-border-radius:0; }
 input, select { height:40px; padding:0 10px; }
-input[type="checkbox"], input[type="radio"] { width:auto; height:auto; }
+input[type="checkbox"] { width:auto; height:auto; }
 input[type="checkbox"]:focus, input[type="radio"]:focus { outline:0; box-shadow:none; }
 
 .text-left { text-align:left !important; }

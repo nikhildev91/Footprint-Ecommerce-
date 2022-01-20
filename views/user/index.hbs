@@ -21,8 +21,8 @@
                
                 <div class="slide">
                 	<div class="blur-up lazyload">
-                        <img class="blur-up lazyload desktop-hide" data-src="/banner-images/{{banners._id}}first.jpg" src="/banner-images/{{banners._id}}first.jpg" alt=" Start Selling Online Successfully" title=" Start Selling Online Successfully" />
-                        <img class="blur-up lazyload mobile-hide" data-src="/banner-images/{{banners._id}}first.jpg" src="/banner-images/{{banners._id}}first.jpg" alt=" Start Selling Online Successfully" title=" Start Selling Online Successfully" />
+                        <img class="blur-up lazyload desktop-hide" data-src="/banner-images/{{banners._id}}second.jpg" src="/banner-images/{{banners._id}}second.jpg" alt=" Start Selling Online Successfully" title=" Start Selling Online Successfully" />
+                        <img class="blur-up lazyload mobile-hide" data-src="/banner-images/{{banners._id}}second.jpg" src="/banner-images/{{banners._id}}second.jpg" alt=" Start Selling Online Successfully" title=" Start Selling Online Successfully" />
                         <div class="slideshow__text-wrap slideshow__overlay left">
                             <div class="slideshow__text-content bottom">
                                 <div class="wrap-caption anim-tru left style1">
@@ -36,8 +36,8 @@
                 </div>
                    <div class="slide">
                 	<div class="blur-up lazyload">
-                        <img class="blur-up lazyload desktop-hide" data-src="/banner-images/{{banners._id}}first.jpg" src="/banner-images/{{banners._id}}first.jpg" alt=" Start Selling Online Successfully" title=" Start Selling Online Successfully" />
-                        <img class="blur-up lazyload mobile-hide" data-src="/banner-images/{{banners._id}}first.jpg" src="/banner-images/{{banners._id}}first.jpg" alt=" Start Selling Online Successfully" title=" Start Selling Online Successfully" />
+                        <img class="blur-up lazyload desktop-hide" data-src="/banner-images/{{banners._id}}third.jpg" src="/banner-images/{{banners._id}}third.jpg" alt=" Start Selling Online Successfully" title=" Start Selling Online Successfully" />
+                        <img class="blur-up lazyload mobile-hide" data-src="/banner-images/{{banners._id}}third.jpg" src="/banner-images/{{banners._id}}third.jpg" alt=" Start Selling Online Successfully" title=" Start Selling Online Successfully" />
                         <div class="slideshow__text-wrap slideshow__overlay left">
                             <div class="slideshow__text-content bottom">
                                 <div class="wrap-caption anim-tru left style1">
@@ -136,9 +136,10 @@
                 </div>
                 <div class="tabs-listing">
                     <ul class="tabs clearfix">
-                        <li class="active" rel="tab1">Women</li>
-                        <li rel="tab2">Men</li>
-                        <li rel="tab3" class="tab_last">Kids</li>
+                        <li class="active" rel="tab1">All</li>
+                        <li rel="tab2">Women</li>
+                        <li rel="tab3">Men</li>
+                        <li rel="tab4" class="tab_last">Kids</li>
                     </ul>
 
 
@@ -1628,12 +1629,13 @@ kids --}}
                             	<ul>
                                 	<li>
                                     	<!--Cart Button-->
-                                        <form class="add" action="https://www.annimexweb.com/items/avone/cart-variant1.html" method="post">
-                                            <button class="btn-icon btn btn-addto-cart" type="button" tabindex="0">
-                                            	<i class="icon anm anm-cart-l"></i>
-                                                <span class="tooltip-label">Add to Cart</span>
-                                            </button>
-                                        </form>
+                                        <div class="btn-addto-cart">
+                                                    <a class="btn-icon btn btn-addto-cart"
+                                                        href="/add-to-cart/{{this._id}}">
+                                                        <i class="icon anm anm-cart-l"></i>
+                                                        <span class="tooltip-label">Add to Cart</span>
+                                                    </a>
+                                                </div>
                                         <!--end Cart Button-->
                                     </li>
                                     <li>
@@ -1686,8 +1688,8 @@ kids --}}
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                         <div class="logo-bar">
                             {{#each brands}}
-                            <div class="logo-bar__item">
-                                <a href="#;"><img src="/brand-images/{{this._id}}logo.jpg" alt="" title="" /></a>
+                            <div class="logo-bar__item" style="margin-left: 20px;">
+                                <a href="#;" ><img src="/brand-images/{{this._id}}logo.jpg" alt="" title="" /></a>
                             </div>
                             {{/each}}
                           

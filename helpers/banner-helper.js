@@ -31,6 +31,7 @@ var database = require('../dataConfig/databaseConnection');
 
         },
 
+
         addHomePageMainBanner : (BannerTitles)=>{
             return new Promise((resolve, reject)=>{
                 BannerTitles.place= "homemainbanner"
@@ -53,6 +54,31 @@ var database = require('../dataConfig/databaseConnection');
 
                 }
                
+            })
+
+        },
+        checkCategoryBanner:(place)=>{
+            return new Promise((resolve, reject)=>{
+                database.get().collection('banner').findOne({place:place}).then((result)=>{
+                    if(result){
+                        return resolve(true)
+                    }else{
+                        return resolve(false)
+                    }
+
+                })
+            })
+        },
+        deleteCategoryBanner : (place)=>{
+            return new Promise((resolve, reject)=>{
+                database.get().collection('banner').deleteOne({place:place}).then((result)=>{
+                    if(result){
+                        return resolve(true)
+                    }else{
+                        return resolve(false)
+                    }
+
+                })
             })
 
         },

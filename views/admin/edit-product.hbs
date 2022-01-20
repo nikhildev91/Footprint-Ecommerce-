@@ -9,7 +9,7 @@
 
   <div class="card p-5">
 
-      <form class="form-validation" style="display: flex;flex-direction: column;align-items: center;" id="add-Product"
+      <form class="form-validation" style="display: flex;flex-direction: column;align-items: center;" id="edit-Product"
           action="/admin/edit-product/{{foundProduct._id}}" enctype="multipart/form-data" method="post">
           <div class="form-group row" style="min-width: 600px;">
               <label for="inputEmail3" class="col-md-4 form-control-label">Product Title<span
@@ -25,6 +25,15 @@
               <div class="col-md-7">
                   <textarea class="form-control" rows="5" id="example-textarea" name="productDescription"
                       placeholder="Product Description">{{foundProduct.productDescription}}</textarea>
+
+              </div>
+          </div>
+           <div class="form-group row" style="min-width: 600px;">
+              <label for="hori-pass1" class="col-md-4 form-control-label">Product Details<span
+                      class="text-danger">*</span></label>
+              <div class="col-md-7">
+                  <textarea class="form-control" rows="5" id="example-textarea" name="productDetails"
+                      placeholder="Enter Product Full Details">{{foundProduct.productDetails}}</textarea>
 
               </div>
           </div>

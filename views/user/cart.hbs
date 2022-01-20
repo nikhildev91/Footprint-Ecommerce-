@@ -31,7 +31,7 @@
                     		<tbody>
                                 {{#if cartProducts}}
                                 {{#each cartProducts}}
-                                <tr class="cart__row border-bottom line1 cart-flex border-top">
+                                <tr id="{{ this._id }}{{ this.product._id }}" class="cart__row border-bottom line1 cart-flex border-top">
                                  
                                     <td class="cart__image-wrapper cart-flex-item">
                                         <a href="#"><img class="cart__image" src="/product-images/{{this.product._id}}first.jpg" alt="{{this.product.productTitle}}"></a>
@@ -50,19 +50,19 @@
                                     <td class="cart__update-wrapper cart-flex-item text-center">
                                         <div class="cart__qty text-center">
                                             <div class="qtyField">
-                                                <a class="qtyBtn minus" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)"><i class="icon icon-minus"></i></a>
+                                                <a class="qtyBtn minus btn_chng_qty" data-type="-1" data-id="{{this._id}}" data-productid="{{this.product._id}}" data-userid="{{this.user}}"><i class="icon icon-minus"></i></a>
                                                 <p class="cart__qty-input qty" id="{{this.product._id}}">{{this.quantity}}</p>
-                                                <a class="qtyBtn plus" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)"><i class="icon icon-plus"></i></a>
+                                                <a class="qtyBtn plus btn_chng_qty" data-type="1" data-id="{{this._id}}" data-productid="{{this.product._id}}" data-userid="{{this.user}}"><i class="icon icon-plus"></i></a>
                                             </div>
                                         </div>
                                     </td>
                                     
                                     <td class="small--hide cart-price text-center">
-                                        <div><span class="money">Rs. {{this.product.price}}</span></div>
+                                        <div><span class="money product_total{{ this.product._id }}">Rs. {{this.product.price}}</span></div>
                                     </td>
                                 
                                  
-                                    <td class="text-center small--hide"><a href="#" class="btn btn--secondary cart__remove" title="Remove tem"><i class="icon icon anm anm-times-l"></i></a></td>
+                                    <td class="text-center small--hide"><a class="btn btn--secondary cart__remove" title="Remove tem" data-productid="{{this.product._id}}" data-cartid="{{this._id}}"><span class="text-light">X</span></a></td>
                                 </tr>
                                 {{/each}}
                                     {{/if}}
@@ -94,12 +94,18 @@
                             </form>
                         </div>
                        
+                       
+
+                            {{#each cartProducts}}
                         
                         <div class="col-12 col-sm-12 col-md-4 col-lg-4 cart__footer">
-                            <div class="solid-border">	
+                             <form action="/place-order/{{this._id}}" method="post">
+                                <div class="solid-border">	
                               <div class="row border-bottom pb-2">
                                 <span class="col-12 col-sm-6 cart__subtotal-title">Subtotal</span>
-                                <span class="col-12 col-sm-6 text-right"><span class="money">$735.00</span></span>
+                               
+                                <span class="col-12 col-sm-6 text-right"><span class="money">Rs. <span  class="cart_sub_total" id="total">{{../total.subtotal.total}}</span></span></span>
+                                    <input type="text" name="subTotal" class="cart_sub_total" value="{{../total.subtotal.total}}">
                               </div>
                               <div class="row border-bottom pb-2 pt-2">
                                 <span class="col-12 col-sm-6 cart__subtotal-title">Tax</span>
@@ -111,21 +117,19 @@
                               </div>
                               <div class="row border-bottom pb-2 pt-2">
                                 <span class="col-12 col-sm-6 cart__subtotal-title"><strong>Grand Total</strong></span>
-                                <span class="col-12 col-sm-6 cart__subtotal-title cart__subtotal text-right"><span class="money">$1001.00</span></span>
+                                <span class="col-12 col-sm-6 cart__subtotal-title cart__subtotal text-right"><span class="money cart_sub_total">{{../total.subtotal.total}}</span></span>
                               </div>
+                              <input type="text" name="grandTotal" class="cart_sub_total" value="{{../total.subtotal.total}}">
                               <div class="cart__shipping">Shipping &amp; taxes calculated at checkout</div>
-                              <p class="cart_tearm">
-                                <label>
-                                  <input type="checkbox" name="tearm" class="checkbox" value="tearm" required>
-                                  I agree with the terms and conditions
-								</label>
-                              </p>
+                              
                               <input type="submit" name="checkout" id="cartCheckout" class="btn btn--small-wide checkout" value="Proceed To Checkout">
                               <div class="paymnet-img"><img src="/user-assets/images/payment-img.jpg" alt="Payment"></div>
                               <p><a href="#;">Checkout with Multiple Addresses</a></p>
                             </div>
-        
+
+                        </form>
                         </div>
+                        {{/each}}
                     </div>
                 </div>
 				<!--End Main Content-->
@@ -156,16 +160,15 @@
                             </a>
                             <div class="product-details">
                                 <a href="#" class="remove"><i class="anm anm-times-sql" aria-hidden="true"></i></a>
-                                <a href="#" class="edit-i remove"><i class="icon icon-pencil"
-                                        aria-hidden="true"></i></a>
+                                
                                 <a class="product-title" href="cart-style1.html">{{this.product.productTitle}}</a>
                                 
                                 <div class="wrapQtyBtn">
                                     <div class="qtyField">
-                                        <a class="qtyBtn minus" href="javascript:void(0);"><i class="anm anm-minus-r"
+                                        <a class="qtyBtn minus btn_chng_qty" data-type="-1" data-id="{{this._id}}" data-productid="{{this.product._id}}"><i class="anm anm-minus-r"
                                                 aria-hidden="true"></i></a>
-                                        <input type="text" name="quantity" value="1" class="qty">
-                                        <a class="qtyBtn plus" href="javascript:void(0);"><i class="anm anm-plus-r"
+                                        <span class="cart__qty-input qty qty_{{this.product._id}}" id="{{this.product._id}}">{{this.quantity}}</span>
+                                        <a class="qtyBtn plus btn_chng_qty" data-type="1" data-id="{{this._id}}" data-productid="{{this.product._id}}"><i class="anm anm-plus-r"
                                                 aria-hidden="true"></i></a>
                                     </div>
                                 </div>

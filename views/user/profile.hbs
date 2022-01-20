@@ -1,0 +1,460 @@
+<div id="page-content">
+    <!--Body Container-->
+    <!--Breadcrumbs-->
+    <div class="breadcrumbs-wrapper">
+        <div class="container">
+            <div class="breadcrumbs"><a href="index.html" title="Back to the home page">Home</a> <span
+                    aria-hidden="true">|</span> <span>My Account</span></div>
+        </div>
+    </div>
+    <!--End Breadcrumbs-->
+    <div class="container">
+        <div class="page-title">
+            <h1>My Account</h1>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-xl-2 col-lg-2 col-md-12 md-margin-20px-bottom">
+                <!-- Nav tabs -->
+                <ul class="nav flex-column dashboard-list" role="tablist">
+                    <li><a class="nav-link active" data-toggle="tab" href="#dashboard">Dashboard</a></li>
+                    <li><a class="nav-link" data-toggle="tab" href="#orders">My Orders</a></li>
+
+                    <li><a class="nav-link" data-toggle="tab" href="#address">Addresses</a></li>
+                    <li><a class="nav-link" data-toggle="tab" href="#account-details">Add New Address</a></li>
+                    <li><a class="nav-link" data-toggle="tab" href="#change-password">Change Password</a></li>
+                    <li><a class="nav-link" href="login.html">logout</a></li>
+                </ul>
+                <!-- End Nav tabs -->
+            </div>
+
+            <div class="col-xs-10 col-lg-10 col-md-12">
+                <!-- Tab panes -->
+                <div class="tab-content dashboard-content padding-30px-all md-padding-15px-all" style="">
+                    <!-- Dashboard -->
+                    <div id="dashboard" class="tab-pane fade active show">
+                        <p style="float: right;">edit profile</p>
+                        <h3>Dashboard </h3>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                                    alt="">
+                            </div>
+                            <div class="col-lg-9">
+                                <div class="card p-2 mt-5">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <p style="font-weight: bold; font-size: 16px;">Username :</p>
+                                        </div>
+                                        <div class="col-9">
+                                            <p style="font-size: 16px;">{{user.username}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    <p style="font-weight: bold; font-size: 16px;">First Name :</p>
+                                                </div>
+                                                <div class="col-7">
+                                                    <p style="font-size: 16px;">{{user.firstname}}</p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    <p style="font-weight: bold; font-size: 16px;">Last Name :</p>
+                                                </div>
+                                                <div class="col-7">
+                                                    <p style="font-size: 16px;">{{user.lastname}}</p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    <p style="font-weight: bold; font-size: 16px;">Phone No :</p>
+                                                </div>
+                                                <div class="col-7">
+                                                    <p style="font-size: 16px;">{{user.phone}}</p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    <p style="font-weight: bold; font-size: 16px;">Email :</p>
+                                                </div>
+                                                <div class="col-7">
+                                                    <p style="font-size: 16px;">{{user.email}}</p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Dashboard -->
+
+                    <!-- Orders -->
+                    <div id="orders" class="product-order tab-pane fade">
+                        <h3>Orders</h3>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="alt-font">
+                                    <tr>
+                                        <th>Order</th>
+                                        <th>Product</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Total</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Minerva Dress black</td>
+                                        <td>March 04, 2018</td>
+                                        <td>Processing</td>
+                                        <td>$165.00 for 1 item </td>
+                                        <td><a class="view" href="cart-style1.html">view</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Sueded Cotton Pant in Khaki</td>
+                                        <td>May 19, 2018</td>
+                                        <td>Processing</td>
+                                        <td>$150.00 for 1 item </td>
+                                        <td><a class="view" href="cart-style1.html">view</a><a class="view ms-3" href="cart-style1.html"> Cancel</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- End Orders -->
+
+
+
+                    <!-- Address -->
+                   <div id="address" class="address tab-pane">
+                        <h4 class="billing-address">Billing address</h4>
+                    
+                        {{#each userAddress.address}}
+                     
+                        <div class="card p-4">
+
+                            <div class="row">
+                               <h6>{{this.addressType}}</h6>
+                                <div class="col-11">
+                                    <a class="view margin-5px-bottom" style="float: right;" href="/edit-address/{{this._id}}/{{../user._id}}">edit</a>
+                                </div>
+                                <div class="col-1">
+                                    <a class="view margin-5px-bottom" style="float: right; margin-right:35px;" href="/delete-address/{{this._id}}/{{../user._id}}">delete</a>
+                                </div>
+                            </div>
+                           <span style="font-weight: bold;">{{this.firstname}} {{this.lastname}} <span style="margin-left: 15px;"> {{this.phone}}</span></span>
+                            
+                            <p>{{this.address}}, <br>{{this.landmark}},  {{this.district}},  {{this.state}},  <br>-{{this.pincode}}</p>
+                            <P>Alternative Mobile Number : {{this.alternativePhone}}</P>
+                        </div>
+                        {{/each}}
+     
+                        </div>
+                    <!-- End Address -->
+
+                    <!-- Account Details -->
+                    <div id="account-details" class="tab-pane fade">
+                        <h3>Add New Address </h3>
+                        <div class="account-login-form bg-light-gray padding-20px-all">
+                            <form action="/add-address/{{user._id}}" method="post">
+                                <fieldset>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-firstname">First Name <span
+                                                    class="required-f">*</span></label>
+                                            <input name="firstname" value="" id="input-firstname" class="form-control"
+                                                type="text" placeholder="Enter First Name">
+                                        </div>
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-lastname">Last Name <span
+                                                    class="required-f">*</span></label>
+                                            <input name="lastname" value="" id="input-lastname" class="form-control"
+                                                type="text" placeholder="Last Name">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-firstname">Mobile <span
+                                                    class="required-f">*</span></label>
+                                            <input name="phone" value="" id="input-firstname" class="form-control"
+                                                type="text" placeholder="Enter Mobile Number">
+                                        </div>
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-lastname">Pincode <span
+                                                    class="required-f">*</span></label>
+                                            <input name="pincode" value="" id="input-lastname" class="form-control"
+                                                type="text" placeholder="Enter Pincode">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-firstname">Address <span
+                                                    class="required-f">*</span></label>
+                                            <input name="address" value="" id="input-firstname" class="form-control"
+                                                type="text" placeholder="Enter Address">
+                                        </div>
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-lastname">District<span
+                                                    class="required-f">*</span></label>
+                                            <input name="district" value="" id="input-lastname" class="form-control"
+                                                type="text" placeholder="Enter District">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-firstname">State <span class="required-f">*</span></label>
+                                            <select name="state" id="state" class="form-control">
+<option value="Andhra Pradesh">Andhra Pradesh</option>
+<option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+<option value="Arunachal Pradesh">Arunachal Pradesh</option>
+<option value="Assam">Assam</option>
+<option value="Bihar">Bihar</option>
+<option value="Chandigarh">Chandigarh</option>
+<option value="Chhattisgarh">Chhattisgarh</option>
+<option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+<option value="Daman and Diu">Daman and Diu</option>
+<option value="Delhi">Delhi</option>
+<option value="Lakshadweep">Lakshadweep</option>
+<option value="Puducherry">Puducherry</option>
+<option value="Goa">Goa</option>
+<option value="Gujarat">Gujarat</option>
+<option value="Haryana">Haryana</option>
+<option value="Himachal Pradesh">Himachal Pradesh</option>
+<option value="Jammu and Kashmir">Jammu and Kashmir</option>
+<option value="Jharkhand">Jharkhand</option>
+<option value="Karnataka">Karnataka</option>
+<option value="Kerala">Kerala</option>
+<option value="Madhya Pradesh">Madhya Pradesh</option>
+<option value="Maharashtra">Maharashtra</option>
+<option value="Manipur">Manipur</option>
+<option value="Meghalaya">Meghalaya</option>
+<option value="Mizoram">Mizoram</option>
+<option value="Nagaland">Nagaland</option>
+<option value="Odisha">Odisha</option>
+<option value="Punjab">Punjab</option>
+<option value="Rajasthan">Rajasthan</option>
+<option value="Sikkim">Sikkim</option>
+<option value="Tamil Nadu">Tamil Nadu</option>
+<option value="Telangana">Telangana</option>
+<option value="Tripura">Tripura</option>
+<option value="Uttar Pradesh">Uttar Pradesh</option>
+<option value="Uttarakhand">Uttarakhand</option>
+<option value="West Bengal">West Bengal</option>
+</select>
+                                            
+                                        </div>
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-lastname">Landmark<span
+                                                    class="required-f">*</span></label>
+                                            <input name="landmark" value="" id="input-landmark" class="form-control"
+                                                type="text" placeholder="Enter Landmark (optional)">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-password">Alternative Mobile <span
+                                                    class="required-f">*</span></label>
+                                            <input name="alternativePhone" value="" id="input-password" class="form-control"
+                                                type="number"
+                                                placeholder="Enter Alternative Mobile Number (Optional)">
+                                        </div>
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-lastname">Address Type<span
+                                                    class="required-f">*</span></label>
+
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="addressType"
+                                                    id="flexRadioDefault1" value="Home">
+                                                <label class="form-check-label" for="flexRadioDefault1">
+                                                    Home
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="addressType"
+                                                    id="flexRadioDefault2" value="Work">
+                                                <label class="form-check-label" for="flexRadioDefault2">
+                                                    Work
+                                                </label>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </fieldset>
+
+                                <button type="submit" class="btn margin-15px-top btn-primary">Save</button>
+                            </form>
+
+                        </div>
+
+                    </div>
+                    <!-- End Account Details -->
+
+                    {{!-- change password --}}
+                    <div id="change-password" class="tab-pane fade">
+                        <h3>Change Password</h3>
+                        <div class="account-login-form bg-light-gray padding-20px-all">
+                            <form>
+                                <fieldset>
+
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-firstname">Current Password <span
+                                                    class="required-f">*</span></label>
+                                            <input name="firstname" value="" id="input-firstname" class="form-control"
+                                                type="text" placeholder="Enter Current Password">
+                                        </div>
+                                        <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
+                                            <label for="input-lastname">New Password <span
+                                                    class="required-f">*</span></label>
+                                            <input name="lastname" value="" id="input-lastname" class="form-control"
+                                                type="text" placeholder="Enter New Password">
+                                        </div>
+                                    </div>
+                                    
+
+                                </fieldset>
+
+                                <button type="submit" class="btn margin-15px-top btn-primary">Save</button>
+                            </form>
+
+                        </div>
+
+                    </div>
+                    {{!-- End Change Password --}}
+                </div>
+                <!-- End Tab panes -->
+            </div>
+        </div>
+    </div>
+    <!--End Body Container-->
+</div>
+<!--End Page Wrapper-->
+
+<!--Scoll Top-->
+<span id="site-scroll"><i class="icon anm anm-arw-up"></i></span>
+<!--End Scoll Top-->
+
+<!--MiniCart Drawer-->
+<div class="minicart-right-drawer modal right fade" id="minicart-drawer">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="cart-drawer" class="block block-cart">
+                <a href="javascript:void(0);" class="close-cart" data-dismiss="modal" aria-label="Close"><i
+                        class="anm anm-times-r"></i></a>
+                <h4>Your cart (2 Items)</h4>
+                <div class="minicart-content">
+                    <ul class="clearfix">
+                        <li class="item clearfix">
+                            <a class="product-image" href="#">
+                                <img src="/user-assets/images/product-images/cart-page-img2.jpg" alt="" title="">
+                            </a>
+                            <div class="product-details">
+                                <a href="#" class="remove"><i class="anm anm-times-sql" aria-hidden="true"></i></a>
+                                <a href="#" class="edit-i remove"><i class="icon icon-pencil"
+                                        aria-hidden="true"></i></a>
+                                <a class="product-title" href="cart-style1.html">Backpack With Contrast Bow</a>
+                                <div class="variant-cart">Black / XL</div>
+                                <div class="wrapQtyBtn">
+                                    <div class="qtyField">
+                                        <a class="qtyBtn minus" href="javascript:void(0);"><i class="anm anm-minus-r"
+                                                aria-hidden="true"></i></a>
+                                        <input type="text" name="quantity" value="1" class="qty">
+                                        <a class="qtyBtn plus" href="javascript:void(0);"><i class="anm anm-plus-r"
+                                                aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                                <div class="priceRow">
+                                    <div class="product-price">
+                                        <span class="money">$59.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item clearfix">
+                            <a class="product-image" href="#">
+                                <img src="/user-assets/images/product-images/cart-page-img1.jpg" alt="" title="">
+                            </a>
+                            <div class="product-details">
+                                <a href="#" class="remove"><i class="anm anm-times-sql" aria-hidden="true"></i></a>
+                                <a href="#" class="edit-i remove"><i class="icon icon-pencil"
+                                        aria-hidden="true"></i></a>
+                                <a class="product-title" href="cart-style1.html">Innerbloom Puffer</a>
+                                <div class="variant-cart">Red / S</div>
+                                <div class="wrapQtyBtn">
+                                    <div class="qtyField">
+                                        <a class="qtyBtn minus" href="javascript:void(0);"><i class="anm anm-minus-r"
+                                                aria-hidden="true"></i></a>
+                                        <input type="text" name="quantity" value="1" class="qty">
+                                        <a class="qtyBtn plus" href="javascript:void(0);"><i class="anm anm-plus-r"
+                                                aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                                <div class="priceRow">
+                                    <div class="product-price">
+                                        <span class="money">$89.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="minicart-bottom">
+                    <div class="subtotal list">
+                        <span>Shipping:</span>
+                        <span class="product-price">$10.00</span>
+                    </div>
+                    <div class="subtotal list">
+                        <span>Tax:</span>
+                        <span class="product-price">$05.00</span>
+                    </div>
+                    <div class="subtotal">
+                        <span>Total:</span>
+                        <span class="product-price">$93.13</span>
+                    </div>
+                    <button type="button" class="btn proceed-to-checkout">Proceed to Checkout</button>
+                    <button type="button" class="btn btn-secondary cart-btn">View Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End MiniCart Drawer-->
+
+<!-- Including Jquery -->
+<script src="/user-assets/js/vendor/jquery-min.js"></script>
+<script src="/user-assets/js/vendor/js.cookie.js"></script>
+<!-- Including Javascript -->
+<script src="/user-assets/js/plugins.js"></script>
+<script src="/user-assets/js/main.js"></script>
+
+</div>
+</body>
+
+<!-- Mirrored from www.annimexweb.com/items/avone/my-account.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 06 Jan 2022 13:25:28 GMT -->
+
+</html>
