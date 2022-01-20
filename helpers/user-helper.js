@@ -223,28 +223,29 @@ getCartProducts : (userId)=>{
                 $unwind:'$products'
             },
             {
-                $project:{
-                    item:'$products.item',
-                    quantity:'$products.quantity'
-                }
-            },
-            {
                 $lookup:{
                     from:'products',
-                    localField:'item',
+                    localField:'products.item',
                     foreignField:'_id',
-                    as:'product'
+                    as:'cartProducts'
                 }
             },
             {
+                $unwind : '$cartProducts'
+            },
+            {
                 $project:{
-                    item:1,
-                    quantity:1,
-                    product:{$arrayElemAt:['$product',0]}
+                    quantity:'$products.quantity',
+                    total : {
+                        $multiply : [
+                            '$cartProducts.price', '$products.quantity'
+                        ]
+                    },
+                    product : '$cartProducts'
                 }
             }
         ]).toArray()
-        console.log(cartItems);
+        console.log('cartItems', cartItems)
         resolve(cartItems)
     })
 
@@ -278,7 +279,8 @@ changeProductQuantity:(details)=>{
 
             database.get().collection('cart').updateOne({_id:ObjectId(details.cart), 'products.item':ObjectId(details.product)},
             {
-                $inc:{'products.$.quantity':details.count}
+                $inc:{'products.$.quantity':details.count},
+                $set : { 'products.$.productTotal' : parseFloat(details.productTotal) }
             }).then((response)=>{
                 
                 resolve({status : true})
@@ -517,11 +519,62 @@ getCartOrderProducts : (cartId)=>{
 getUserAddressForPlaceOrder : (userId)=>{
     return new Promise(async(resolve, reject)=>{
         let userAddress = await database.get().collection('address').findOne({userId:ObjectId(userId)})
-       console.log(userAddress);
+     
         resolve(userAddress)
     })
-}
+},
 
+getSelectedAddress : (userId, addressId)=>{
+    return new Promise(async(resolve, reject)=>{
+        let address = await database.get().collection('address').aggregate([
+            {$match:{userId:ObjectId(userId)}},
+            {$unwind:"$address"},
+            {$match:{'address._id':ObjectId(addressId)}}
+        ]).toArray()
+        
+        resolve(address[0])
+    })
+},
+
+getProductsForPlaceOrder : (cartId)=>{
+    return new Promise(async(resolve, reject)=>{
+        let cartItems = await database.get().collection("cart").aggregate([
+            {
+                $match:{_id:ObjectId(cartId)},
+                
+            },
+            {
+                $unwind:'$products'
+            },
+            {
+                $project:{
+                    item:'$products.item',
+                    quantity:'$products.quantity',
+                    productTotal : '$products.productTotal'
+                }
+            },
+            {
+                $lookup:{
+                    from:'products',
+                    localField:'item',
+                    foreignField:'_id',
+                    as:'product'
+                }
+            },
+            {
+                $project:{
+                    item:1,
+                    quantity:1,
+                    productTotal : 1,
+                    product:{$arrayElemAt:['$product',0]}
+                }
+            }
+        ]).toArray()
+       
+        resolve(cartItems)
+       
+    })
+}
 
     
 }

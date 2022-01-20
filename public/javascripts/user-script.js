@@ -238,11 +238,12 @@ $('.btn_chng_qty').click(function (e) {
     var proId = $(this).data('productid')
     var count = parseInt($(this).data('type'))
     var userId = parseInt($(this).data('userid'))
-    changeQuantity(cartId, proId, count, userId);
+    var productTotal = parseFloat($('.each_product' + proId).val()) * (parseInt($('.qty'+ proId).html()) + count )
+    changeQuantity(cartId, proId, count, userId, productTotal);
     e.preventDefault();
 })
 
-function changeQuantity(cartId, proId, count, userId) {
+function changeQuantity(cartId, proId, count, userId, productTotal) {
     let quantity = parseInt(document.getElementById(proId).innerHTML)
     count = parseInt(count)
     if (quantity == 1 && count == -1) {
@@ -262,7 +263,8 @@ function changeQuantity(cartId, proId, count, userId) {
                         cart: cartId,
                         product: proId,
                         count: count,
-                        quantity: quantity
+                        quantity: quantity,
+                        productTotal : productTotal
                     },
                     method: 'post',
                     success: (response) => {
@@ -284,7 +286,8 @@ function changeQuantity(cartId, proId, count, userId) {
                 product: proId,
                 count: count,
                 quantity: quantity,
-                userId : userId
+                userId : userId,
+                productTotal : productTotal
             },
             method: 'post',
             success: (response) => {
@@ -296,6 +299,7 @@ function changeQuantity(cartId, proId, count, userId) {
                     $('.cart_sub_total').val(response.subtotal.total)
                     response.productsTotal.forEach((ele) => {
                         $('.product_total' + ele['item']).html(ele['total']);
+                        $('.product_total_val' + ele['item']).val(ele['total']);
                     })
                 }
 
@@ -339,5 +343,37 @@ function removeCartProduct(cartId, proId){
             }
         }
 
+    })
+}
+
+
+
+function getComfirmAddress(addressId, userId){
+    $.ajax({
+        url:'/get-confirm-address',
+        data :{
+            addressId : addressId,
+            userId : userId
+        },
+        method: 'post',
+        success : (response)=>{
+// alert(response)
+// alert(response.address.state)
+$('#firstname').val(response.address.firstname);
+$('#lastname').val(response.address.lastname);
+$('#phone').val(response.address.phone);
+$('#pincode').val(response.address.pincode);
+$('#address').val(response.address.address);
+$('#district').val(response.address.district);
+$('#state').val(response.address.state);
+$('#landmark').val(response.address.landmark);
+$('#alternativePhone').val(response.address.alternativePhone);
+$('#addressType').val(response.address.addressType);
+
+
+
+
+            
+        }
     })
 }

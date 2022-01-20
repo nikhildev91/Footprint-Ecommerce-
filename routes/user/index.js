@@ -93,8 +93,13 @@ router.get('/add-to-cart', async(req, res, next)=>{
   cartCount = await userHelper.getCartCount(userSession._id)
   
     let cartProducts = await userHelper.getCartProducts(userSession._id)
+    
+    let cartId = null;
+    if (cartProducts[0]){
+      cartId = cartProducts[0]._id;
+    } 
     let total = await userHelper.getTotalAmount(userSession._id)
-      res.render('user/cart', {isUser, category, userSession, cartProducts, cartCount, total})
+      res.render('user/cart', {isUser, category, userSession, cartProducts, cartCount, cartId, total})
 
 
 });
@@ -198,6 +203,7 @@ router.get('/checkout', async(req, res, next)=>{
   cartCount = await userHelper.getCartCount(userSession._id)
   
     let cartProducts = await userHelper.getCartProducts(userSession._id)
+    
     res.render('user/checkout',{isUser,category, userSession, cartProducts, cartCount})
 
 });
@@ -208,11 +214,33 @@ router.post('/place-order/:cartId', async(req, res, next)=>{
   console.log(req.params.cartId);
 
   let OrderProducts = await userHelper.getCartOrderProducts(req.params.cartId)
-  console.log(OrderProducts.user);
-  let getUserAddressForPlaceOrder = await userHelper.getUserAddressForPlaceOrder(OrderProducts.user)
-  console.log(getUserAddressForPlaceOrder);
 
-  res.render('user/checkout',{isUser, getUserAddressForPlaceOrder})
+  let getUserAddressForPlaceOrder = await userHelper.getUserAddressForPlaceOrder(OrderProducts.user)
+ 
+  let getProductsForPlaceOrder = await userHelper.getProductsForPlaceOrder(req.params.cartId)
+  let subTotal = req.body.subTotal;
+  let grandTotal = req.body.grandTotal;
+  let productTotal=req.body.productTotal[0]
+
+  
+
+ 
+
+
+
+  res.render('user/checkout',{isUser, getUserAddressForPlaceOrder, getProductsForPlaceOrder, subTotal, grandTotal, productTotal})
+
+
+});
+
+router.post('/get-confirm-address', async(req, res, next)=>{
+  console.log(req.body);
+  let addressId = req.body.addressId;
+  let userId = req.body.userId;
+
+  let address = await userHelper.getSelectedAddress(userId, addressId)
+
+  res.json(address)
 
 })
 

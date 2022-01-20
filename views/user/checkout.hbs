@@ -38,7 +38,7 @@
 
 
 
-                                    <div class="row">
+                                    <div class="row mt-2">
                                         <h6>{{this.addressType}}</h6>
 
                                     </div>
@@ -49,6 +49,9 @@
                                         <br>-{{this.pincode}}</p>
                                     <P><span style="font-weight: bold;">Alternative Mobile Number :</span>
                                         <span>{{this.alternativePhone}}</span></P>
+                                        
+
+                                        <button class="btn btn-dark mt-2" type="button" onclick="getComfirmAddress('{{this._id}}','{{../getUserAddressForPlaceOrder.userId}}')" style="float:right;">select</button>
                                 
                             </div>
                             <hr>
@@ -60,27 +63,27 @@
                 <div class="col-md-6 col-lg-4 mt-2 mt-md-0">
                     <div class="card card--grey">
                         <div class="card-body">
-                            <h2>Billing ADDRESS</h2>
+                            <h2>Billing ADDRESS</h2> <span class="text-danger">(Please Check Address)</span>
                             <div class="row mt-2">
                                 <div class="col-sm-6"><label class="text-uppercase">First Name:</label>
-                                    <div class="form-group"><input type="text" class="form-control"></div>
+                                    <div class="form-group"><input id="firstname" value="" type="text" class="form-control"></div>
                                 </div>
                                 <div class="col-sm-6"><label class="text-uppercase">Last Name:</label>
-                                    <div class="form-group"><input type="text" class="form-control"></div>
+                                    <div class="form-group"><input type="text" id="lastname" class="form-control"></div>
                                 </div>
                             </div>
 
 
                             <div class="row mt-2">
                                 <div class="col-sm-12"><label class="text-uppercase">Mobile:</label>
-                                    <div class="form-group"><input type="text" class="form-control"></div>
+                                    <div class="form-group"><input id="phone" type="text" class="form-control"></div>
                                 </div>
 
                             </div>
 
                             <label class="text-uppercase">Address:</label>
                             <div class="form-group">
-                                <input type="text" class="form-control">
+                                <input id="address" type="text" class="form-control">
 
                             </div>
 
@@ -89,71 +92,70 @@
                             <label class="text-uppercase">States:</label>
                             <div class="form-group select-wrapper">
                                 <select class="form-control">
-                                    <option value="United States">United States</option>
-                                    <option value="Canada">Canada</option>
-                                    <option value="China">China</option>
-                                    <option value="India">India</option>
-                                    <option value="Italy">Italy</option>
-                                    <option value="Mexico">Mexico</option>
+                                    <option id="state" value="" selected></option>
+                                     <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands
+                                                </option>
+                                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                                <option value="Assam">Assam</option>
+                                                <option value="Bihar">Bihar</option>
+                                                <option value="Chandigarh">Chandigarh</option>
+                                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                                <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+                                                <option value="Daman and Diu">Daman and Diu</option>
+                                                <option value="Delhi">Delhi</option>
+                                                <option value="Lakshadweep">Lakshadweep</option>
+                                                <option value="Puducherry">Puducherry</option>
+                                                <option value="Goa">Goa</option>
+                                                <option value="Gujarat">Gujarat</option>
+                                                <option value="Haryana">Haryana</option>
+                                                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                                <option value="Jharkhand">Jharkhand</option>
+                                                <option value="Karnataka">Karnataka</option>
+                                                <option value="Kerala">Kerala</option>
+                                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                                <option value="Maharashtra">Maharashtra</option>
+                                                <option value="Manipur">Manipur</option>
+                                                <option value="Meghalaya">Meghalaya</option>
+                                                <option value="Mizoram">Mizoram</option>
+                                                <option value="Nagaland">Nagaland</option>
+                                                <option value="Odisha">Odisha</option>
+                                                <option value="Punjab">Punjab</option>
+                                                <option value="Rajasthan">Rajasthan</option>
+                                                <option value="Sikkim">Sikkim</option>
+                                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                                <option value="Telangana">Telangana</option>
+                                                <option value="Tripura">Tripura</option>
+                                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                                <option value="Uttarakhand">Uttarakhand</option>
+                                                <option value="West Bengal">West Bengal</option>
                                 </select>
                             </div>
-                            {{!-- <div class="row">
-                                <div class="col-sm-6"><label class="text-uppercase">State:</label>
-                                    <div class="form-group select-wrapper"><select class="form-control">
-                                            <option value="AL">Alabama</option>
-                                            <option value="AK">Alaska</option>
-                                            <option value="AZ">Arizona</option>
-                                            <option value="AR">Arkansas</option>
-                                            <option value="CA">California</option>
-                                            <option value="CO">Colorado</option>
-                                            <option value="CT">Connecticut</option>
-                                            <option value="DE">Delaware</option>
-                                            <option value="DC">District Of Columbia</option>
-                                            <option value="FL">Florida</option>
-                                            <option value="GA">Georgia</option>
-                                            <option value="HI">Hawaii</option>
-                                            <option value="ID">Idaho</option>
-                                            <option value="IL">Illinois</option>
-                                            <option value="IN">Indiana</option>
-                                            <option value="IA">Iowa</option>
-                                            <option value="KS">Kansas</option>
-                                            <option value="KY">Kentucky</option>
-                                            <option value="LA">Louisiana</option>
-                                        </select></div>
-                                </div>
-                                <div class="col-sm-6"><label class="text-uppercase">zip/postal code:</label>
-                                    <div class="form-group"><input type="text" class="form-control"></div>
-                                </div>
-                            </div> --}}
-                            <label class="text-uppercase">City/Town/District:</label>
+                            <label class="text-uppercase">District:</label>
                             <div class="form-group">
-                                <input type="text" class="form-control">
+                                <input id="district" type="text" class="form-control">
 
                             </div>
-                            <label class="text-uppercase">Locality:</label>
-                            <div class="form-group">
-                                <input type="text" class="form-control">
-
-                            </div>
+                           
                             <label class="text-uppercase">Pincode:</label>
                             <div class="form-group">
-                                <input type="text" class="form-control">
+                                <input id="pincode" type="text" class="form-control">
 
                             </div>
                             <label class="text-uppercase">Landmark:</label>
                             <div class="form-group">
-                                <input type="text" class="form-control">
+                                <input id="landmark" type="text" class="form-control">
 
                             </div>
 
                             <label class="text-uppercase">Alternative Mobile:</label>
                             <div class="form-group">
-                                <input type="text" class="form-control">
+                                <input id="alternativePhone" type="text" class="form-control">
 
                             </div>
 
-                            <div class="clearfix"><input id="formcheckoutCheckbox1" name="checkbox1" type="checkbox">
-                                <label for="formcheckoutCheckbox1">Save address to my account</label></div>
+                            
                         </div>
                     </div>
 
@@ -185,30 +187,17 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {{#each getProductsForPlaceOrder}}
                                 <tr>
                                     <td><a href="#;" class="thumb"><img class="cart__image"
-                                                src="/user-assets/images/product-images/product13.jpg" alt=""></a></td>
-                                    <td class="text-left">Spike Jacket</td>
-                                    <td>$99</td>
-                                    <td>1</td>
-                                    <td>$99</td>
+                                                src="/product-images/{{this.product._id}}first.jpg" alt=""></a></td>
+                                    <td class="text-left">{{this.product.ProductTitle}}</td>
+                                    <td>Rs. {{this.product.price}}</td>
+                                    <td>{{this.quantity}}</td>
+                                   
+                                    <td>Rs. {{this.productTotal}}</td>
                                 </tr>
-                                <tr>
-                                    <td><a href="#;" class="thumb"><img class="cart__image"
-                                                src="/user-assets/images/product-images/product5.jpg" alt=""></a></td>
-                                    <td class="text-left">Argon Sweater</td>
-                                    <td>$199</td>
-                                    <td>2</td>
-                                    <td>$298</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#;" class="thumb"><img class="cart__image"
-                                                src="/user-assets/images/product-images/product15.jpg" alt=""></a></td>
-                                    <td class="text-left">Babydoll Bow Dress</td>
-                                    <td>$299</td>
-                                    <td>3</td>
-                                    <td>$398</td>
-                                </tr>
+                               {{/each}}
                             </tbody>
                             <tfoot class="font-weight-600">
                                 <tr>
@@ -217,7 +206,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="4" class="text-right">Total</td>
-                                    <td>$845.00</td>
+                                    <td>{{grandTotal}}</td>
                                 </tr>
                             </tfoot>
                         </table>
