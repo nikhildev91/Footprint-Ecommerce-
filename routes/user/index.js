@@ -92,7 +92,7 @@ router.get('/add-to-cart', async(req, res, next)=>{
   let cartCount = 0;
   cartCount = await userHelper.getCartCount(userSession._id)
   
-    let cartProducts = await userHelper.getCartProducts(userSession._id)
+    let cartProducts = await userHelper.getCartProducts(userSession._id);
     
     let cartId = null;
     if (cartProducts[0]){
@@ -141,12 +141,13 @@ router.get('/profile/:id', async(req, res, next)=>{
     let cartProducts = await userHelper.getCartProducts(userSession._id)
 
     let user = await userHelper.getUser(req.params.id)
-    let  states = await userHelper.getStates()
-    let userAddress = await userHelper.getAddress(req.params.id)
    
-console.log('states', states )
+    let userAddress = await userHelper.getAddress(req.params.id)
+    let orders = await userHelper.myOrders(req.params.id)
+   
 
-      res.render('user/profile', {isUser, category, userSession, cartProducts, cartCount, user, states, userAddress})
+
+      res.render('user/profile', {isUser, category, userSession, cartProducts, cartCount, user, userAddress, orders})
 });
 router.post('/add-address/:id',async(req, res)=>{
   let response = await userHelper.addAddress(req.body, req.params.id)
@@ -221,14 +222,8 @@ router.post('/place-order/:cartId', async(req, res, next)=>{
   let subTotal = req.body.subTotal;
   let grandTotal = req.body.grandTotal;
   let productTotal=req.body.productTotal[0]
-
-  
-
- 
-
-
-
-  res.render('user/checkout',{isUser, getUserAddressForPlaceOrder, getProductsForPlaceOrder, subTotal, grandTotal, productTotal})
+  let userId = await userHelper.getUserId(req.params.cartId)
+  res.render('user/checkout',{isUser, getUserAddressForPlaceOrder, getProductsForPlaceOrder, subTotal, grandTotal, productTotal, userId})
 
 
 });
@@ -243,6 +238,60 @@ router.post('/get-confirm-address', async(req, res, next)=>{
   res.json(address)
 
 })
+
+router.post('/order-placed/:id', async(req, res, next)=>{
+  let orderedProduct = await userHelper.getOrderedProduct(req.params.id)
+  let address = req.body
+  let paymentMethod = req.body.paymentMethod;
+  let products = orderedProduct
+  let user = await userHelper.user(req.params.id);
+  let date = new Date()
+let day = date.getDate();
+let month = date.getMonth()+1;
+let year = date.getFullYear();
+
+let fullDate = `${day}-${month}-${year}`;
+
+  let order = {
+    date:fullDate,
+    user : user,
+    address : address,
+    products :products,
+    grandTotal : req.body.grandTotal,
+    paymentMethod : paymentMethod,
+    orderstatus : "placed"
+  }
+
+  let response = await userHelper.placeOrder(order)
+
+  var productId = response.proId;
+  if(response.status){
+    let response = userHelper.deletecart(req.params.id)
+    if(response){
+
+      let orderDetails = await userHelper.getOrderDetalis(productId)
+      
+      res.render('user/thankyouPage',{isUser, orderDetails})
+    }
+  }
+
+
+
+});
+router.get('/view-myorder_details/:orderid', async(req, res, next)=>{
+  let category = await userHelper.takeCategory()
+  let cartCount = 0;
+  cartCount = await userHelper.getCartCount(userSession._id)
+  
+    let cartProducts = await userHelper.getCartProducts(userSession._id)
+    let orderDetails = await userHelper.getMyOrders(req.params.orderid)
+    
+
+  res.render('user/view-orderDetails',   {isUser,category, userSession, cartProducts, cartCount, orderDetails}
+  )
+})
+
+
 
 
 

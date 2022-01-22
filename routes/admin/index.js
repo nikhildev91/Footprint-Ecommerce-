@@ -598,8 +598,81 @@ router.get('/delete-brand/:id', (req, res, next) => {
   })
 })
 
+// Manage Orders
+
+router.get('/manage-orders', async(req, res, next)=>{
+  let orders = await adminHelper.getOrdersForManage()
+  res.render('admin/manage_orders',{isadmin,orders})
+})
+
+router.get('/view_order_details/:orderId', async(req, res, next)=>{
+  let orderDetails = await adminHelper.viewProductDetails(req.params.orderId)
+  let packed = req.session.packed
+  req.session.packed = null;
+
+  res.render('admin/view-order-Details',{isadmin, orderDetails, packed})
+})
 
 
+router.get('/packed/:orderid', async(req, res, next)=>{
+  let  packedResponse = await adminHelper.checkOrderStatusPacked(req.params.orderid)
+  if(packedResponse == false){
+    let response = await adminHelper.orderPacked(req.params.orderid)
+      if(response.status){
+        req.session.packed = true;
+        res.redirect('/admin/manage-orders')
+      }
+  }
+})
+
+router.get('/shipped/:orderid', async(req, res, next)=>{
+  let  orderstatusiscancancelled = await adminHelper.checkOrderStatusShipped1(req.params.orderid)
+  
+  if(orderstatusiscancancelled == false){
+    let orderstatusispacked= await adminHelper.checkOrderStatusShipped2(req.params.orderid)
+      if(orderstatusispacked){
+        let response= await adminHelper.orderShipped(req.params.orderid)
+        if(response.status){
+
+          res.redirect('/admin/manage-orders')
+        }
+      }
+  }
+  
+})
+router.get('/delivered/:orderid', async(req, res, next)=>{
+  let  orderstatusiscancancelled = await adminHelper.checkOrderStatusDelivered1(req.params.orderid)
+  if(orderstatusiscancancelled == false){
+    let orderstatusispacked= await adminHelper.checkOrderStatusDelivered2(req.params.orderid)
+    if(orderstatusispacked == false){
+      let orderstatusisshipped= await adminHelper.checkOrderStatusDelivered3(req.params.orderid)
+      if(orderstatusisshipped){
+        let response= await adminHelper.orderDelivered(req.params.orderid)
+          if(response){
+            res.redirect('/admin/manage-orders')
+          }
+      }
+
+
+    }
+
+  }
+  
+})
+router.get('/rejected/:orderid', async(req, res, next)=>{
+  let  orderstatusiscancancelled = await adminHelper.checkOrderStatusReject1(req.params.orderid)
+  if(orderstatusiscancancelled==false){
+    let orderstatusisplaced = await adminHelper.checkOrderStatusReject2(req.params.orderid)
+    if(orderstatusisplaced){
+      let response = await adminHelper.orderCancel(req.params.orderid)
+      if(response.status){
+        res.redirect('/admin/manage-orders')
+      }
+    }
+  }
+
+  
+})
 
 
 

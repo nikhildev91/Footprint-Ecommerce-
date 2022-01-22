@@ -63,6 +63,8 @@ database.connect((err)=>{
 
 
 app.use('/admin', adminRouter);
+
+
 app.use('/signup',userSignupRouter);
 app.use('/login',userLoginRouter);
 app.use('/', indexRouter);

@@ -175,11 +175,15 @@ getRecentProducts : ()=>{
     })
 },
 addtoCart : (proId, userId)=>{
+    return new Promise(async(resolve, reject)=>{
+        let product = await database.get().collection('products').findOne({_id:ObjectId(proId)})
+        console.log("peoduct Price : ", product.price);
     let proObj={
         item:ObjectId(proId),
-        quantity : 1
+        quantity : 1,
+        productTotal :product.price
     }
-    return new Promise(async(resolve, reject)=>{
+    
         let userCart = await database.get().collection("cart").findOne({user:ObjectId(userId)})
         if(userCart){
             let proExist = userCart.products.findIndex(product=> product.item==proId)
@@ -388,12 +392,12 @@ getUser : (userId)=>{
         resolve(user)
     })
 },
-getStates:()=>{
+myOrders :(userId)=>{
     return new Promise(async(resolve, reject)=>{
-        let states = await database.get().collection('states').find().toArray()
-       
-        resolve(states)
+        let myorders = await database.get().collection('order').find({'user._id':ObjectId(userId)}).toArray()
+        resolve(myorders)
     })
+
 },
 addAddress : (userDetails, userId)=>{
     return new Promise((resolve, reject)=>{
@@ -573,6 +577,88 @@ getProductsForPlaceOrder : (cartId)=>{
        
         resolve(cartItems)
        
+    })
+},
+
+getUserId : (cartId)=>{
+    return new Promise(async(resolve, reject)=>{
+        let cart = await database.get().collection('cart').findOne({_id:ObjectId(cartId)})
+        resolve(cart.user)
+    })
+},
+
+getOrderedProduct : (userId)=>{
+    return new Promise(async(resolve, reject)=>{
+        let orderedProduct = await database.get().collection("cart").aggregate([
+            {
+                $match:{user:ObjectId(userId)},
+                
+            },
+            {
+                $unwind:'$products'
+            },
+            {
+                $lookup:{
+                    from:'products',
+                    localField:'products.item',
+                    foreignField:'_id',
+                    as:'cartProducts'
+                }
+            },
+            {
+                $unwind : '$cartProducts'
+            },
+            {
+                $project:{
+                    quantity:'$products.quantity',
+                    total : {
+                        $multiply : [
+                            '$cartProducts.price', '$products.quantity'
+                        ]
+                    },
+                    product : '$cartProducts'
+                }
+            }
+        ]).toArray()
+        
+       
+        resolve(orderedProduct)
+
+    })
+},
+user : (userId)=>{
+    return new Promise(async(resolve, reject)=>{
+        let user = await database.get().collection('usersData').findOne({_id:ObjectId(userId)})
+        resolve(user)
+    })
+},
+placeOrder :(order)=>{
+    return new Promise((resolve, reject)=>{
+        database.get().collection('order').insertOne(order).then((result)=>{
+            resolve({status: true, proId:result.insertedId});
+            
+
+        })
+    })
+},
+
+deletecart:(userId)=>{
+    return new Promise((resolve, reject)=>{
+        database.get().collection('cart').deleteOne({user:ObjectId(userId)}).then(()=>{
+            resolve(true)
+        })
+    })
+},
+getOrderDetalis : (proId)=>{
+    return new  Promise(async(resolve, reject)=>{
+        let orderDetails = await database.get().collection('order').findOne({_id:ObjectId(proId)})
+        resolve(orderDetails)
+    })
+},
+getMyOrders :(orderid)=>{
+    return new Promise(async(resolve, reject)=>{
+        let myorders = await database.get().collection('order').findOne({_id:ObjectId(orderid)})
+        resolve(myorders)
     })
 }
 

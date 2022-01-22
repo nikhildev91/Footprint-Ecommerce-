@@ -111,8 +111,8 @@
                             <table class="table">
                                 <thead class="alt-font">
                                     <tr>
-                                        <th>Order</th>
-                                        <th>Product</th>
+                                        <th>Order ID</th>
+                                        <th>Products</th>
                                         <th>Date</th>
                                         <th>Status</th>
                                         <th>Total</th>
@@ -120,22 +120,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                   {{#each orders}}
                                     <tr>
-                                        <td>1</td>
-                                        <td>Minerva Dress black</td>
-                                        <td>March 04, 2018</td>
-                                        <td>Processing</td>
-                                        <td>$165.00 for 1 item </td>
-                                        <td><a class="view" href="cart-style1.html">view</a></td>
+                                        <td>{{this._id}}</td>
+                                        <td>{{#each this.products}}
+            <p style="font-weight: bold;">{{product.productTitle}}</p>
+            {{/each}}</td>
+                                        <td>{{this.date}}</td>
+                                <td>{{this.orderstatus}}</td>
+                                        <td>Rs. {{this.grandTotal}}</td>
+                                        <td><a class="view text-success" href="/view-myorder_details/{{this._id}}" style="font-weight: bold;">View</a><a class="view ms-3 text-danger" href="cart-style1.html" style="font-weight: bold;"> Cancel</a></td>
                                     </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Sueded Cotton Pant in Khaki</td>
-                                        <td>May 19, 2018</td>
-                                        <td>Processing</td>
-                                        <td>$150.00 for 1 item </td>
-                                        <td><a class="view" href="cart-style1.html">view</a><a class="view ms-3" href="cart-style1.html"> Cancel</a></td>
-                                    </tr>
+                                    {{/each}}
                                 </tbody>
                             </table>
                         </div>

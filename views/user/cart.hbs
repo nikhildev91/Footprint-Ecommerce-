@@ -34,7 +34,7 @@
                             {{#if cartProducts}}
                             {{#each cartProducts}}
                             <tr id="{{ this._id }}{{ this.product._id }}"
-                                class="cart__row border-bottom line1 cart-flex border-top">
+                                class="cart__row border-bottom line1 cart-flex border-top p-3">
 
                                 <td class="cart__image-wrapper cart-flex-item">
                                     <a href="#"><img class="cart__image"
@@ -73,7 +73,7 @@
                                             {{this.total}}</span></div>
                                         
                                 </td>
-                                <input type="number" name="productTotal" class="product_total_val{{ this.product._id }}" value="{{this.total}}">
+                                <input type="number" name="productTotal" class="product_total_val{{ this.product._id }}" value="{{this.total}}" hidden>
 
 
 
@@ -116,6 +116,21 @@
                     </div>
 
 
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 mb-4 cart-col">
+                        <h5 hidden>Discount Codes</h5>
+                        {{!-- <form action="#" method="post"> --}}
+                            <div class="form-group">
+                                <label for="address_zip" hidden>Enter your coupon code if you have one.</label>
+                                <input type="text" hidden >
+                            </div>
+                            <div class="actionRow" hidden>
+                                <div><input type="button" class="btn btn-secondary btn--small" value="Apply Coupon">
+                                </div>
+                            </div>
+                        {{!-- </form> --}}
+                    </div>
+
+
 
 
                     <div class="col-12 col-sm-12 col-md-4 col-lg-4 cart__footer">
@@ -128,7 +143,7 @@
                                             class="cart_sub_total"
                                             id="total">{{total.subtotal.total}}</span></span></span>
                                 <input type="text" name="subTotal" class="cart_sub_total"
-                                    value="{{total.subtotal.total}}">
+                                    value="{{total.subtotal.total}}" hidden>
                             </div>
                             <div class="row border-bottom pb-2 pt-2">
                                 <span class="col-12 col-sm-6 cart__subtotal-title">Tax</span>
@@ -144,7 +159,7 @@
                                         class="money cart_sub_total">{{total.subtotal.total}}</span></span>
                             </div>
                             <input type="text" name="grandTotal" class="cart_sub_total"
-                                value="{{total.subtotal.total}}">
+                                value="{{total.subtotal.total}}" hidden>
                             <div class="cart__shipping">Shipping &amp; taxes calculated at checkout</div>
 
                             <input type="submit" name="checkout" id="cartCheckout" class="btn btn--small-wide checkout"

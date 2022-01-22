@@ -15,7 +15,8 @@
     <!--End Page Title with Image-->
     <div class="container">
         <!--Main Content-->
-        <form action="#">
+        <form action="/order-placed/{{userId}}" method="post">
+       
             <div class="row">
                 <div class="col-md-6 col-lg-4">
 
@@ -66,24 +67,24 @@
                             <h2>Billing ADDRESS</h2> <span class="text-danger">(Please Check Address)</span>
                             <div class="row mt-2">
                                 <div class="col-sm-6"><label class="text-uppercase">First Name:</label>
-                                    <div class="form-group"><input id="firstname" value="" type="text" class="form-control"></div>
+                                    <div class="form-group"><input id="firstname" name="firstname" value="" type="text" class="form-control"></div>
                                 </div>
                                 <div class="col-sm-6"><label class="text-uppercase">Last Name:</label>
-                                    <div class="form-group"><input type="text" id="lastname" class="form-control"></div>
+                                    <div class="form-group"><input name="lastname" type="text" id="lastname" class="form-control"></div>
                                 </div>
                             </div>
 
 
                             <div class="row mt-2">
                                 <div class="col-sm-12"><label class="text-uppercase">Mobile:</label>
-                                    <div class="form-group"><input id="phone" type="text" class="form-control"></div>
+                                    <div class="form-group"><input name="phone" id="phone" type="text" class="form-control"></div>
                                 </div>
 
                             </div>
 
                             <label class="text-uppercase">Address:</label>
                             <div class="form-group">
-                                <input id="address" type="text" class="form-control">
+                                <input id="address" name="address" type="text" class="form-control">
 
                             </div>
 
@@ -91,8 +92,8 @@
 
                             <label class="text-uppercase">States:</label>
                             <div class="form-group select-wrapper">
-                                <select class="form-control">
-                                    <option id="state" value="" selected></option>
+                                <select name="state" class="form-control">
+                                    
                                      <option value="Andhra Pradesh">Andhra Pradesh</option>
                                                 <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands
                                                 </option>
@@ -134,24 +135,24 @@
                             </div>
                             <label class="text-uppercase">District:</label>
                             <div class="form-group">
-                                <input id="district" type="text" class="form-control">
+                                <input name="district" id="district" type="text" class="form-control">
 
                             </div>
                            
                             <label class="text-uppercase">Pincode:</label>
                             <div class="form-group">
-                                <input id="pincode" type="text" class="form-control">
+                                <input name="pincode" id="pincode" type="text" class="form-control">
 
                             </div>
                             <label class="text-uppercase">Landmark:</label>
                             <div class="form-group">
-                                <input id="landmark" type="text" class="form-control">
+                                <input name="landmark" id="landmark" type="text" class="form-control">
 
                             </div>
 
                             <label class="text-uppercase">Alternative Mobile:</label>
                             <div class="form-group">
-                                <input id="alternativePhone" type="text" class="form-control">
+                                <input name="alternativePhone" id="alternativePhone" type="text" class="form-control">
 
                             </div>
 
@@ -163,10 +164,10 @@
                     <div class="card card--grey">
                         <div class="card-body">
                             <h2>PAYMENT METHOD</h2>
-                            <div class="clearfix"><input id="formcheckoutRadio4" value="" name="radio2" type="radio"
+                            <div class="clearfix"><input id="formcheckoutRadio4" value="COD" name="paymentMethod" type="radio"
                                     class="radio height-auto" checked="checked"> <label
                                     for="formcheckoutRadio4">COD</label></div>
-                            <div class="clearfix"><input id="formcheckoutRadio5" value="" name="radio2" type="radio"
+                            <div class="clearfix"><input id="formcheckoutRadio5" value="Paypal" name="paymentMethod" type="radio"
                                     class="radio height-auto"> <label for="formcheckoutRadio5">Paypal</label></div>
 
                         </div>
@@ -191,7 +192,7 @@
                                 <tr>
                                     <td><a href="#;" class="thumb"><img class="cart__image"
                                                 src="/product-images/{{this.product._id}}first.jpg" alt=""></a></td>
-                                    <td class="text-left">{{this.product.ProductTitle}}</td>
+                                    <td class="text-left">{{this.product.productTitle}}</td>
                                     <td>Rs. {{this.product.price}}</td>
                                     <td>{{this.quantity}}</td>
                                    
@@ -207,6 +208,7 @@
                                 <tr>
                                     <td colspan="4" class="text-right">Total</td>
                                     <td>{{grandTotal}}</td>
+                                    <input type="text" name="grandTotal" value="{{grandTotal}}" hidden>
                                 </tr>
                             </tfoot>
                         </table>
