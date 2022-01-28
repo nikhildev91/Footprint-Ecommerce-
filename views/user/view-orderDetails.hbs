@@ -6,14 +6,40 @@
 
                 
                 <h1 style="text-align: center;">Order Details</h1>
+                {{#if orderStatus1}}
+                <div class="alert alert-warning">
+                    <span style="color: black; font-weight: bold;">Order Status : </span>{{orderStatus1}}
+                </div>
+                {{/if}}
+                {{#if orderStatus2}}
+                <div class="alert alert-info">
+                    <span style="color: black; font-weight: bold;">Order Status : </span>{{orderStatus2}}
+                </div>
+                {{/if}}
+                {{#if orderStatus3}}
+                <div class="alert alert-primary">
+                    <span style="color: black; font-weight: bold;">Order Status : </span>{{orderStatus3}}
+                </div>
+                {{/if}}
+                {{#if orderStatus4}}
+                <div class="alert alert-success">
+                    <span style="color: black; font-weight: bold;">Order Status : </span>{{orderStatus4}}
+                </div>
+                {{/if}}
+                {{#if orderStatus5}}
+                <div class="alert alert-danger">
+                    <span style="color: black; font-weight: bold;">Order Status : </span>{{orderStatus5}}
+                </div>
+                {{/if}}
                 <div class="invoice p-2">
-                 <span class="font-weight-bold d-block">Order ID: </span><span>{{orderDetails._id}}</span>
+                 <span class="font-weight-bold d-block">Order ID: </span><span>{{orderDetails.[0].data.[0]._id}}</span>
 
-                    <span class="font-weight-bold d-block float-right me-1">Order Date : </span><br> <span class="float-right me-1">{{orderDetails.date}}</span>
-                        <span class="font-weight-bold d-block mt-1">Delivery Address : </span> <span>{{orderDetails.address.address}},</span><br><span>{{orderDetails.address.district}}, </span>
-                        <span>{{orderDetails.address.state}}, </span><span>{{orderDetails.address.pincode}}</span><br><span>landmark : {{orderDetails.address.landmark}}</span>
-                        <span class="font-weight-bold d-block mt-1">Phone No : </span> <span>{{orderDetails.address.phone}}, {{orderDetails.address.alternativePhone}}</span>
-                          <span class="font-weight-bold d-block mt-1">Payment Method : </span> <span>{{orderDetails.paymentMethod}}</span>
+                    <span class="font-weight-bold d-block">Order Date : </span><span >{{orderDetails.[0].data.[0].date}}</span>
+
+                        <span class="font-weight-bold d-block mt-1">Delivery Address : </span> <span>{{orderDetails.[0].data.[0].deliveryDetails.address}},</span><br><span>{{orderDetails.[0].data.[0].deliveryDetails.district}}, </span>
+                        <span>{{orderDetails.[0].data.[0].address.state}}, </span><span>{{orderDetails.deliveryDetails.pincode}}</span><br><span>landmark : {{orderDetails.[0].data.[0].deliveryDetails.landmark}}</span>
+                        <span class="font-weight-bold d-block mt-1">Phone No : </span> <span>{{orderDetails.[0].data.[0].deliveryDetails.mobile}}, {{orderDetails.[0].data.[0].deliveryDetails.alternativePhone}}</span>
+                          <span class="font-weight-bold d-block mt-1">Payment Method : </span> <span>{{orderDetails.[0].data.[0].paymentMethod}}</span>
                       
 
                    
@@ -29,25 +55,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{#each orderDetails.products}}
+                                {{#each orderDetails}}
 
-
+                                {{#each this.data}}
                                 <tr>
-                                    <td width="20%"> <img src="/product-images/{{product._id}}first.jpg" width="90">
-                                     <span class="font-size: 5px">{{product.productTitle}}</span>
+                                    <td width="20%"> <img src="/product-images/{{this.productList._id}}first.jpg" width="90">
+                                     <span class="font-size: 5px">{{this.productList.productTitle}}</span>
                                     </td>
                                        
                                 
                                     <td width="20%">
-                                        <span style="font-weight: bold;"> Rs. {{product.price}}</span>
+                                        <span style="font-weight: bold;"> Rs. {{this.productList.price}}</span>
                                     </td>
                                     <td width="20%">
-                                        <span style="font-weight: bold;">{{quantity}}</span>
+                                        <span style="font-weight: bold;">{{this.products.productsTotal.quantity}}</span>
                                     </td>
                                      <td width="20%">
-                                        <span style="font-weight: bold;">Rs. {{total}}</span>
+                                        <span style="font-weight: bold;">Rs. {{this.products.productsTotal.total}}</span>
                                     </td>
                                 </tr>
+                                {{/each}}
 
                                 {{/each}}
 
@@ -97,7 +124,7 @@
                                         </td>
                                         <td>
                                             <div class="text-right"> <span class="font-weight-bold">Rs.
-                                                    {{orderDetails.grandTotal}}</span> </div>
+                                                    {{orderDetails.[0].data.[0].products.subtotal.total}}</span> </div>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -108,9 +135,10 @@
                 </div>
                
                    
-                 
-                        <a href="/admin/packed/{{orderDetails._id}}" class="btn float-right"  style="color: white; background-color: red; font-weight: bold;">Cancel</a>
-                 
+                 {{#if cancelbtn}}
+                 {{else}}
+                        <a href="/order-cancel/{{orderDetails.[0].data.[0]._id}}" class="btn float-right"  style="color: white; background-color: red; font-weight: bold;">Cancel</a>
+                 {{/if}}
                    
                     
                 

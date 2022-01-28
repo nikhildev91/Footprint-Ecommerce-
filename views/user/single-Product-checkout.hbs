@@ -14,9 +14,10 @@
     </div>
     <!--End Page Title with Image-->
     <div class="container">
+        <h1>{{response}}</h1>
         <!--Main Content-->
-        <form method="post" id="Checkout-form">
-                    <input type="text" name="userId" value="{{userId}}" hidden>
+        <form action="/place-orders/{{product._id}}" method="post">
+       
             <div class="row">
                 <div class="col-md-6 col-lg-4">
 
@@ -167,8 +168,6 @@
                             <div class="clearfix"><input id="formcheckoutRadio4" value="COD" name="paymentMethod" type="radio"
                                     class="radio height-auto" checked="checked"> <label
                                     for="formcheckoutRadio4">COD</label></div>
-                                    <div class="clearfix"><input id="formcheckoutRadio5" value="Razorpay" name="paymentMethod" type="radio"
-                                    class="radio height-auto"> <label for="formcheckoutRadio5">Razorpay</label></div>
                             <div class="clearfix"><input id="formcheckoutRadio5" value="Paypal" name="paymentMethod" type="radio"
                                     class="radio height-auto"> <label for="formcheckoutRadio5">Paypal</label></div>
 
@@ -189,44 +188,19 @@
                                     <th>Subtotal</th>
                                 </tr>
                             </thead>
-                            {{#if buyOne}}
-                            {{else}}
                             <tbody>
-                                <input type="text" name="buynow" id="" value="false" hidden>
-                                {{#each getProductsForPlaceOrder}}
-                                <tr>
-                                    <td><a href="#;" class="thumb"><img class="cart__image"
-                                                src="/product-images/{{this.product._id}}first.jpg" alt=""></a></td>
-                                    <td class="text-left">{{this.product.productTitle}}</td>
-                                    <td>Rs. {{this.product.price}}</td>
-                                    <td>{{this.quantity}}</td>      
-                                    
-                                   
-                                    <td>Rs. {{this.productTotal}}</td>
-                                </tr>
-                               {{/each}}
-                            </tbody>
-                            {{/if}}
-                            {{#if buyOne}}
-                            {{!-- buy now body start --}}
-                            <input type="text" name="proId" value="{{product._id}}" hidden>
-                            <input type="text" name="buynow" id="" value="true" hidden>
-                    
-                             <tbody> 
-                                
+                               
                                 <tr>
                                     <td><a href="#;" class="thumb"><img class="cart__image"
                                                 src="/product-images/{{product._id}}first.jpg" alt=""></a></td>
                                     <td class="text-left">{{product.productTitle}}</td>
                                     <td>Rs. {{product.price}}</td>
-                                    <td>1</td>
+                                    <td><p>1</p></td>
                                    
                                     <td>Rs. {{product.price}}</td>
                                 </tr>
                               
                             </tbody>
-                            {{!-- buy now body end --}}
-                            {{/if}}
                             <tfoot class="font-weight-600">
                                 <tr>
                                     <td colspan="4" class="text-right">Shipping </td>
@@ -365,65 +339,6 @@
 </div>
 </body>
 
-{{!-- 
-<script>
+<!-- Mirrored from www.annimexweb.com/items/avone/checkout-style2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 06 Jan 2022 13:24:33 GMT -->
 
-$('#Checkout-form').submit((e)=>{
-    e.preventDefault()
-
-    $.ajax({
-        url:'/order-placed',
-        method:'post',
-        data:$('#Checkout-form').serialize(),
-        success:(response)=>{
-            if(response.codSuccess){
-                location.href='/order-success'
-            }else{
-                razorpayPayment(response)
-                
-            }
-        }
-    })
-   
-})
-function razorpayPayment(order){
-    var options = {
-    "key": "rzp_test_OEEvw6L8TUCHKd", // Enter the Key ID generated from the Dashboard
-    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-    "currency": "INR",
-    "name": "FootPrint",
-    "description": "Test Transaction",
-    "image": "https://example.com/your_logo",
-    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-    "handler": function (response){
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature)
-
-        verifyPayment(response, order)
-    },
-    "prefill": {
-        "name": "Gaurav Kumar",
-        "email": "gaurav.kumar@example.com",
-        "contact": "9999999999"
-    },
-    "notes": {
-        "address": "Razorpay Corporate Office"
-    },
-    "theme": {
-        "color": "#3399cc"
-    }
-};
-}
-function verifyPayment(payment, order){
-
-$.ajax({
-    url:'/verify_payment',
-    data:{
-        payment, 
-        order
-    },
-    method:'post'
-})
-}
-</script> --}}
+</html> 

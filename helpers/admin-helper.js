@@ -47,20 +47,68 @@ module.exports={
     },
     getOrdersForManage : ()=>{
         return new Promise(async(resolve, reject)=>{
-            let getOrders = await database.get().collection('order').find().toArray()
-
+            let getOrders = await database.get().collection('orderPlaced').aggregate([
+                {
+                    $unwind:"$products.productsTotal"
+                    
+                },{
+                    $lookup:{
+                        from: 'products',
+                                localField: 'products.productsTotal.item',
+                                foreignField: '_id',
+                                as: 'productList'
+                    }
+                },{
+                    $unwind:"$productList"
+                },{
+                    $group:{
+                        _id:'$_id',
+                        data:{
+                            $push:"$$ROOT"
+                        }
+                    }
+                }
+            ]).toArray()
+            // console.log(getOrders[0].data[0]);
             resolve(getOrders)
         })
     },
     viewProductDetails : (orderId)=>{
         return new Promise(async(resolve, reject)=>{
-            let products = await database.get().collection('order').findOne({_id:ObjectId(orderId)})
+            let products = await database.get().collection('orderPlaced').aggregate([
+                {
+                    $match:{_id:ObjectId(orderId)}
+                },
+                {
+                    $unwind:"$products.productsTotal"
+                    
+                },{
+                    $lookup:{
+                        from: 'products',
+                                localField: 'products.productsTotal.item',
+                                foreignField: '_id',
+                                as: 'productList'
+                    }
+                },{
+                    $unwind:"$productList"
+                },{
+                    $group:{
+                        _id:'$_id',
+                        data:{
+                            $push:"$$ROOT"
+                        }
+                    }
+                }
+            ]).toArray()
+            console.log("========================nvavasdj ===========================");
+            console.log(products[0].data[0]);
+            console.log(products);
             resolve(products)
         })
     },
     checkOrderStatusPacked : (orderid)=>{
         return new Promise((resolve, reject)=>{
-         database.get().collection('order').findOne({$and :[{_id:ObjectId(orderid)},{orderstatus:"Cancelled"}]}).then((result)=>{
+         database.get().collection('orderPlaced').findOne({$and :[{_id:ObjectId(orderid)},{status:"Cancelled"}]}).then((result)=>{
                 if(result){
                     resolve(true)
                 }else{
@@ -74,10 +122,10 @@ module.exports={
         return new Promise(async(resolve, reject)=>{
           
         
-                database.get().collection('order').updateOne({_id : ObjectId(orderId)},
+                database.get().collection('orderPlaced').updateOne({_id : ObjectId(orderId)},
                 {
                     $set:{
-                        orderstatus : "Packed"
+                        status : "Packed"
                     }
                 }).then(()=>{
                     resolve({status : true})
@@ -88,7 +136,7 @@ module.exports={
 
     checkOrderStatusShipped1 : (orderid)=>{
         return new Promise((resolve, reject)=>{
-            database.get().collection('order').findOne({$and :[{_id:ObjectId(orderid)},{orderstatus:"Cancelled"}]}).then((result)=>{
+            database.get().collection('orderPlaced').findOne({$and :[{_id:ObjectId(orderid)},{status:"Cancelled"}]}).then((result)=>{
                    if(result){
                        resolve(true)
                    }else{
@@ -100,7 +148,7 @@ module.exports={
     },
     checkOrderStatusShipped2 : (orderid)=>{
         return new Promise((resolve, reject)=>{
-            database.get().collection('order').findOne({$and :[{_id:ObjectId(orderid)},{orderstatus:"Packed"}]}).then((result)=>{
+            database.get().collection('orderPlaced').findOne({$and :[{_id:ObjectId(orderid)},{status:"Packed"}]}).then((result)=>{
                    if(result){
                        resolve(true)
                    }else{
@@ -115,10 +163,10 @@ module.exports={
         return new Promise(async(resolve, reject)=>{
           
         
-                database.get().collection('order').updateOne({_id : ObjectId(orderId)},
+                database.get().collection('orderPlaced').updateOne({_id : ObjectId(orderId)},
                 {
                     $set:{
-                        orderstatus : "Shipped"
+                        status : "Shipped"
                     }
                 }).then(()=>{
                     resolve({status : true})
@@ -129,7 +177,7 @@ module.exports={
     },
     checkOrderStatusDelivered1 : (orderid)=>{
         return new Promise((resolve, reject)=>{
-            database.get().collection('order').findOne({$and :[{_id:ObjectId(orderid)},{orderstatus:"Cancelled"}]}).then((result)=>{
+            database.get().collection('orderPlaced').findOne({$and :[{_id:ObjectId(orderid)},{status:"Cancelled"}]}).then((result)=>{
                    if(result){
                        resolve(true)
                    }else{
@@ -140,7 +188,7 @@ module.exports={
     },
     checkOrderStatusDelivered2 : (orderid)=>{
         return new Promise((resolve, reject)=>{
-            database.get().collection('order').findOne({$and :[{_id:ObjectId(orderid)},{orderstatus:"Packed"}]}).then((result)=>{
+            database.get().collection('orderPlaced').findOne({$and :[{_id:ObjectId(orderid)},{status:"Packed"}]}).then((result)=>{
                    if(result){
                        resolve(true)
                    }else{
@@ -152,7 +200,7 @@ module.exports={
     },
     checkOrderStatusDelivered3 : (orderid)=>{
         return new Promise((resolve, reject)=>{
-            database.get().collection('order').findOne({$and :[{_id:ObjectId(orderid)},{orderstatus:"Shipped"}]}).then((result)=>{
+            database.get().collection('orderPlaced').findOne({$and :[{_id:ObjectId(orderid)},{status:"Shipped"}]}).then((result)=>{
                    if(result){
                        resolve(true)
                    }else{
@@ -167,10 +215,10 @@ module.exports={
         return new Promise(async(resolve, reject)=>{
           
         
-                database.get().collection('order').updateOne({_id : ObjectId(orderid)},
+                database.get().collection('orderPlaced').updateOne({_id : ObjectId(orderid)},
                 {
                     $set:{
-                        orderstatus : "Delivered"
+                        status : "Delivered"
                     }
                 }).then(()=>{
                     resolve({status : true})
@@ -181,7 +229,7 @@ module.exports={
     },
     checkOrderStatusReject1 :(orderid)=>{
         return new Promise((resolve, reject)=>{
-            database.get().collection('order').findOne({$and :[{_id:ObjectId(orderid)},{orderstatus:"Cancelled"}]}).then((result)=>{
+            database.get().collection('orderPlaced').findOne({$and :[{_id:ObjectId(orderid)},{status:"Cancelled"}]}).then((result)=>{
                    if(result){
                        resolve(true)
                    }else{
@@ -192,7 +240,7 @@ module.exports={
     },
     checkOrderStatusReject2 : (orderid)=>{
         return new Promise((resolve, reject)=>{
-            database.get().collection('order').findOne({$and :[{_id:ObjectId(orderid)},{orderstatus:"Placed"}]}).then((result)=>{
+            database.get().collection('orderPlaced').findOne({$and :[{_id:ObjectId(orderid)},{status:"Placed"}]}).then((result)=>{
                    if(result){
                        resolve(true)
                    }else{
@@ -206,10 +254,10 @@ orderCancel :(orderid)=>{
     return new Promise(async(resolve, reject)=>{
       
     
-            database.get().collection('order').updateOne({_id : ObjectId(orderid)},
+            database.get().collection('orderPlaced').updateOne({_id : ObjectId(orderid)},
             {
                 $set:{
-                    orderstatus : "Cancelled"
+                    status : "Cancelled"
                 }
             }).then(()=>{
                 resolve({status : true})

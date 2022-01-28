@@ -16,6 +16,9 @@ const isUser = true;
 
 router.get('/', function (req, res, next) {
 	
+	// userHelper.getProducts(null, '61f24008acf570e4cb08170f').then((res) => {
+	// 	console.log(res)
+	// })
 	if (req.session.isLoggedin || req.session.otpUserLoggedin || req.session.isFreshUserLoggedin) {
 		res.redirect('/');
 	} else {

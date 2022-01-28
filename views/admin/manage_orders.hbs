@@ -1,10 +1,5 @@
 <h1 style="text-align: center;">Manage Orders</h1>
-
-
 <div class="co1-12 mt-3">
-
-  
-
   <table class="table table-bordered mt-2 tb_datatable">
    <thead>
       <tr>
@@ -16,33 +11,25 @@
         <th>Username</th>
         <th>Current Status</th>
         <th>View</th>
-      
-        
       </tr>
     </thead>
     <tbody id="myTable">
      {{#each orders}}
       <tr>
-        <td>{{this.date}}</td>
+        <td>{{this.data.[0].date}}</td>
         <td>{{this._id}}</td>
         <td>
-            {{#each this.products}}
-            <p>{{product.productTitle}}- ( <span style="font-weight: bold;">{{quantity}}</span> <span style="font-weight: bold;"> X </span><span style="font-weight: bold;">Rs. {{product.price}}</span> = <span  style="font-weight: bold;">Rs. {{total}}</span> )</p>
+          {{#each this.data}}
+            <p>{{this.productList.productTitle}}</p>
             {{/each}}
         </td>
-        <td>Rs. {{this.grandTotal}}</td>
-        <td>{{this.paymentMethod}}</td>
-        <td>{{this.user.username}}</td>
-        <td>{{this.orderstatus}}</td>
+        <td>Rs. {{this.data.[0].products.subtotal.total}}</td>
+        <td>{{this.data.[0].paymentMethod}}</td>
+        <td>{{this.data.[0].deliveryDetails.name}}</td>
+        <td>{{this.data.[0].status}}</td>
         <td><a href="/admin/view_order_details/{{this._id}}" class="btn btn-success">View Details</a></td>
-        
-       
-        
          </tr>
          {{/each}}
-     
     </tbody>
   </table>
-  
-
 </div>

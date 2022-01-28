@@ -182,7 +182,7 @@
                 <!--Product Grid-->
                 <div class="product-load-more">
                     <div class="grid-products grid--view-items">
-
+                           
 
                         <div class="row">
                             {{#each products}}
@@ -249,7 +249,7 @@
                                 <div class="product-details text-center">
                                     <!-- product name -->
                                     <div class="product-name">
-                                        <a href="product-layout1.html">{{this.productTitle}}</a>
+                                        <a href="product-details/{{this._id}}">{{this.productTitle}}</a>
                                     </div>
                                     <!-- End product name -->
                                     <!-- product price -->
@@ -258,7 +258,7 @@
                                     </div>
                                     <!-- End product price -->
 
-                                    <a href="product-details/{{this._id}}" class="btn btn-dark">Buy Now</a>
+                                    <a href="/product-checkout/{{this._id}}" class="btn btn-dark">Buy Now</a>
 
                                 </div>
                                 <!-- End product details -->
@@ -267,7 +267,6 @@
 
                         </div>
                     
-
 
                     </div>
                     <!--End Product Grid-->

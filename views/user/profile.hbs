@@ -6,6 +6,16 @@
             <div class="breadcrumbs"><a href="index.html" title="Back to the home page">Home</a> <span
                     aria-hidden="true">|</span> <span>My Account</span></div>
         </div>
+        {{#if currentPasswordErr}}
+        <div class="alert alert-danger">
+            {{currentPasswordErr}}
+        </div>
+        {{/if}}
+        {{#if successMsgChangePassword }}
+        <div class="alert alert-success">
+            {{successMsgChangePassword}}
+        </div>
+        {{/if}}
     </div>
     <!--End Breadcrumbs-->
     <div class="container">
@@ -33,12 +43,12 @@
                 <div class="tab-content dashboard-content padding-30px-all md-padding-15px-all" style="">
                     <!-- Dashboard -->
                     <div id="dashboard" class="tab-pane fade active show">
-                        <p style="float: right;">edit profile</p>
+                        <p style="float: right;"><a href="/edit-profile/{{user._id}}">edit profile</a> </p>
+
                         <h3>Dashboard </h3>
                         <div class="row">
                             <div class="col-lg-3">
-                                <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                                    alt="">
+                                <img src="/profile-images/{{user._id}}profile.jpg" alt="">
                             </div>
                             <div class="col-lg-9">
                                 <div class="card p-2 mt-5">
@@ -112,6 +122,7 @@
                                 <thead class="alt-font">
                                     <tr>
                                         <th>Order ID</th>
+                                        <th>Address</th>
                                         <th>Products</th>
                                         <th>Date</th>
                                         <th>Status</th>
@@ -120,17 +131,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   {{#each orders}}
+                                    
+                                    {{#each orders}}
+                                    
+
                                     <tr>
                                         <td>{{this._id}}</td>
-                                        <td>{{#each this.products}}
-            <p style="font-weight: bold;">{{product.productTitle}}</p>
-            {{/each}}</td>
-                                        <td>{{this.date}}</td>
-                                <td>{{this.orderstatus}}</td>
-                                        <td>Rs. {{this.grandTotal}}</td>
-                                        <td><a class="view text-success" href="/view-myorder_details/{{this._id}}" style="font-weight: bold;">View</a><a class="view ms-3 text-danger" href="cart-style1.html" style="font-weight: bold;"> Cancel</a></td>
+                                        <td>{{this.data.[0].deliveryDetails.address}}</td>
+                                        <td>
+                                            {{#each this.data}}
+                                            <p style="font-weight: bold;">{{this.productList.productTitle}}</p>
+                                            {{/each}}
+                                            </td>
+                                        <td>{{this.data.[0].date}}</td>
+                                        <td>{{this.data.[0].status}}</td>
+                                        <td>Rs. {{this.data.[0].products.subtotal.total}}</td>
+                                        <td><a class="view text-success" href="/view-myorder_details/{{this._id}}"
+                                                style="font-weight: bold;">View</a><a class="view ms-3 text-danger"
+                                                href="/order-cancel/{{this._id}}" style="font-weight: bold;"> Cancel</a></td>
                                     </tr>
+                                
                                     {{/each}}
                                 </tbody>
                             </table>
@@ -141,30 +161,34 @@
 
 
                     <!-- Address -->
-                   <div id="address" class="address tab-pane">
+                    <div id="address" class="address tab-pane">
                         <h4 class="billing-address">Billing address</h4>
-                    
+
                         {{#each userAddress.address}}
-                     
+
                         <div class="card p-4">
 
                             <div class="row">
-                               <h6>{{this.addressType}}</h6>
+                                <h6>{{this.addressType}}</h6>
                                 <div class="col-11">
-                                    <a class="view margin-5px-bottom" style="float: right;" href="/edit-address/{{this._id}}/{{../user._id}}">edit</a>
+                                    <a class="view margin-5px-bottom" style="float: right;"
+                                        href="/edit-address/{{this._id}}/{{../user._id}}">edit</a>
                                 </div>
                                 <div class="col-1">
-                                    <a class="view margin-5px-bottom" style="float: right; margin-right:35px;" href="/delete-address/{{this._id}}/{{../user._id}}">delete</a>
+                                    <a class="view margin-5px-bottom" style="float: right; margin-right:35px;"
+                                        href="/delete-address/{{this._id}}/{{../user._id}}">delete</a>
                                 </div>
                             </div>
-                           <span style="font-weight: bold;">{{this.firstname}} {{this.lastname}} <span style="margin-left: 15px;"> {{this.phone}}</span></span>
-                            
-                            <p>{{this.address}}, <br>{{this.landmark}},  {{this.district}},  {{this.state}},  <br>-{{this.pincode}}</p>
+                            <span style="font-weight: bold;">{{this.firstname}} {{this.lastname}} <span
+                                    style="margin-left: 15px;"> {{this.phone}}</span></span>
+
+                            <p>{{this.address}}, <br>{{this.landmark}}, {{this.district}}, {{this.state}},
+                                <br>-{{this.pincode}}</p>
                             <P>Alternative Mobile Number : {{this.alternativePhone}}</P>
                         </div>
                         {{/each}}
-     
-                        </div>
+
+                    </div>
                     <!-- End Address -->
 
                     <!-- Account Details -->
@@ -220,44 +244,45 @@
                                         <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
                                             <label for="input-firstname">State <span class="required-f">*</span></label>
                                             <select name="state" id="state" class="form-control">
-<option value="Andhra Pradesh">Andhra Pradesh</option>
-<option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-<option value="Arunachal Pradesh">Arunachal Pradesh</option>
-<option value="Assam">Assam</option>
-<option value="Bihar">Bihar</option>
-<option value="Chandigarh">Chandigarh</option>
-<option value="Chhattisgarh">Chhattisgarh</option>
-<option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
-<option value="Daman and Diu">Daman and Diu</option>
-<option value="Delhi">Delhi</option>
-<option value="Lakshadweep">Lakshadweep</option>
-<option value="Puducherry">Puducherry</option>
-<option value="Goa">Goa</option>
-<option value="Gujarat">Gujarat</option>
-<option value="Haryana">Haryana</option>
-<option value="Himachal Pradesh">Himachal Pradesh</option>
-<option value="Jammu and Kashmir">Jammu and Kashmir</option>
-<option value="Jharkhand">Jharkhand</option>
-<option value="Karnataka">Karnataka</option>
-<option value="Kerala">Kerala</option>
-<option value="Madhya Pradesh">Madhya Pradesh</option>
-<option value="Maharashtra">Maharashtra</option>
-<option value="Manipur">Manipur</option>
-<option value="Meghalaya">Meghalaya</option>
-<option value="Mizoram">Mizoram</option>
-<option value="Nagaland">Nagaland</option>
-<option value="Odisha">Odisha</option>
-<option value="Punjab">Punjab</option>
-<option value="Rajasthan">Rajasthan</option>
-<option value="Sikkim">Sikkim</option>
-<option value="Tamil Nadu">Tamil Nadu</option>
-<option value="Telangana">Telangana</option>
-<option value="Tripura">Tripura</option>
-<option value="Uttar Pradesh">Uttar Pradesh</option>
-<option value="Uttarakhand">Uttarakhand</option>
-<option value="West Bengal">West Bengal</option>
-</select>
-                                            
+                                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands
+                                                </option>
+                                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                                <option value="Assam">Assam</option>
+                                                <option value="Bihar">Bihar</option>
+                                                <option value="Chandigarh">Chandigarh</option>
+                                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                                <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+                                                <option value="Daman and Diu">Daman and Diu</option>
+                                                <option value="Delhi">Delhi</option>
+                                                <option value="Lakshadweep">Lakshadweep</option>
+                                                <option value="Puducherry">Puducherry</option>
+                                                <option value="Goa">Goa</option>
+                                                <option value="Gujarat">Gujarat</option>
+                                                <option value="Haryana">Haryana</option>
+                                                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                                <option value="Jharkhand">Jharkhand</option>
+                                                <option value="Karnataka">Karnataka</option>
+                                                <option value="Kerala">Kerala</option>
+                                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                                <option value="Maharashtra">Maharashtra</option>
+                                                <option value="Manipur">Manipur</option>
+                                                <option value="Meghalaya">Meghalaya</option>
+                                                <option value="Mizoram">Mizoram</option>
+                                                <option value="Nagaland">Nagaland</option>
+                                                <option value="Odisha">Odisha</option>
+                                                <option value="Punjab">Punjab</option>
+                                                <option value="Rajasthan">Rajasthan</option>
+                                                <option value="Sikkim">Sikkim</option>
+                                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                                <option value="Telangana">Telangana</option>
+                                                <option value="Tripura">Tripura</option>
+                                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                                <option value="Uttarakhand">Uttarakhand</option>
+                                                <option value="West Bengal">West Bengal</option>
+                                            </select>
+
                                         </div>
                                         <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
                                             <label for="input-lastname">Landmark<span
@@ -271,8 +296,8 @@
                                         <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
                                             <label for="input-password">Alternative Mobile <span
                                                     class="required-f">*</span></label>
-                                            <input name="alternativePhone" value="" id="input-password" class="form-control"
-                                                type="number"
+                                            <input name="alternativePhone" value="" id="input-password"
+                                                class="form-control" type="number"
                                                 placeholder="Enter Alternative Mobile Number (Optional)">
                                         </div>
                                         <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
@@ -313,7 +338,7 @@
                     <div id="change-password" class="tab-pane fade">
                         <h3>Change Password</h3>
                         <div class="account-login-form bg-light-gray padding-20px-all">
-                            <form>
+                            <form action="/change-password/{{user._id}}" method="post">
                                 <fieldset>
 
 
@@ -321,17 +346,17 @@
                                         <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
                                             <label for="input-firstname">Current Password <span
                                                     class="required-f">*</span></label>
-                                            <input name="firstname" value="" id="input-firstname" class="form-control"
-                                                type="text" placeholder="Enter Current Password">
+                                            <input name="currentPassword" value="" id="input-firstname"
+                                                class="form-control" type="text" placeholder="Enter Current Password">
                                         </div>
                                         <div class="form-group col-md-6 col-lg-6 col-xl-6 required">
                                             <label for="input-lastname">New Password <span
                                                     class="required-f">*</span></label>
-                                            <input name="lastname" value="" id="input-lastname" class="form-control"
+                                            <input name="newPassword" value="" id="input-lastname" class="form-control"
                                                 type="text" placeholder="Enter New Password">
                                         </div>
                                     </div>
-                                    
+
 
                                 </fieldset>
 

@@ -607,10 +607,46 @@ router.get('/manage-orders', async(req, res, next)=>{
 
 router.get('/view_order_details/:orderId', async(req, res, next)=>{
   let orderDetails = await adminHelper.viewProductDetails(req.params.orderId)
-  let packed = req.session.packed
-  req.session.packed = null;
+  console.log(orderDetails[0].data[0].status);
 
-  res.render('admin/view-order-Details',{isadmin, orderDetails, packed})
+    if(orderDetails[0].data[0].status === "Placed"){
+      var orderStatus1 = "Placed"
+      var packed = true;
+      var shipped = true;
+      var delivered = true;
+      var cancelled = true
+    }
+    if(orderDetails[0].data[0].status === "Packed"){
+      var orderStatus2 = "Packed"
+      var packed = false;
+      var shipped = true;
+      var delivered = true;
+      var cancelled = false;
+    }
+    if(orderDetails[0].data[0].status === "Shipped"){
+      var orderStatus3 = "Shipped"
+      var packed = false;
+      var shipped = false;
+      var delivered = true;
+      var cancelled =false
+    }
+    if(orderDetails[0].data[0].status === "Delivered"){
+      var orderStatus4 = "Delivered"
+      var packed = false;
+      var shipped = false;
+      var delivered = false;
+      var cancelled =false
+    }
+    if(orderDetails[0].data[0].status === "Cancelled"){
+      var orderStatus5 = "Cancelled"
+     
+      var packed = false;
+      var shipped = false;
+      var delivered = false;
+      var cancelled =false
+      var cancelConfirm = true;
+    }
+  res.render('admin/view-order-Details',{isadmin, orderDetails, orderStatus1, orderStatus2, orderStatus3, orderStatus4, orderStatus5, packed, shipped, delivered, cancelled, cancelConfirm })
 })
 
 
