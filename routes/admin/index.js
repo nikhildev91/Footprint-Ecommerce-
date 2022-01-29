@@ -710,8 +710,26 @@ router.get('/rejected/:orderid', async(req, res, next)=>{
   
 })
 
+router.get('/manage-coupons',async(req, res, next)=>{
+ let coupons = await adminHelper.getCoupons()
+  res.render('admin/manage-coupons', {isadmin, coupons})
+})
 
+router.post('/manage-coupons', async(req, res,next)=>{
+  console.log('manage coupons : ',req.body);
+  let response = await adminHelper.addNewCoupons(req.body)
+  if(response){
+    res.redirect('/admin/manage-coupons')
+  }
+})
 
+router.post('/delete-coupon',async(req, res, next)=>{
+  console.log(req.body);
+  let response = await adminHelper.deleteCoupons(req.body)
+  if(response){
+    res.redirect('/admin/manage-coupons')
+  }
+})
 
 
 

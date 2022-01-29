@@ -6,6 +6,12 @@ const async = require('hbs/lib/async');
 const {
   load
 } = require('dotenv');
+var paypal = require('paypal-rest-sdk');
+paypal.configure({
+    'mode': 'sandbox', //sandbox or live
+    'client_id': 'AYGjlXg0nfklGTKKkJONL-q3cflFgCU7JVKeCwcSATHjqDJQyt5zL7QvVDKqXC2JQagVbja2QEzivXFq',
+    'client_secret': 'EBDlxKwRqNBF_i5msqzLQ655p856RzvZfN15ZicsLA9DGTU6jCWrkTKgIzym-9162g7jFIOAUp9DlDOO'
+  });
 
 
 
@@ -323,22 +329,58 @@ router.post('/get-confirm-address', async (req, res, next) => {
 });
 
 router.post('/order-placed', async (req, res, next) => {
-  console.log(req.body);
-
-  var userid=req.session.userObj._id
-
-  var totalPrice = await userHelper.getTotalAmount(userid)
-  console.log(totalPrice.subtotal.total);
-var amount = totalPrice.subtotal.total
-console.log(amount);
-  userHelper.placeOrder(req.body, totalPrice, userid).then(async(response)=>{
+  
+  var totalPrice = await userHelper.getTotalAmount(req.body.userId)
+var amount = req.body.grandTotal
+  userHelper.placeOrder(req.body, totalPrice, req.body.userId).then(async(response)=>{
     req.session.orderId = response.orderId;
     if(req.body.paymentMethod==='COD'){
 
       res.json({codSuccess : true})
     }else if(req.body.paymentMethod==='Razorpay'){
+     
      var response = await userHelper.generateRazorpay(response.orderId, amount)
-     res.json(response)
+     res.json(razorpay)
+    }else if(req.body.paymentMethod==='Paypal'){
+   
+      var totalPrice = req.body.grandTotal
+      let amount = parseInt(totalPrice)
+      console.log(typeof amount);
+      var create_payment_json = {
+        "intent": "sale", 
+        "payer": {
+            "payment_method": "paypal"
+        },
+        "redirect_urls": {
+            "return_url": "http://localhost:3000/order-success",
+            "cancel_url": "http://localhost:3000"
+        },
+        "transactions": [{
+            "amount": {
+                "currency": "USD",
+                "total": amount
+            },
+            "description": "This is the payment description."
+
+        }]
+    };
+    paypal.payment.create(create_payment_json, function (error, payment) {
+      if (error) {
+          throw error;
+      } else {
+        for(let i = 0;i < payment.links.length;i++){
+          if(payment.links[i].rel === "approval_url"){
+            userHelper.changePaymentStatus(response.orderId).then(()=>{
+
+              res.send({forwardLink: payment.links[i].href});
+            })
+          
+          }
+        }
+        
+      }
+  });
+     
     }
   })
 });
@@ -359,6 +401,7 @@ router.get('/product-checkout/:proid', async (req, res, next) => {
     isUser,
     getUserAddressForPlaceOrder,
     product,
+    userId,
     buyOne:true
   })
 });
@@ -367,11 +410,8 @@ router.get('/view-myorder_details/:orderid', async (req, res, next) => {
   let category = await userHelper.takeCategory()
   let cartCount = 0;
   cartCount = await userHelper.getCartCount(userSession._id)
-
   let cartProducts = await userHelper.getCartProducts(userSession._id)
   let orderDetails = await userHelper.getMyOrders(req.params.orderid)
-    console.log(orderDetails[0].data[0].status);
-
   if (orderDetails[0].data[0].status === "Placed") {
     var orderStatus1 = "Placed"
   }
@@ -392,8 +432,6 @@ router.get('/view-myorder_details/:orderid', async (req, res, next) => {
   if (delivered || cancel) {
     var cancelbtn = true
   }
-
-
   res.render('user/view-orderDetails', {
     isUser,
     category,
@@ -409,8 +447,8 @@ router.get('/view-myorder_details/:orderid', async (req, res, next) => {
     cancelbtn
   })
 });
+
 router.get('/order-cancel/:orderid', async (req, res) => {
-  console.log("cancel Product called");
   let response = await userHelper.checkOrderStatusForCancel(req.params.orderid)
   if (response == false) {
     let response = await userHelper.cancelOrder(req.params.orderid)
@@ -418,13 +456,12 @@ router.get('/order-cancel/:orderid', async (req, res) => {
       res.redirect('/view-myorder_details/' + req.params.orderid)
     }
   }
-})
-
+});
 
 router.post('/verify_payment', (req, res)=>{
   console.log(req.body);
   userHelper.verifyPayment(req.body).then(()=>{
-    userHelper.changePaymentStatus(req.body['receipt']).then(()=>{
+    userHelper.changePaymentStatus(req.body['order[receipt]']).then(()=>{
       console.log("payment success");
       res.json({status:true})
     })
@@ -432,7 +469,7 @@ router.post('/verify_payment', (req, res)=>{
     console.log(err);
     res.json({status:false, errMsg :'paymet failed'})
   })
-})
+});
 
 
 

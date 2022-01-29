@@ -16,6 +16,7 @@
     <div class="container">
         <!--Main Content-->
         <form method="post" id="Checkout-form">
+            <h1>{{userId}}</h1>
                     <input type="text" name="userId" value="{{userId}}" hidden>
             <div class="row">
                 <div class="col-md-6 col-lg-4">
@@ -24,10 +25,10 @@
                     <div class="card card--grey">
                         <div class="card-body">
                             <h2>select ADDRESS</h2>
-                            <div class="card col-12" style="background-color: black;">
+                            {{!-- <div class="card col-12" style="background-color: black;">
                                 <h4 style="text-align: end; color: white; padding-top:10px"><a href="">+ Add New
                                         Address</a></h4>
-                            </div>
+                            </div> --}}
 
                             {{#each getUserAddressForPlaceOrder.address}}
                             <hr>
@@ -205,7 +206,19 @@
                                     <td>Rs. {{this.productTotal}}</td>
                                 </tr>
                                {{/each}}
+
                             </tbody>
+                             <tfoot class="font-weight-600">
+                                <tr>
+                                    <td colspan="4" class="text-right">Shipping </td>
+                                    <td>$50.00</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right">Total</td>
+                                    <td>{{grandTotal}}</td>
+                                    <input type="text" name="grandTotal" value="{{grandTotal}}" hidden>
+                                </tr>
+                            </tfoot>
                             {{/if}}
                             {{#if buyOne}}
                             {{!-- buy now body start --}}
@@ -225,8 +238,8 @@
                                 </tr>
                               
                             </tbody>
-                            {{!-- buy now body end --}}
-                            {{/if}}
+                            
+                            
                             <tfoot class="font-weight-600">
                                 <tr>
                                     <td colspan="4" class="text-right">Shipping </td>
@@ -238,6 +251,8 @@
                                     <input type="text" name="grandTotal" value="{{product.price}}" hidden>
                                 </tr>
                             </tfoot>
+                            {{/if}}
+                            {{!-- buy now body end --}}
                         </table>
                     </div>
                     <div class="mt-2"></div>

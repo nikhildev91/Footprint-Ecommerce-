@@ -1,0 +1,107 @@
+<h1 style="text-align: center;">Manage Coupons</h1>
+<div class="card p-5 w-50 mx-auto">
+
+    <div class="row">
+
+
+        <div class="col-lg-12">
+            <div class="mt-2">
+                <h4 class="header-title mb-3">Add New Coupon</h4>
+
+                <div class="">
+                    <form action="/admin/manage-coupons" class="form-validation" method="post" id="addCoupons">
+                        <div class="form-group">
+                            <label for="couponCode">Coupon Code<span class="text-danger">*</span></label>
+                            <input type="text" name="couponcode" parsley-trigger="change"
+                                placeholder="Enter New Coupon Code" class="form-control" id="couponCode">
+                        </div>
+                        <div class="form-group">
+                            <label for="discount">Discount in(%)<span class="text-danger">*</span></label>
+                            <input type="text" name="discount" parsley-trigger="change"
+                                placeholder="Enter Discount in percentage" class="form-control" id="discount">
+                        </div>
+                        <div class="form-group">
+                            <label for="pass1">Validity Date<span class="text-danger">*</span></label>
+                            <input id="date" type="text" name="date" placeholder="Enter the validity date" class="form-control">
+                        </div>
+
+                        <div class="form-group text-right mb-0">
+                            <button class="btn btn-primary waves-effect waves-light mr-1" type="submit">
+                                Add
+                            </button>
+                            <button type="reset" class="btn btn-danger waves-effect">
+                                Cancel
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+<div class="card p-5 w-50 mx-auto">
+
+    <div class="row">
+
+
+        <div class="col-lg-12">
+            <div class="mt-2">
+                <h4 class="header-title mb-3">Delete Coupon</h4>
+
+                <div class="">
+                    <form action="/admin/delete-coupon" class="form-validation" method="post" id="deleteCoupon">
+                        <div class="form-group">
+                            <label for="couponCode">Coupon Code<span class="text-danger">*</span></label>
+                            <input type="text" name="couponcode" parsley-trigger="change"
+                                placeholder="Enter Delete Coupon Code" class="form-control" id="code">
+                        </div>
+
+
+                        <div class="form-group text-right mb-0 mx-auto" >
+                            <button class="btn btn-danger waves-effect waves-light mr-1" type="submit">
+                                Delete
+                            </button>
+                           
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+<div>
+
+    <table id="datatable" class="table table-bordered dt-responsive nowrap w-75 mx-auto"
+        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+        <h2 class="text-center" >Existing Coupons : </h2>
+        <thead>
+            <tr>
+                <th>Coupon Code</th>
+                <th>Discount</th>
+                <th>Validity Date</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each coupons}}
+            <tr>
+                <td>{{this.couponcode}}</td>
+                <td>{{this.discount}}%</td>
+                <td>{{this.date}}</td>
+
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</div>

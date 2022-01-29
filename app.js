@@ -5,7 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const {create}= require('express-handlebars');
 var bodyParser = require('body-parser');
-const session = require('express-session')
+const session = require('express-session');
+const cors = require('cors');
 
 var indexRouter = require('./routes/user/index');
 var usersRouter = require('./routes/users');
@@ -41,7 +42,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(fileUpload())
-
+app.use(cors())
 app.use(session({secret:"Key", cookie:{maxAge:40000000}}));
 
 

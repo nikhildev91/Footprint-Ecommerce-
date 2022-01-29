@@ -391,8 +391,10 @@ $('#Checkout-form').submit((e)=>{
         success:(response)=>{
             if(response.codSuccess){
                 location.href='/order-success'
-            }else{
+            }else if(response.razorpay){
                 razorpayPayment(response)
+            }else if(response.forwardLink){
+                location.href=response.forwardLink
             }
         }
     })
@@ -408,10 +410,6 @@ function razorpayPayment(order){
     "image": "https://example.com/your_logo",
     "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
     "handler": function (response){
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature)
-
         verifyPayment(response, order)
     },
     "prefill": {

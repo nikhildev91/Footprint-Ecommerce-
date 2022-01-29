@@ -6,12 +6,17 @@ const {
     ObjectId
 } = require('mongodb');
 var database = require('../dataConfig/databaseConnection');
-const Razorpay  = require('razorpay')
+const Razorpay  = require('razorpay');
 var instance = new Razorpay({
     key_id: 'rzp_test_OEEvw6L8TUCHKd',
     key_secret: 'oJlWYAn0TaqJEMwwnyAobx2B',
   });
-
+// var paypal = require('paypal-rest-sdk');
+// paypal.configure({
+//     'mode': 'sandbox', //sandbox or live
+//     'client_id': 'AdztJKbUC0wDPg_bnf_mdI0A23oJ5FIsJ_D9KTy9XiT_sozOZ5jhhxKGPVak9vttvjlE8TucfApdzLlG',
+//     'client_secret': 'ECdrLz3xZK7odyw0ibTnjSu_1edFa8cc7HFUdeW7HHiqfy7lcj5dU7nbMeRTJ-cguDxyCvGZGQPbJMGk'
+//   });
 
 module.exports = {
 
@@ -404,6 +409,8 @@ module.exports = {
     },
 
     getTotalAmount: (userId) => {
+        console.log("gettotalAmount vilichu");
+        console.log(userId);
         return new Promise(async (resolve, reject) => {
             let totalAmount = await database.get().collection("cart").aggregate([{
                     $match: {
@@ -488,8 +495,7 @@ module.exports = {
                     }
                 },
             ]).toArray()
-
-
+              
             resolve({
                 subtotal: totalAmount[0],
                 productsTotal
@@ -533,7 +539,6 @@ module.exports = {
             }
         }
             ]).toArray()
-            console.log(orderDetails[0].data[0]);
             resolve(orderDetails)
         })
     },
@@ -1116,19 +1121,65 @@ module.exports = {
         })
     },
     changePaymentStatus : (orderId)=>{
-        return new Promise((resolve, reject) => {
-            database.get().collection('orderPlaced').updateOne({
+        console.log("order Id : ", orderId);
+        return new Promise(async(resolve, reject) => {
+           await database.get().collection('orderPlaced').updateOne({
                 _id: ObjectId(orderId)
             }, {
                 $set: {
                     status: "Placed"
                 }
-            }).then(() => {
-                resolve(true)
+            }).then((result) => {
+                console.log("result : ", result);
+                if(result){
+
+                    resolve(true)
+                }
             })
         })
 
-    }
+    },
+    // generatePaypal:(orderId, amount)=>{
+    //     console.log("amount : ", amount);
+    //     return new Promise((resolve, reject)=>{
+    //         var create_payment_json = {
+    //             "intent": "sale",
+    //             "payer": {
+    //                 "payment_method": "paypal"
+    //             },
+    //             "redirect_urls": {
+    //                 "return_url": "/order-success",
+    //                 "cancel_url": "/"
+    //             },
+    //             "transactions": [{
+    //                 // "item_list": {
+    //                 //     "items": [{
+    //                 //         "name": "item",
+    //                 //         "sku": "item",
+    //                 //         "price": "1.00",
+    //                 //         "currency": "USD",
+    //                 //         "quantity": 1
+    //                 //     }]
+    //                 // },
+    //                 "amount": {
+    //                     "currency": "USD",
+    //                     "total": ""+amount
+    //                 },
+    //                 "description": "This is the payment description."
+    //             }]
+    //         };
+    //         paypal.payment.create(create_payment_json, function (error, payment) {
+    //             if (error) {
+    //                 throw error;
+    //             } else {
+    //                 // console.log("Create Payment Response");
+    //                 // console.log(payment);
+    //                 resolve(payment)
+    //             }
+    //         });
+             
+    //     })
+    // }
 
 
 }

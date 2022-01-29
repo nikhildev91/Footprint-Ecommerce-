@@ -264,6 +264,27 @@ orderCancel :(orderid)=>{
             })
         
     })
+},
+
+addNewCoupons : (couponDetails)=>{
+    return new Promise((resolve, reject)=>{
+        database.get().collection('coupons').insertOne(couponDetails).then(()=>{
+            resolve(true)
+        })
+    })
+},
+getCoupons : ()=>{
+    return new Promise(async(resolve, reject)=>{
+        let coupons = await database.get().collection('coupons').find().toArray()
+        resolve(coupons)
+    })
+},
+deleteCoupons : (couponCode)=>{
+    return new Promise((resolve, reject)=>{
+        database.get().collection('coupons').deleteOne(couponCode).then(()=>{
+            resolve(true)
+        })
+    })
 }
     
 }

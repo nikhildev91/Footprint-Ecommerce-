@@ -328,6 +328,49 @@ $("#add-Banner").validate({
  
 
 
+        $("#addCoupons").validate({
+          rules:{
+            couponcode :{
+              required : true,
+              maxlength : 15,
+              normalizer: function(value) {
+                return $.trim(value);
+              }
+            },
+            discount :{
+
+              required : true,
+              digits : true,
+              maxlength:3,
+              normalizer: function(value) {
+                return $.trim(value);
+              }
+            },
+            date:{
+              required : true,
+              digits:true,
+              regex : '/',
+              normalizer: function(value) {
+                return $.trim(value);
+              }
+            }
+
+          }
+        });
+
+        $("#deleteCoupon").validate({
+          rules:{
+            couponcode :{
+              required : true,
+              maxlength : 15,
+              normalizer: function(value) {
+                return $.trim(value);
+              }
+            }
+          }
+        })
+
+
 
 
 jQuery.validator.addMethod("lettersonly", function(value, element) {
