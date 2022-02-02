@@ -102,23 +102,23 @@
             <div class="container mt-4">
                 <div class="row">
                     <div class="col-12 col-sm-12 col-md-4 col-lg-4 mb-4 cart-col">
-                        <h5>Discount Codes</h5>
-                        {{!-- <form action="#" method="post"> --}}
+                        <h5 hidden>Discount Codes</h5>
+                       
                             <div class="form-group">
-                                <label for="address_zip">Enter your coupon code if you have one.</label>
-                                <input type="text" name="coupon">
+                                <label for="address_zip" hidden>Enter your coupon code if you have one.</label>
+                                <input type="text" name="coupon" hidden>
                             </div>
                             <div class="actionRow">
-                                <div><input type="button" class="btn btn-secondary btn--small" value="Apply Coupon">
+                                <div><input type="button" class="btn btn-secondary btn--small" value="Apply Coupon"  hidden>
                                 </div>
                             </div>
-                        {{!-- </form> --}}
+                        
                     </div>
 
 
                     <div class="col-12 col-sm-12 col-md-4 col-lg-4 mb-4 cart-col">
                         <h5 hidden>Discount Codes</h5>
-                        {{!-- <form action="#" method="post"> --}}
+                       
                             <div class="form-group">
                                 <label for="address_zip" hidden>Enter your coupon code if you have one.</label>
                                 <input type="text" hidden >
@@ -127,14 +127,13 @@
                                 <div><input type="button" class="btn btn-secondary btn--small" value="Apply Coupon">
                                 </div>
                             </div>
-                        {{!-- </form> --}}
+                       
                     </div>
 
 
 
 
                     <div class="col-12 col-sm-12 col-md-4 col-lg-4 cart__footer">
-                        {{!-- <form action="/place-order/{{cartId}}" method="post"></form> --}}
                         <div class="solid-border">
                             <div class="row border-bottom pb-2">
                                 <span class="col-12 col-sm-6 cart__subtotal-title">Subtotal</span>

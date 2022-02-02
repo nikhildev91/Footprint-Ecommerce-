@@ -1,0 +1,88 @@
+<h1 style="text-align: center;">Manage Category Offer</h1>
+<div class="card p-5 w-50 mx-auto">
+
+    <div class="row">
+
+
+        <div class="col-lg-12">
+            <div class="mt-2">
+                <h4 class="header-title mb-3">Add New Offer</h4>
+
+                {{#if categoryOfferErrMsg}}
+                    <div class="alert alert-danger">
+                        {{categoryOfferErrMsg}}
+                    </div>
+                {{/if}}
+
+                <div class="">
+                    <form action="/admin/manage-category-offers" class="form-validation" method="post" id="addCoupons">
+                        <div class="form-group">
+                            <label for="couponCode">Select Category: <span class="text-danger">*</span></label>
+                           
+
+<select name="category" id="cars" class="select2">
+    {{#each category}}
+  <option value="{{this.category}}">{{this.category}}</option>
+  {{/each}}
+
+</select>
+                        </div>
+                        <div class="form-group">
+                            <label for="discount">Discount in(%)<span class="text-danger">*</span></label>
+                            <input type="text" name="discount" parsley-trigger="change"
+                                placeholder="Enter Discount in percentage" class="form-control" id="discount">
+                        </div>
+                        <div class="form-group">
+                            <label for="pass1">Validity Date<span class="text-danger">*</span></label>
+                            <input id="datePicker"  type="date" name="date" placeholder="dd/mm/yy " class="form-control">
+                        </div>
+
+                        <div class="form-group text-right mb-0">
+                            <button class="btn btn-primary waves-effect waves-light mr-1" type="submit">
+                                Add
+                            </button>
+                            <button type="reset" class="btn btn-danger waves-effect">
+                                Cancel
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+<div>
+
+    <table id="datatable" class="table table-bordered dt-responsive nowrap w-75 mx-auto"
+        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+        <h2 class="text-center" >Existing Offers : </h2>
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Discount</th>
+                <th>Validity Date</th>
+                <th>Action</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each categoryOffers}}
+            <tr>
+                <td>{{this.category}}</td>
+                <td>{{this.discount}}%</td>
+                <td>{{this.date}}</td>
+                <td style="text-align: center;" ><a href="/admin/delete/category-offer/{{this._id}}"><i class="fas fa-trash text-danger" style="font-size: 20px ;"></i></a></td>
+
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</div>

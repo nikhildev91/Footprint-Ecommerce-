@@ -14,9 +14,30 @@
     </div>
     <!--End Page Title with Image-->
     <div class="container">
+         <div class="mt-2"></div>
+                    <div class="card card--grey">
+                        <div class="card-body">
+                            <h2>Apply Couponcode</h2>
+                            <form action="" id="coupon-Form">
+                                {{#if buyOne}}
+                                <input type="text" name="buyone" value="true" id="" hidden>
+                                <h1>{{product.price}}</h1>
+                                <input type="text" name="productPrice" value="{{product.price}}" hidden>
+                                {{else}}
+                                <input type="text" name="buyone" value="false" id="">
+                                <input type="text" name="grandTotal" value="{{grandTotal}}">
+                                <h1>{{grandTotal}}</h1>
+                                {{/if}}
+                            <label class="text-uppercase">Enter Coupon code:</label>
+                            <div class="form-flex">
+                                <div class="form-group"><input type="text" name="couponcode" class="form-control"></div><button
+                                    type="submit" class="btn btn--form btn--alt">Apply</button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
         <!--Main Content-->
         <form method="post" id="Checkout-form">
-            <h1>{{userId}}</h1>
                     <input type="text" name="userId" value="{{userId}}" hidden>
             <div class="row">
                 <div class="col-md-6 col-lg-4">
@@ -255,23 +276,26 @@
                             {{!-- buy now body end --}}
                         </table>
                     </div>
-                    <div class="mt-2"></div>
+                    {{!-- <div class="mt-2"></div>
                     <div class="card card--grey">
                         <div class="card-body">
                             <h2>Apply Couponcode</h2>
+                            <form action="" id="coupon-Form">
                             <label class="text-uppercase">Enter Coupon code:</label>
                             <div class="form-flex">
-                                <div class="form-group"><input type="text" class="form-control"></div><button
+                                <div class="form-group"><input type="text" name="couponcode" class="form-control"></div><button
                                     type="submit" class="btn btn--form btn--alt">Apply</button>
                             </div>
+                            </form>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="mt-2"></div>
                     <div class="clearfix"><button type="submit" class="btn btn-large btn--lg w-100">Place Order</button>
                     </div>
                 </div>
             </div>
         </form>
+        
         <!--End Main Content-->
     </div>
     <!--End Body Container-->
@@ -379,66 +403,3 @@
 
 </div>
 </body>
-
-{{!-- 
-<script>
-
-$('#Checkout-form').submit((e)=>{
-    e.preventDefault()
-
-    $.ajax({
-        url:'/order-placed',
-        method:'post',
-        data:$('#Checkout-form').serialize(),
-        success:(response)=>{
-            if(response.codSuccess){
-                location.href='/order-success'
-            }else{
-                razorpayPayment(response)
-                
-            }
-        }
-    })
-   
-})
-function razorpayPayment(order){
-    var options = {
-    "key": "rzp_test_OEEvw6L8TUCHKd", // Enter the Key ID generated from the Dashboard
-    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-    "currency": "INR",
-    "name": "FootPrint",
-    "description": "Test Transaction",
-    "image": "https://example.com/your_logo",
-    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-    "handler": function (response){
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature)
-
-        verifyPayment(response, order)
-    },
-    "prefill": {
-        "name": "Gaurav Kumar",
-        "email": "gaurav.kumar@example.com",
-        "contact": "9999999999"
-    },
-    "notes": {
-        "address": "Razorpay Corporate Office"
-    },
-    "theme": {
-        "color": "#3399cc"
-    }
-};
-}
-function verifyPayment(payment, order){
-
-$.ajax({
-    url:'/verify_payment',
-    data:{
-        payment, 
-        order
-    },
-    method:'post'
-})
-}
-</script> --}}

@@ -15,6 +15,7 @@
         <th>Category</th>
         <th>Sub-Category</th>
         <th>Brand</th>
+        <th>Add Product Offer </th>
         <th>Action</th>
         
       </tr>
@@ -33,6 +34,8 @@
         <td>{{this.category}}</td>
         <td>{{this.subcategory}}</td>
         <td>{{this.brand}}</td>
+        <td><a class="btn btn-primary" href="/admin/product-offer/{{this._id}}">Add Offer</a></td>
+        
         <td><a href="/admin/edit-product/{{this._id}}" onclick="return confirm('Are You Sure Edit This Product?') "><i class="fas fa-edit" style="font-size: 25px; color: blue;"></i> </a><a href="/admin/delete-product/{{this._id}}" onclick="return confirm('Are You Sure Delete This Product?')"><i class="fas fa-trash ml-3" style="font-size: 25px; color: red;"></i></a></td>
          </tr>
          {{/each}}
@@ -43,3 +46,35 @@
   
 
 </div>
+
+<script>
+  function modal(proId){
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Product Offer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h1>{{this._id}}</h1>
+        <form action="/admin/add-product-offer/{{this._id}}" method="post">
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Discount (%):</label>
+            <input type="text" class="form-control" id="" name="discount">
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Expire Date:</label>
+            <input type="date" class="form-control" id="" name="date">
+          </div>
+      <div class="modal-footer">
+        <button type="submi" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+  }
+</script>

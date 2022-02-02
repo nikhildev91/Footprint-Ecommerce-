@@ -77,16 +77,23 @@
                                 <h1 class="product-single__title">{{product.productTitle}}</h1>
                                 
                                 <p class="product-single__price product-single__price-product-template">
+                                    {{#if product.offer}}
+
                                     <span class="visually-hidden">Regular price</span>
-                                    <s id="ComparePrice-product-template"><span class="money">Rs. 600.00</span></s>
+                                    <s id="ComparePrice-product-template"><span class="money">Rs. {{product.oldPrice}}</span></s>
                                     <span class="product-price__price product-price__price-product-template product-price__sale product-price__sale--single">
                                         <span id="ProductPrice-product-template"><span class="money">Rs. {{product.price}}</span></span>
                                     </span>
-                                    <span class="discount-badge"> <span class="devider">|</span>&nbsp;
+                                    {{else}}
+<span class="product-price__price product-price__price-product-template product-price__sale product-price__sale--single">
+                                        <span id="ProductPrice-product-template"><span class="money">Rs. {{product.price}}</span></span>
+                                    </span>
+                                    {{/if}}
+                                    {{!-- <span class="discount-badge"> <span class="devider">|</span>&nbsp;
                                         <span>You Save</span>
                                         <span class="product-single__save-amount"><span class="money">Rs. 100.00</span></span>
                                         <span class="off">(<span>16</span>%)</span>
-                                    </span>  
+                                    </span>   --}}
                                 </p>
                                 
                             </div>

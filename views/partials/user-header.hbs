@@ -26,9 +26,10 @@
           <!--Mobile Icons-->
           <!--Desktop Logo-->
           <div class="logo col-4 col-sm-4 col-md-4 col-lg-2 align-self-center">
-            <a href="index.html">
-              <img src="/user-assets/images/avon-logo.svg" alt="Avone Multipurpose Html Template"
-                title="Avone Multipurpose Html Template" />
+            <a href="/">
+              {{!-- <img src="/images/logo.jpg" alt="Avone Multipurpose Html Template"
+                title="Avone Multipurpose Html Template" /> --}}
+                <h1 style="font-weight: bolder;"> FootPrint</h1>
             </a>
           </div>
           <!--End Desktop Logo-->
@@ -101,6 +102,11 @@
             </div>
             <!--End Search-->
 
+
+
+
+
+
             <!--Wishlist-->
             <div class="wishlist-link iconset">
               <i class="icon anm anm-heart-l"></i>
@@ -123,7 +129,7 @@
               <div class="customer-links">
                 
                 {{#if userSession}}
-                <p class="text-center" style="font-weight: bold;">Profile</p>
+                <p class="text-center" style="font-weight: bold;"><a href="/profile/{{userSession._id}}">Profile</a></p>
                 <p><a href="/login/logout" class="btn">Logout</a></p>
                 {{else}}
                 <p><a href="/login" class="btn">Login</a></p>

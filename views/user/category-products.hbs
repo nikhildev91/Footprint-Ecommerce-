@@ -3,8 +3,8 @@
     <!--Breadcrumbs-->
     <div class="breadcrumbs-wrapper">
         <div class="container">
-            <div class="breadcrumbs"><a href="index.html" title="Back to the home page">Home</a> <span
-                    aria-hidden="true">|</span> <span>Shop Left Sidebar</span></div>
+            <div class="breadcrumbs"><a href="/" title="Back to the home page">Home</a> <span
+                    aria-hidden="true">|</span> <span>{{products.[0].category}}</span></div>
         </div>
     </div>
 
@@ -22,27 +22,17 @@
                         </div>
                         <div class="widget-content" style="">
                             <ul class="sidebar_categories">
-                                <li class="level1 sub-level"><a href="#;" class="site-nav">Clothing</a>
+                                {{#each category}}
+                                <li class="level1 sub-level"><a href="#;" class="site-nav">{{this.category}}</a>
+                                {{#if this.subcategory}}
                                     <ul class="sublinks" style="display: none;">
-                                        <li class="level2"><a href="#;" class="site-nav">Men</a></li>
-                                        <li class="level2"><a href="#;" class="site-nav">Women</a></li>
-                                        <li class="level2"><a href="#;" class="site-nav">Child</a></li>
-                                        <li class="level2"><a href="#;" class="site-nav">View All Clothing</a></li>
+                                        {{#each this.subcategory}}
+                                        <li class="level2"><a href="#;" class="site-nav">{{this.subcategory}}</a></li>
+                                        {{/each}}
                                     </ul>
+                                    {{/if}}
                                 </li>
-                                <li class="level1 sub-level"><a href="#;" class="site-nav">Jewellery</a>
-                                    <ul class="sublinks">
-                                        <li class="level2"><a href="#;" class="site-nav">Ring</a></li>
-                                        <li class="level2"><a href="#;" class="site-nav">Neckalses</a></li>
-                                        <li class="level2"><a href="#;" class="site-nav">Eaarings</a></li>
-                                        <li class="level2"><a href="#;" class="site-nav">View All Jewellery</a></li>
-                                    </ul>
-                                </li>
-                                <li class="lvl-1"><a href="#;" class="site-nav">Shoes</a></li>
-                                <li class="lvl-1"><a href="#;" class="site-nav">Accessories</a></li>
-                                <li class="lvl-1"><a href="#;" class="site-nav">Collections</a></li>
-                                <li class="lvl-1"><a href="#;" class="site-nav">Sale</a></li>
-                                <li class="lvl-1"><a href="#;" class="site-nav">Page</a></li>
+                                {{/each}}
                             </ul>
                         </div>
                     </div>
@@ -65,97 +55,26 @@
                         </form>
                     </div>
 
-                    <div class="sidebar_widget filterBox filter-widget size-swacthes">
-                        <div class="widget-title">
-                            <h2>Size</h2>
-                        </div>
-                        <div class="filter-color swacth-list">
-                            <ul>
-                                <li><span class="swacth-btn">X</span><span class="tooltip-label">X</span></li>
-                                <li><span class="swacth-btn">XL</span><span class="tooltip-label">XL</span></li>
-                                <li><span class="swacth-btn">XLL</span><span class="tooltip-label">XLL</span></li>
-                                <li><span class="swacth-btn">M</span><span class="tooltip-label">M</span></li>
-                                <li><span class="swacth-btn">L</span><span class="tooltip-label">L</span></li>
-                                <li><span class="swacth-btn">S</span><span class="tooltip-label">S</span></li>
-                                <li><span class="swacth-btn">XXL</span><span class="tooltip-label">XLL</span></li>
-                                <li><span class="swacth-btn">XS</span><span class="tooltip-label">XS</span></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="sidebar_widget filterBox filter-widget">
-                        <div class="widget-title">
-                            <h2>Color</h2>
-                        </div>
-                        <div class="filter-color swacth-list clearfix">
-                            <ul>
-                                <li><span class="swacth-btn black"></span><span class="tooltip-label">Black</span></li>
-                                <li><span class="swacth-btn white"></span><span class="tooltip-label">White</span></li>
-                                <li><span class="swacth-btn red"></span><span class="tooltip-label">Red</span></li>
-                                <li><span class="swacth-btn blue"></span><span class="tooltip-label">Blue</span></li>
-                                <li><span class="swacth-btn pink"></span><span class="tooltip-label">Pink</span></li>
-                                <li><span class="swacth-btn gray"></span><span class="tooltip-label">Gray</span></li>
-                                <li><span class="swacth-btn green"></span><span class="tooltip-label">Green</span></li>
-                                <li><span class="swacth-btn orange"></span><span class="tooltip-label">Orange</span>
-                                </li>
-                                <li><span class="swacth-btn yellow"></span><span class="tooltip-label">Yellow</span>
-                                </li>
-                                <li><span class="swacth-btn blueviolet"></span><span class="tooltip-label">Blue
-                                        Violet</span></li>
-                                <li><span class="swacth-btn brown"></span><span class="tooltip-label">Brown</span></li>
-                                <li><span class="swacth-btn darkGoldenRod"></span><span class="tooltip-label">Dark
-                                        Golden Red</span></li>
-                                <li><span class="swacth-btn darkGreen"></span><span class="tooltip-label">Dark
-                                        Green</span></li>
-                                <li><span class="swacth-btn darkRed"></span><span class="tooltip-label">Dark Red</span>
-                                </li>
-                                <li><span class="swacth-btn khaki"></span><span class="tooltip-label">Khaki</span></li>
-                                <li><span class="swacth-btn blue-red"></span><span class="tooltip-label">Blue/Red</span>
-                                </li>
-                                <li><span class="swacth-btn black-grey"></span><span
-                                        class="tooltip-label">Black/Grey</span></li>
-                                <li><span class="swacth-btn pink-black"></span><span
-                                        class="tooltip-label">pink-Black</span></li>
-                            </ul>
-                        </div>
-                    </div>
-
                     <div class="sidebar_widget filterBox filter-widget brand-filter">
                         <div class="widget-title">
                             <h2>Brands</h2>
                         </div>
                         <ul>
+                            {{#each brands}}
                             <li>
                                 <input type="checkbox" value="allen-vela" id="check1">
-                                <label for="check1"><span><span></span></span>Allen Vela</label>
+                                <label for="check1"><span><span></span></span>{{this.brand}}</label>
                             </li>
-                            <li>
-                                <input type="checkbox" value="oxymat" id="check3">
-                                <label for="check3"><span><span></span></span>Oxymat</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" value="vanelas" id="check4">
-                                <label for="check4"><span><span></span></span>Vanelas</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" value="pagini" id="check5">
-                                <label for="check5"><span><span></span></span>Pagini</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" value="monark" id="check6">
-                                <label for="check6"><span><span></span></span>Monark</label>
-                            </li>
+                            {{/each}}
+                            
                         </ul>
                     </div>
 
                 </div>
             </div>
-
-
-
-                        <div class="col-12 col-sm-12 col-md-9 col-lg-9 main-col">
+                       <div class="col-12 col-sm-12 col-md-9 col-lg-9 main-col">
                 <div class="page-title">
-                    <h1>Category Products</h1>
+                    <h1>{{products.[0].category}}'s Products</h1>
                 </div>
                 
                 <div class="category-banner">
@@ -203,7 +122,10 @@
                                             title="">
                                         <!-- End hover image -->
                                         <!-- product label -->
-                                        <div class="product-labels"><span class="lbl on-sale">{{this.category}}</span></div>
+                                       
+                                        {{#if this.offer}}
+ <div class="product-labels"><span class="lbl on-sale">{{this.category}}</span></div>                                       
+  {{/if}}
                                         <!-- End product label -->
                             
                                     <!-- end product image -->
@@ -229,11 +151,11 @@
                                             <li>
                                                 <!--Wishlist Button-->
                                                 <div class="wishlist-btn">
-                                                    <a class="btn-icon wishlist add-to-wishlist"
-                                                        href="my-wishlist.html">
+                                                    <button class="btn-icon wishlist add-to-wishlist"
+                                                       data-proid="{{this._id}}">
                                                         <i class="icon anm anm-heart-l"></i>
                                                         <span class="tooltip-label">Add To Wishlist</span>
-                                                    </a>
+                                                    </button>
                                                 </div>
                                                 <!--End Wishlist Button-->
                                             </li>
@@ -253,12 +175,18 @@
                                     </div>
                                     <!-- End product name -->
                                     <!-- product price -->
+                                    {{#if this.offer}}
+                                    <div class="product-price">
+                                        <span class="price"> <del class="disabled">Rs. {{this.oldPrice}}</del><b><span style="margin-left: 10px;"> Rs. {{this.price}}</span> </b></span>
+                                    </div> 
+                                    {{else}}
                                     <div class="product-price">
                                         <span class="price"><b>Rs. {{this.price}}</b></span>
                                     </div>
+                                    {{/if}}
                                     <!-- End product price -->
 
-                                    <a href="/product-checkout/{{this._id}}" class="btn btn-dark">Buy Now</a>
+                                    <a href="/product-checkout/{{this._id}}" class="btn btn-dark mt-3">Buy Now</a>
 
                                 </div>
                                 <!-- End product details -->

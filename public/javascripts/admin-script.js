@@ -11,6 +11,7 @@ $(document).ready(function(){
     });
   });
 
+ 
 
 
 
@@ -340,19 +341,15 @@ $("#add-Banner").validate({
             discount :{
 
               required : true,
-              digits : true,
-              maxlength:3,
+             number: true,
+             min:10,
+              max:100,
               normalizer: function(value) {
                 return $.trim(value);
               }
             },
             date:{
-              required : true,
-              digits:true,
-              regex : '/',
-              normalizer: function(value) {
-                return $.trim(value);
-              }
+              required : true
             }
 
           }
@@ -376,3 +373,4 @@ $("#add-Banner").validate({
 jQuery.validator.addMethod("lettersonly", function(value, element) {
   return this.optional(element) || /^[a-z," "]+$/i.test(value);
 }, "Only letters and spaces are allowed");
+

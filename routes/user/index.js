@@ -7,6 +7,7 @@ const {
   load
 } = require('dotenv');
 var paypal = require('paypal-rest-sdk');
+const { TaskRouterGrant } = require('twilio/lib/jwt/AccessToken');
 paypal.configure({
     'mode': 'sandbox', //sandbox or live
     'client_id': 'AYGjlXg0nfklGTKKkJONL-q3cflFgCU7JVKeCwcSATHjqDJQyt5zL7QvVDKqXC2JQagVbja2QEzivXFq',
@@ -27,6 +28,7 @@ router.get('/', async function (req, res, next) {
   let banners = await bannerHelper.takebanners()
   let categoryBanners = await bannerHelper.takeCategoryBanners()
   let category = await userHelper.takeCategory()
+  let catname = await userHelper.takeCategoryname()
   let brands = await bannerHelper.getAllBrands()
   let recentProduct = await userHelper.getRecentProducts()
   if (userSession) {
@@ -42,6 +44,7 @@ router.get('/', async function (req, res, next) {
     isUserIndex: true,
     userSession,
     category,
+    catname,
     banners,
     categoryBanners,
     brands,
@@ -52,25 +55,30 @@ router.get('/', async function (req, res, next) {
 
 });
 
+router.get('/get-tab-products', async(req, res, next)=>{
+  console.log("routerill vanne");
+  let allProducts = await userHelper.getallTabProducts()
+  res.json(allProducts)
+})
 
 router.get('/category-check/:category', async (req, res, next) => {
   if (userSession) {
-
     var cartProducts = await userHelper.getCartProducts(userSession._id)
   }
   let category = await userHelper.takeCategory()
+  let brands = await userHelper.takeBrand()
   userHelper.findCategoryProducts(req.params.category).then((products) => {
     bannerHelper.takeProductBanner().then(async (productBanner) => {
       let cartCount = 0;
       if (userSession) {
         cartCount = await userHelper.getCartCount(userSession._id)
       }
-
       res.render('user/category-products', {
         isUser,
         userSession,
         products,
         category,
+        brands,
         productBanner,
         cartCount,
         cartProducts
@@ -113,6 +121,29 @@ router.get('/category-check/product-details/:id', async function (req, res, next
 
 });
 
+router.post('/add-to-wishlist', async(req, res, next)=>{
+  if (userSession) {
+    let userId = userSession._id;
+    let proId  = req.body.proId
+    let response = await userHelper.checkProductWishlist(userId, proId)
+    console.log("result checkwishlist : ", response);
+    if(response){
+        res.send({status : false, errMsg : "This Product Already To Wishlist"})
+    }else{
+      
+      userHelper.addtowishlist(userId, proId).then((response)=>{
+        if(response){
+          res.send({status : true})
+        }else{
+          res.send({status : false, errMsg : 'Error'})
+        }
+      })
+    }
+  }else{
+    res.send({ status :false, errMsg : 'Please login'})
+  }
+})
+
 router.use(function (req, res, next) {
   if (userSession) {
     next()
@@ -121,6 +152,14 @@ router.use(function (req, res, next) {
     res.redirect('/login')
   }
 });
+
+router.get('/wishlist', async(req, res, next)=>{
+    let userId = req.session.userObj._id;
+  let items = await userHelper.getWishlist(userId)
+  res.render('user/wishlist', {isUser, items})
+});
+
+
 
 router.get('/add-to-cart', async (req, res, next) => {
   let category = await userHelper.takeCategory()
@@ -148,6 +187,17 @@ router.get('/add-to-cart/:id', async (req, res, next) => {
     res.redirect('/add-to-cart')
   })
 });
+
+router.post('/remove-wishlist-product', async(req, res, next)=>{
+ console.log("product wishlist : ", req.body);
+  let wishlistId = req.body.wishlistId;
+  let proId = req.body.proId
+  let response = await userHelper.removeProductFromWishlist(wishlistId, proId)
+  if(response){
+    res.send({status : true})
+  }
+});
+
 router.post('/change-product-quantity', (req, res, next) => {
   userHelper.changeProductQuantity(req.body).then(async (response) => {
     let userId = req.session.userObj._id
@@ -177,6 +227,7 @@ router.get('/profile/:id', async (req, res, next) => {
 
 
   let orders = await userHelper.myOrders(req.params.id)
+  console.log("user Session Undo",userSession);
   res.render('user/profile', {
       isUser,
       category,
@@ -328,10 +379,45 @@ router.post('/get-confirm-address', async (req, res, next) => {
   res.json(address)
 });
 
+router.post('/apply-coupon', async(req, res, next)=>{
+  console.log(req.body);
+  var couponCode = req.body.couponcode;
+  var userId = req.session.userObj._id;
+  var resp = await userHelper.checkcouponCode(couponCode)
+  if(resp.status){
+    let response = await userHelper.checkUserUsedCoupon(resp.coupon, userId)
+    if(response.status){
+        console.log('user already used coupon');
+    }else{
+      if(req.body.buyone ==="true"){
+        console.log(resp.coupon);
+        console.log("buy One true");
+        let total = req.body.productPrice;
+        let discount = resp.coupon.discount;
+        let grandTotal = total - ((total* discount)/100)
+        console.log(grandTotal);
+        res.json(grandTotal)
+      }else if(req.body.buyone === "false"){
+        console.log("buy oNe false");
+        console.log(resp.coupon);
+        let total = req.body.grandTotal;
+        let discount = resp.coupon.discount;
+        let grandTotal = total - ((total*discount)/100)
+        console.log(grandTotal);
+        res.json(grandTotal)
+      }
+      
+    }
+  }else{
+    console.log(resp.status);
+    console.log("date not match");
+  }
+})
+
 router.post('/order-placed', async (req, res, next) => {
   
   var totalPrice = await userHelper.getTotalAmount(req.body.userId)
-var amount = req.body.grandTotal
+var amount = parseInt(req.body.grandTotal) 
   userHelper.placeOrder(req.body, totalPrice, req.body.userId).then(async(response)=>{
     req.session.orderId = response.orderId;
     if(req.body.paymentMethod==='COD'){
@@ -340,12 +426,11 @@ var amount = req.body.grandTotal
     }else if(req.body.paymentMethod==='Razorpay'){
      
      var response = await userHelper.generateRazorpay(response.orderId, amount)
-     res.json(razorpay)
+     res.json({response : response, razorpay : true})
     }else if(req.body.paymentMethod==='Paypal'){
    
       var totalPrice = req.body.grandTotal
       let amount = parseInt(totalPrice)
-      console.log(typeof amount);
       var create_payment_json = {
         "intent": "sale", 
         "payer": {

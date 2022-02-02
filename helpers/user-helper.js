@@ -7,6 +7,7 @@ const {
 } = require('mongodb');
 var database = require('../dataConfig/databaseConnection');
 const Razorpay  = require('razorpay');
+const { DataSessionInstance } = require('twilio/lib/rest/wireless/v1/sim/dataSession');
 var instance = new Razorpay({
     key_id: 'rzp_test_OEEvw6L8TUCHKd',
     key_secret: 'oJlWYAn0TaqJEMwwnyAobx2B',
@@ -219,6 +220,12 @@ module.exports = {
         })
 
     },
+    getallTabProducts : ()=>{
+        return new Promise(async(resolve, reject)=>{
+            let products = await database.get().collection("products").find().toArray()
+            resolve(products)
+        })
+    },
     takeCategory: () => {
         return new Promise(async (resolve, reject) => {
             let categories = await database.get().collection("category").aggregate([{
@@ -234,6 +241,18 @@ module.exports = {
             return resolve(categories)
         })
     },
+    takeBrand : ()=>{
+        return new Promise(async(resolve, reject)=>{
+            let brands = await database.get().collection('brands').find().toArray()
+            resolve(brands)
+        })
+    },
+    takeCategoryname : ()=>{
+        return new Promise(async(resolve, reject)=>{
+            var category = await database.get().collection('category').find({$or : [{category : "MEN" }, {category : "WOMEN"}]}).toArray()
+            resolve(category)
+        })
+    },
 
     getRecentProducts: () => {
         return new Promise(async (resolve, reject) => {
@@ -241,12 +260,86 @@ module.exports = {
             resolve(recentProduct)
         })
     },
+    checkProductWishlist : (userId, proId)=>{
+        return new Promise(async(resolve, reject)=>{
+             database.get().collection('wishlist').findOne(
+                {$and: [
+                        {userId : ObjectId(userId)}, {items : ObjectId(proId)}
+                ]}
+            ).then((result)=>{
+                if(result){
+
+                    resolve(true)
+                }else{
+                    resolve(false)
+                }
+            })
+        })
+    },
+    addtowishlist : (userId, proId)=>{
+        return new Promise(async(resolve, reject)=>{
+            
+            let wishlist = await database.get().collection('wishlist').findOne(
+                {userId :ObjectId(userId)}
+            )
+            if (wishlist){
+                database.get().collection('wishlist').updateOne(
+                    {userId : ObjectId(userId)},
+                     {
+                        $push : {
+                            items : ObjectId(proId) 
+                        }
+                    }
+                ).then(()=>{
+                    resolve(true)
+                })
+            }else{
+                let wishlistObj ={
+                    userId : ObjectId(userId),
+                    items : [ObjectId(proId)]
+                }
+                database.get().collection('wishlist').insertOne(wishlistObj).then(()=>{
+                    resolve(true)
+                })
+            }
+        })
+    },
+    getWishlist : (userId)=>{
+        return new Promise(async(resolve, reject)=>{
+          let products = await database.get().collection('wishlist').aggregate([
+              {$match: {userId : ObjectId(userId)}},
+              {$unwind: "$items"},
+              {$lookup : {
+                  from : 'products',
+                  localField : 'items',
+                  foreignField: '_id',
+                  as: 'productList'
+              }},
+              {$unwind : "$productList"},
+              {$project : {
+                  'productList' : 1
+              }}
+          ]).toArray()
+          console.log(products);
+            resolve(products)
+        })
+    },
+    removeProductFromWishlist : (wishlistId, proId)=>{
+        return new Promise((resolve, reject)=>{
+            database.get().collection('wishlist').updateOne({_id : ObjectId(wishlistId)},
+            {$pull : {
+                items : ObjectId(proId)
+            }}
+            ).then(()=>{
+                resolve(true)
+            })
+        })
+    },
     addtoCart: (proId, userId) => {
         return new Promise(async (resolve, reject) => {
             let product = await database.get().collection('products').findOne({
                 _id: ObjectId(proId)
             })
-            console.log("peoduct Price : ", product.price);
             let proObj = {
                 item: ObjectId(proId),
                 quantity: 1,
@@ -1076,24 +1169,62 @@ module.exports = {
             let product = await database.get().collection('products').findOne({
                 _id: ObjectId(proId)
             })
-            resolve(products)
+            resolve(product)
         })
     },
 
+    checkcouponCode : (couponCode)=>{
+        return new Promise((resolve, reject)=>{
+            database.get().collection('coupons').findOne({couponcode:couponCode}).then((result)=>{
+                if(result){
+                    resolve({coupon : result, status: true})
+                }else{
+                    resolve({status : false})
+                }
+            })
+        })
+    },
 
-
+    checkUserUsedCoupon : (couponCode, userId)=>{
+        return new Promise((resolve,reject)=>{
+            database.get().collection('userUsedCoupons').findOne({$and : [{userId : ObjectId(userId)}, {couponcode : couponCode}]}).then((result)=>{
+                if(result){
+                    resolve({status : true})
+                }else{
+                    resolve({status: false})
+                }
+            })
+        })
+    },
+    addCouponUserUsed : (coupon, userId)=>{
+        let usedCouponDetails = {
+            userId : ObjectId(userId),
+            couponcode : coupon.couponcode,
+            discount : coupon.discount,
+            date : coupon.date
+        }
+        return new Promise((resolve, reject)=>{
+            database.get().collection('userUsedCoupons').insertOne(usedCouponDetails).then(()=>{
+                resolve(true)
+            })
+        })
+    },
     generateRazorpay:(orderId, amount)=>{
+        let rupees = amount*100 
+         
         return new Promise((resolve, reject)=>{
             var options ={
-                amount: amount,
+                amount: rupees,
                 currency: "INR",
                 receipt: ""+orderId,
-                notes: {
-                  key1: "pay now",
+                // notes: {
+                //   key1: "pay now",
                   
-                }
+                // }
                 
               }
+
+              console.log(options.amount);
            instance.orders.create(options,(err, order)=>{
                if(err){
                    console.log("err Razorpay: ");
