@@ -220,6 +220,32 @@ module.exports = {
         })
 
     },
+    getSearchProducts : (searchCategory, searchItem)=>{
+        return new Promise(async(resolve, reject)=>{
+            let products = await database.get().collection('products').aggregate([
+                {
+                    $match:{$or:[ {
+                        'category':{$regex:"^"+searchCategory, $options:'i'},
+                    },{
+                        $or:[
+                            {'productTitle':{$regex:searchItem, $options:'i'}},
+                            {'brand':{$regex:searchItem, $options:'i'}},
+                            {'category':{$regex:searchItem, $options:'i'}},
+                            {'subcategory':{$regex:searchItem, $options:'i'}},
+                            {'material':{$regex:searchItem, $options:'i'}},
+                        ]
+                    }
+
+                    ]
+                        
+                    }
+                }
+            ]).toArray()
+           
+            resolve(products)
+          
+        })
+    },
     getallTabProducts : ()=>{
         return new Promise(async(resolve, reject)=>{
             let products = await database.get().collection("products").find().toArray()
@@ -333,6 +359,19 @@ module.exports = {
             ).then(()=>{
                 resolve(true)
             })
+        })
+    },
+    getWishlistCount : (userId)=>{
+        return new Promise(async(resolve, reject)=>{
+            let count = 0;
+            let wishlist = await database.get().collection("wishlist").findOne({
+                userId: ObjectId(userId)
+            })
+            if (wishlist) {
+                count = wishlist.items.length
+            }
+            
+            resolve(count)
         })
     },
     addtoCart: (proId, userId) => {
@@ -1174,6 +1213,7 @@ module.exports = {
     },
 
     checkcouponCode : (couponCode)=>{
+        console.log("vilichu", couponCode);
         return new Promise((resolve, reject)=>{
             database.get().collection('coupons').findOne({couponcode:couponCode}).then((result)=>{
                 if(result){
@@ -1209,7 +1249,7 @@ module.exports = {
             })
         })
     },
-    generateRazorpay:(orderId, amount)=>{
+    generateRazorpay:(orderId, amount)=>{console.log("razorpay : ", amount);
         let rupees = amount*100 
          
         return new Promise((resolve, reject)=>{

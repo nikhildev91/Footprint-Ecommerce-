@@ -21,12 +21,11 @@
                             <form action="" id="coupon-Form">
                                 {{#if buyOne}}
                                 <input type="text" name="buyone" value="true" id="" hidden>
-                                <h1>{{product.price}}</h1>
+        
                                 <input type="text" name="productPrice" value="{{product.price}}" hidden>
                                 {{else}}
-                                <input type="text" name="buyone" value="false" id="">
-                                <input type="text" name="grandTotal" value="{{grandTotal}}">
-                                <h1>{{grandTotal}}</h1>
+                                <input type="text" name="buyone" value="false" id="" hidden>
+                                <input type="text" name="grandTotal" value="{{subTotal}}" hidden>
                                 {{/if}}
                             <label class="text-uppercase">Enter Coupon code:</label>
                             <div class="form-flex">
@@ -201,7 +200,7 @@
                 <div class="col-md-12 col-lg-4 mt-2 mt-md-0">
                     <h2 class="title">ORDER SUMMARY</h2>
                     <div class="table-responsive-sm order-table">
-                        <table class="bg-white table table-bordered table-hover text-center">
+                        <table class="bg-white table table-bordered table-hover text-center" >
                             <thead>
                                 <tr>
                                     <th class="text-left"></th>
@@ -229,15 +228,17 @@
                                {{/each}}
 
                             </tbody>
-                             <tfoot class="font-weight-600">
-                                <tr>
+                             <tfoot class="font-weight-600" id="checkout_form">
+                                {{!-- <tr>
                                     <td colspan="4" class="text-right">Shipping </td>
                                     <td>$50.00</td>
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <td colspan="4" class="text-right">Total</td>
-                                    <td>{{grandTotal}}</td>
-                                    <input type="text" name="grandTotal" value="{{grandTotal}}" hidden>
+                                    <td>{{subTotal}}</td>
+                                    <input type="text"  name="grandTotal" value="{{subTotal}}" hidden>
+                                    <input type="text" id="" name="appliedgrandTotal" class="appliedgrandTotal" value="" hidden>
+                                     <input type="text" name="appliedCoupon"  class="appliedCoupon" value="false" hidden>
                                 </tr>
                             </tfoot>
                             {{/if}}
@@ -245,6 +246,8 @@
                             {{!-- buy now body start --}}
                             <input type="text" name="proId" value="{{product._id}}" hidden>
                             <input type="text" name="buynow" id="" value="true" hidden>
+                            <input type="text" id="" name="appliedgrandTotal" class="appliedgrandTotal" value="" hidden>
+                                     <input type="text" name="appliedCoupon"  class="appliedCoupon" value="false" hidden>
                     
                              <tbody> 
                                 
@@ -261,11 +264,8 @@
                             </tbody>
                             
                             
-                            <tfoot class="font-weight-600">
-                                <tr>
-                                    <td colspan="4" class="text-right">Shipping </td>
-                                    <td>$50.00</td>
-                                </tr>
+                            <tfoot class="font-weight-600" id="checkout_form">
+                                
                                 <tr>
                                     <td colspan="4" class="text-right">Total</td>
                                     <td>{{product.price}}</td>
@@ -276,19 +276,6 @@
                             {{!-- buy now body end --}}
                         </table>
                     </div>
-                    {{!-- <div class="mt-2"></div>
-                    <div class="card card--grey">
-                        <div class="card-body">
-                            <h2>Apply Couponcode</h2>
-                            <form action="" id="coupon-Form">
-                            <label class="text-uppercase">Enter Coupon code:</label>
-                            <div class="form-flex">
-                                <div class="form-group"><input type="text" name="couponcode" class="form-control"></div><button
-                                    type="submit" class="btn btn--form btn--alt">Apply</button>
-                            </div>
-                            </form>
-                        </div>
-                    </div> --}}
                     <div class="mt-2"></div>
                     <div class="clearfix"><button type="submit" class="btn btn-large btn--lg w-100">Place Order</button>
                     </div>

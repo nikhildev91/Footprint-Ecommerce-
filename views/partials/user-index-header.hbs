@@ -64,12 +64,12 @@
                             <h3 class="title">What are you looking for?</h3>
                             <div class="block block-search">
                                 <div class="block block-content">
-                                    <form class="form minisearch" id="header-search" action="#" method="get">
+                                    <form class="form minisearch" id="header-search" action="/search-result" method="post">
                                         <label for="search" class="label"><span>Search</span></label>
                                         <div class="control">
                                             <div class="searchField">
                                                 <div class="search-category">
-                                                    <select id="rgsearch-category">
+                                                    <select id="rgsearch-category" name="category">
                                                         <option value="0">All Categories</option>
                                                         {{#each category}}
                                                         <option value="{{this.category}}">{{this.category}}</option>
@@ -85,10 +85,10 @@
                                                     </select>
                                                 </div>
                                                 <div class="input-box">
-                                                    <input id="search" type="text" name="q" value=""
+                                                    <input id="search" type="text" name="searchItem" value=""
                                                         placeholder="Search for products, brands..." class="input-text">
                                                     <button type="submit" title="Search" class="action search"
-                                                        disabled=""><i class="icon anm anm-search-l"></i></button>
+                                                        ><i class="icon anm anm-search-l"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -103,7 +103,7 @@
                     <div class="wishlist-link iconset">
                         <a href="/wishlist">
                         <i class="icon anm anm-heart-l"></i>
-                        <span class="wishlist-count">0</span></a>
+                        <span class="wishlist-count">{{wishlistCount}}</span></a>
                         
                     </div>
                     <!--End Wishlist-->

@@ -238,7 +238,7 @@
 										<!-- start product image -->
 										<a href="product-layout1.html" class="product-img">
 											<!-- image -->
-											<img class="primary blur-up lazyload" data-src="/user-assets/images/product-images/product2.jpg" src="/user-assets/images/product-images/product2.jpg" alt="" title="">
+											<img class="primary blur-up lazyload" data-src="/product-images/{{this._id}}first.jpg" src="/product-images/{{this._id}}first.jpg" alt="" title="">
 											<!-- End image -->
 											<!-- Hover image -->
 											<img class="hover blur-up lazyload" data-src="/user-assets/images/product-images/product2-1.jpg" src="/user-assets/images/product-images/product2-1.jpg" alt="" title="">
@@ -484,18 +484,18 @@
 						<div class="toolbar">
 							<div class="filters-toolbar-wrapper">
 								<div class="row">
-									<div class="col-4 col-md-4 col-lg-4 filters-toolbar__item collection-view-as d-flex justify-content-start align-items-center">
+									{{!-- <div class="col-4 col-md-4 col-lg-4 filters-toolbar__item collection-view-as d-flex justify-content-start align-items-center">
 										<a href="shop-left-sidebar.html" title="Grid View" class="change-view">
 											<i class="anm anm-th" aria-hidden="true"></i>
 										</a>
 										<a href="shop-list-view.html" title="List View" class="change-view change-view--active">
 											<i class="anm anm-th-list" aria-hidden="true"></i>
 										</a>
-									</div>
-									<div class="col-4 col-md-4 col-lg-4 text-center filters-toolbar__item filters-toolbar__item--count d-flex justify-content-center align-items-center">
+									</div> --}}
+									{{!-- <div class="col-4 col-md-4 col-lg-4 text-center filters-toolbar__item filters-toolbar__item--count d-flex justify-content-center align-items-center">
 										<span class="filters-toolbar__product-count">Showing: 15 Results</span>
-									</div>
-									<div class="col-4 col-md-4 col-lg-4 text-right">
+									</div> --}}
+									{{!-- <div class="col-4 col-md-4 col-lg-4 text-right">
 										<div class="filters-toolbar__item">
 											<label for="SortBy" class="hidden">Sort</label>
 											<select name="SortBy" id="SortBy" class="filters-toolbar__input filters-toolbar__input--sort">
@@ -510,19 +510,20 @@
 											</select>
 											<input class="collection-header__default-sort" type="hidden" value="manual">
 										</div>
-									</div>
+									</div> --}}
 
 								</div>
 							</div>
 						</div>
 						<!--End Toolbar-->
 						<div class="list-view-items grid--view-items">
+							{{#each searchProducts}}
 							<!--ListView Item-->
                             <div class="list-product list-view-item">
                                 <div class="list-view-item__image-column">
                                     <div class="list-view-item__image-wrapper">
                                         <!-- Image -->
-                                        <a href="product-layout2.html"><img class="list-view-item__image blur-up lazyload" data-src="/user-assets/images/product-images/product2.jpg" src="/user-assets/images/product-images/product2.jpg" alt="image" title="product"></a>
+                                        <a href="product-layout2.html"><img class="list-view-item__image blur-up lazyload" data-src="/product-images/{{this._id}}first.jpg" src="/product-images/{{this._id}}first.jpg" alt="image" title="product"></a>
                                         <!-- End Image -->
                                     </div>
                                 </div>
@@ -558,327 +559,7 @@
                                 </div>
                             </div>
                             <!--End ListView Item-->
-							<!--ListView Item-->
-                            <div class="list-product list-view-item">
-                                <div class="list-view-item__image-column">
-                                    <div class="list-view-item__image-wrapper">
-                                        <!-- Image -->
-                                        <a href="product-layout2.html"><img class="list-view-item__image blur-up lazyload" data-src="/user-assets/images/product-images/product9.jpg" src="/user-assets/images/product-images/product9.jpg" alt="image" title="product"></a>
-                                        <!-- End Image -->
-                                    </div>
-                                </div>
-                                <div class="list-view-item__title-column">
-                                    <div class="h4 grid-view-item__title"><a href="product-layout2.html">Sunset Sleep Scarf Top</a></div>
-                                    <!-- Product Review -->
-                                    <p class="product-review"><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i></p>
-                                    <!-- End Product Review -->
-                                    <!-- Sort Description -->
-                                    <p>Avone Multipurpose eCommerce Bootstrap 4 Html Template that will give you and your customers a smooth shopping experience which can be used for various kinds of stores such as boutiques, bookstores, technology stores, jewelries and other types of web shops....</p>
-                                    <!-- End Sort Description -->
-                                    <!-- Price -->
-                                    <p class="product-price grid-view-item__meta">
-                                        <span class="product-price__price"><span class="money">$159.00</span></span>
-                                    </p>
-                                    <!-- End Price -->
-                                    <form class="variants" action="#">
-                                    	<button class="btn btn--small" type="button">Add To Cart</button>
-	                                </form>
-									<div class="button-box">
-										<div class="wishlist-btn">
-											<a class="btn-icon wishlist add-to-wishlist" href="wishlist.html" tabindex="-1">
-												<i class="icon anm anm-heart-l"></i>
-											</a>
-										</div>
-										<div class="compare-btn">
-											<a class="btn-icon compare add-to-compare" href="compare-variant1.html" title="Add to Compare" tabindex="-1">
-												<i class="icon icon-reload"></i>
-											</a>
-										</div>
-									</div>
-                                </div>
-                            </div>
-                            <!--End ListView Item-->
-							<!--ListView Item-->
-                            <div class="list-product list-view-item">
-                                <div class="list-view-item__image-column">
-                                    <div class="list-view-item__image-wrapper">
-                                        <!-- Image -->
-                                        <a href="product-layout2.html"><img class="list-view-item__image blur-up lazyload" data-src="/user-assets/images/product-images/product4.jpg" src="/user-assets/images/product-images/product4.jpg" alt="image" title=""></a>
-                                        <!-- End Image -->
-                                    </div>
-                                </div>
-                                <div class="list-view-item__title-column">
-                                    <div class="h4 grid-view-item__title"><a href="product-layout2.html">Elastic Waist Dress</a></div>
-                                    <!-- Product Review -->
-                                    <p class="product-review"><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i></p>
-                                    <!-- End Product Review -->
-                                    <!-- Sort Description -->
-                                    <p>Avone Multipurpose eCommerce Bootstrap4 Html Template that will give you and your customers a smooth shopping experience which can be used for various kinds of stores such as boutiques, bookstores, technology stores, jewelries and other types of web shops....</p>
-                                    <!-- End Sort Description -->
-                                    <!-- Price -->
-                                    <p class="product-price grid-view-item__meta">
-                                        <span class="product-price__price"><span class="money">$693.00</span></span>
-                                    </p>
-                                    <!-- End Price -->
-                                    <form class="variants" action="#">
-                                        <button class="btn btn--small" type="button">Add To Cart</button>
-                                    </form>
-									<div class="button-box">
-										<div class="wishlist-btn">
-											<a class="btn-icon wishlist add-to-wishlist" href="wishlist.html" tabindex="-1">
-												<i class="icon anm anm-heart-l"></i>
-											</a>
-										</div>
-										<div class="compare-btn">
-											<a class="btn-icon compare add-to-compare" href="compare-variant1.html" title="Add to Compare" tabindex="-1">
-												<i class="icon icon-reload"></i>
-											</a>
-										</div>
-									</div>
-                                </div>
-                            </div>
-                            <!--End ListView Item-->
-							<!--ListView Item-->
-                            <div class="list-product list-view-item">
-                                <div class="list-view-item__image-column">
-                                    <div class="list-view-item__image-wrapper">
-                                        <!-- Image -->
-                                        <a href="product-layout2.html"><img class="list-view-item__image blur-up lazyload" data-src="/user-assets/images/product-images/product5.jpg" src="/user-assets/images/product-images/product5.jpg" alt="image" title=""></a>
-                                        <!-- End Image -->
-                                    </div>
-                                </div>
-                                <div class="list-view-item__title-column">
-                                    <div class="h4 grid-view-item__title"><a href="product-layout2.html">3/4 Sleeve Kimono Dress</a></div>
-                                    <!-- Product Review -->
-                                    <p class="product-review"><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i></p>
-                                    <!-- End Product Review -->
-                                    <!-- Sort Description -->
-                                    <p>Avone Multipurpose eCommerce Bootstrap4 Html Template that will give you and your customers a smooth shopping experience which can be used for various kinds of stores such as boutiques, bookstores, technology stores, jewelries and other types of web shops....</p>
-                                    <!-- End Sort Description -->
-                                    <!-- Price -->
-                                    <p class="product-price grid-view-item__meta">
-                                        <span class="product-price__price"><span class="money">$500.00</span></span>
-                                    </p>
-                                    <!-- End Price -->
-                                    <form class="variants" action="#">
-                                        <button class="btn btn--small" type="button">Select Options</button>
-                                    </form>
-									<div class="button-box">
-										<div class="wishlist-btn">
-											<a class="btn-icon wishlist add-to-wishlist" href="wishlist.html" tabindex="-1">
-												<i class="icon anm anm-heart-l"></i>
-											</a>
-										</div>
-										<div class="compare-btn">
-											<a class="btn-icon compare add-to-compare" href="compare-variant1.html" title="Add to Compare" tabindex="-1">
-												<i class="icon icon-reload"></i>
-											</a>
-										</div>
-									</div>
-                                </div>
-							</div>
-                            <!--End ListView Item-->
-							<!--ListView Item-->
-                            <div class="list-product list-view-item">
-                                <div class="list-view-item__image-column">
-                                    <div class="list-view-item__image-wrapper">
-                                        <!-- Image -->
-                                        <a href="product-layout2.html"><img class="list-view-item__image blur-up lazyload" data-src="/user-assets/images/product-images/product12.jpg" src="/user-assets/images/product-images/product12.jpg" alt="image" title="product"></a>
-                                        <!-- End Image -->
-                                    </div>
-                                </div>
-                                <div class="list-view-item__title-column">
-                                    <div class="h4 grid-view-item__title"><a href="product-layout2.html">Men Striped Ringer Tee</a></div>
-                                    <!-- Product Review -->
-                                    <p class="product-review"><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i></p>
-                                    <!-- End Product Review -->
-                                    <!-- Sort Description -->
-                                    <p>Avone Multipurpose eCommerce Bootstrap4 Html Template that will give you and your customers a smooth shopping experience which can be used for various kinds of stores such as boutiques, bookstores, technology stores, jewelries and other types of web shops....</p>
-                                    <!-- End Sort Description -->
-                                    <!-- Price -->
-                                    <p class="product-price grid-view-item__meta">
-                                        <span class="product-price__price"><span class="money">$800.00</span></span>
-                                    </p>
-                                    <!-- End Price -->
-                                    <form class="variants" action="#">
-                                        <button class="btn btn--small" type="button">Select Options</button>
-                                    </form>
-									<div class="button-box">
-										<div class="wishlist-btn">
-											<a class="btn-icon wishlist add-to-wishlist" href="wishlist.html" tabindex="-1">
-												<i class="icon anm anm-heart-l"></i>
-											</a>
-										</div>
-										<div class="compare-btn">
-											<a class="btn-icon compare add-to-compare" href="compare-variant1.html" title="Add to Compare" tabindex="-1">
-												<i class="icon icon-reload"></i>
-											</a>
-										</div>
-									</div>
-                                </div>
-                            </div>
-                            <!--End ListView Item-->
-							<!--ListView Item-->
-                            <div class="list-product list-view-item">
-                                <div class="list-view-item__image-column">
-                                    <div class="list-view-item__image-wrapper">
-                                        <!-- Image -->
-                                        <a href="product-layout2.html"><img class="list-view-item__image blur-up lazyload" data-src="/user-assets/images/product-images/product13.jpg" src="/user-assets/images/product-images/product13.jpg" alt="image" title=""></a>
-                                        <!-- End Image -->
-                                    </div>
-                                </div>
-                                <div class="list-view-item__title-column">
-                                    <div class="h4 grid-view-item__title"><a href="product-layout2.html">Casual Indigo Shirt</a></div>
-                                    <!-- Product Review -->
-                                    <p class="product-review"><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i></p>
-                                    <!-- End Product Review -->
-                                    <!-- Sort Description -->
-                                    <p>Avone Multipurpose eCommerce Bootstrap4 Html Template that will give you and your customers a smooth shopping experience which can be used for various kinds of stores such as boutiques, bookstores, technology stores, jewelries and other types of web shops....</p>
-                                    <!-- End Sort Description -->
-                                    <!-- Price -->
-                                    <p class="product-price grid-view-item__meta">
-                                        <span class="old-price">$900.00</span>
-                                        <span class="product-price__price product-price__sale"><span class="money">$800.00</span></span>
-                                    </p>
-                                    <!-- End Price -->
-                                    <form class="variants" action="#">
-                                        <button class="btn btn--small" type="button">Select Options</button>
-                                    </form>
-									<div class="button-box">
-										<div class="wishlist-btn">
-											<a class="btn-icon wishlist add-to-wishlist" href="wishlist.html" tabindex="-1">
-												<i class="icon anm anm-heart-l"></i>
-											</a>
-										</div>
-										<div class="compare-btn">
-											<a class="btn-icon compare add-to-compare" href="compare-variant1.html" title="Add to Compare" tabindex="-1">
-												<i class="icon icon-reload"></i>
-											</a>
-										</div>
-									</div>
-                                </div>
-                            </div>
-                            <!--End ListView Item-->
-							<!--ListView Item-->
-                            <div class="list-product list-view-item">
-                                <div class="list-view-item__image-column">
-                                    <div class="list-view-item__image-wrapper">
-                                        <!-- Image -->
-                                        <a href="product-layout2.html"><img class="list-view-item__image blur-up lazyload" data-src="/user-assets/images/product-images/product14.jpg" src="/user-assets/images/product-images/product14.jpg" alt="image" title=""></a>
-                                        <!-- End Image -->
-                                    </div>
-                                </div>
-                                <div class="list-view-item__title-column">
-                                    <div class="h4 grid-view-item__title"><a href="product-layout2.html">Sandals Cross Strappy</a></div>
-                                    <!-- Product Review -->
-                                    <p class="product-review"><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i></p>
-                                    <!-- End Product Review -->
-                                    <!-- Sort Description -->
-                                    <p>Avone Multipurpose eCommerce Bootstrap4 Html Template that will give you and your customers a smooth shopping experience which can be used for various kinds of stores such as boutiques, bookstores, technology stores, jewelries and other types of web shops....</p>
-                                    <!-- End Sort Description -->
-                                    <!-- Price -->
-                                    <p class="product-price grid-view-item__meta">
-                                        <span class="product-price__price"><span class="money">$800.00</span></span>
-                                    </p>
-                                    <!-- End Price -->
-                                    <form class="variants" action="#">
-                                        <button class="btn btn--small" type="button">Add To Cart</button>
-                                    </form>
-									<div class="button-box">
-										<div class="wishlist-btn">
-											<a class="btn-icon wishlist add-to-wishlist" href="wishlist.html" tabindex="-1">
-												<i class="icon anm anm-heart-l"></i>
-											</a>
-										</div>
-										<div class="compare-btn">
-											<a class="btn-icon compare add-to-compare" href="compare-variant1.html" title="Add to Compare" tabindex="-1">
-												<i class="icon icon-reload"></i>
-											</a>
-										</div>
-									</div>
-                                </div>
-                            </div>
-                            <!--End ListView Item-->
-							<!--ListView Item-->
-                            <div class="list-product list-view-item">
-                                <div class="list-view-item__image-column">
-                                    <div class="list-view-item__image-wrapper">
-                                        <!-- Image -->
-                                        <a href="product-layout2.html"><img class="list-view-item__image blur-up lazyload" data-src="/user-assets/images/product-images/product8.jpg" src="/user-assets/images/product-images/product8.jpg" alt="image" title=""></a>
-                                        <!-- End Image -->
-                                    </div>
-                                </div>
-                                <div class="list-view-item__title-column">
-                                    <div class="h4 grid-view-item__title"><a href="product-layout2.html">Lima Shirt</a></div>
-                                    <!-- Product Review -->
-                                    <p class="product-review"><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i></p>
-                                    <!-- End Product Review -->
-                                    <!-- Sort Description -->
-                                    <p>Avone Multipurpose eCommerce Bootstrap4 Html Template that will give you and your customers a smooth shopping experience which can be used for various kinds of stores such as boutiques, bookstores, technology stores, jewelries and other types of web shops....</p>
-                                    <!-- End Sort Description -->
-                                    <!-- Price -->
-                                    <p class="product-price grid-view-item__meta">
-                                        <span class="product-price__price"><span class="money">$800.00</span></span>
-                                    </p>
-                                    <!-- End Price -->
-                                    <form class="variants" action="#">
-                                        <button class="btn btn--small" type="button">Add To Cart</button>
-                                    </form>
-									<div class="button-box">
-										<div class="wishlist-btn">
-											<a class="btn-icon wishlist add-to-wishlist" href="wishlist.html" tabindex="-1">
-												<i class="icon anm anm-heart-l"></i>
-											</a>
-										</div>
-										<div class="compare-btn">
-											<a class="btn-icon compare add-to-compare" href="compare-variant1.html" title="Add to Compare" tabindex="-1">
-												<i class="icon icon-reload"></i>
-											</a>
-										</div>
-									</div>
-                                </div>
-                            </div>
-                            <!--End ListView Item-->
-							<!--ListView Item-->
-                            <div class="list-product list-view-item">
-                                <div class="list-view-item__image-column">
-                                    <div class="list-view-item__image-wrapper">
-                                        <!-- Image -->
-                                        <a href="product-layout2.html"><img class="list-view-item__image blur-up lazyload" data-src="/user-assets/images/product-images/product7.jpg" src="/user-assets/images/product-images/product7.jpg" alt="image" title="product"></a>
-                                        <!-- End Image -->
-                                    </div>
-                                </div>
-                                <div class="list-view-item__title-column">
-                                    <div class="h4 grid-view-item__title"><a href="product-layout2.html">Romary Dress</a></div>
-                                    <!-- Product Review -->
-                                    <p class="product-review"><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i></p>
-                                    <!-- End Product Review -->
-                                    <!-- Sort Description -->
-                                    <p>Avone Multipurpose eCommerce Bootstrap4 Html Template that will give you and your customers a smooth shopping experience which can be used for various kinds of stores such as boutiques, bookstores, technology stores, jewelries and other types of web shops....</p>
-                                    <!-- End Sort Description -->
-                                    <!-- Price -->
-                                    <p class="product-price grid-view-item__meta">
-                                        <span class="product-price__price"><span class="money">$59.00</span></span>
-                                    </p>
-                                    <!-- End Price -->
-                                    <form class="variants" action="#">
-                                        <button class="btn btn--small" type="button">Add To Cart</button>
-                                    </form>
-									<div class="button-box">
-										<div class="wishlist-btn">
-											<a class="btn-icon wishlist add-to-wishlist" href="wishlist.html" tabindex="-1">
-												<i class="icon anm anm-heart-l"></i>
-											</a>
-										</div>
-										<div class="compare-btn">
-											<a class="btn-icon compare add-to-compare" href="compare-variant1.html" title="Add to Compare" tabindex="-1">
-												<i class="icon icon-reload"></i>
-											</a>
-										</div>
-									</div>
-                                </div>
-                            </div>
-                            <!--End ListView Item-->
+							{{/each}}
 						</div>
 						<div class="infinitpaginOuter">
 							<div class="infinitpagin">	

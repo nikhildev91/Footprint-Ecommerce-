@@ -4,7 +4,7 @@
     <div class="breadcrumbs-wrapper">
         <div class="container">
             <div class="breadcrumbs"><a href="index.html" title="Back to the home page">Home</a> <span
-                    aria-hidden="true">|</span> <span>Your Cart</span></div>
+                    aria-hidden="true">|</span> <span>My Cart</span></div>
         </div>
     </div>
     <!--End Breadcrumbs-->
@@ -49,7 +49,7 @@
 
                                 </td>
                                 <td class="cart__price-wrapper cart-flex-item text-center">
-                                    <span class="money">Rs. {{this.product.price}}</span>
+                                    <span class="money">₹ {{this.product.price}}</span>
                                     <input hidden class="each_product{{this.product._id}}" value="{{ this.product.price }}">
                                 </td>
 
@@ -69,8 +69,11 @@
                                 </td>
 
                                 <td class="small--hide cart-price text-center">
-                                    <div><span class="money product_total{{ this.product._id }}">Rs.
-                                            {{this.total}}</span></div>
+                                    <div class="d-flex">
+                                    <div><span>₹&nbsp;</span> </div>
+                                    <div><span class="money product_total{{ this.product._id }}"> {{this.total}}</span></div>
+                                        
+                                    </div>
                                         
                                 </td>
                                 <input type="number" name="productTotal" class="product_total_val{{ this.product._id }}" value="{{this.total}}" hidden>
@@ -82,6 +85,14 @@
                                         data-cartid="{{this._id}}"><span class="text-light">X</span></a></td>
                             </tr>
                             {{/each}}
+                            {{else}}
+                            <div class="no_product" style="display: none;">
+
+                                <tr >
+
+                             <td colspan="6" class="text-center p-5"><p class="btn btn--link btn--small cart-continue m-5" style="font-weight: bolder; font-size: 25px;">Empty Cart Product</p></td>
+                                </tr>
+                            </div>
                             {{/if}}
 
                         </tbody>
@@ -131,37 +142,37 @@
                     </div>
 
 
+                    {{#if ordebtndisable}}
 
-
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 cart__footer">
+                    {{else}}
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 cart__footer" style="display: block;">
                         <div class="solid-border">
-                            <div class="row border-bottom pb-2">
+                            <div class="row border-bottom pb-2" id="sub_total_div">
                                 <span class="col-12 col-sm-6 cart__subtotal-title">Subtotal</span>
 
-                                <span class="col-12 col-sm-6 text-right"><span class="money">Rs. <span
+                                <span class="col-12 col-sm-6 text-right"><span class="money">₹&nbsp; <span
                                             class="cart_sub_total"
                                             id="total">{{total.subtotal.total}}</span></span></span>
+                                        
                                 <input type="text" name="subTotal" class="cart_sub_total"
                                     value="{{total.subtotal.total}}" hidden>
                             </div>
-                            <div class="row border-bottom pb-2 pt-2">
+                            {{!-- <div class="row border-bottom pb-2 pt-2">
                                 <span class="col-12 col-sm-6 cart__subtotal-title">Tax</span>
                                 <span class="col-12 col-sm-6 text-right">$10.00</span>
-                            </div>
-                            <div class="row border-bottom pb-2 pt-2">
+                            </div> --}}
+                            {{!-- <div class="row border-bottom pb-2 pt-2">
                                 <span class="col-12 col-sm-6 cart__subtotal-title">Shipping</span>
                                 <span class="col-12 col-sm-6 text-right">Free shipping</span>
-                            </div>
-                            <div class="row border-bottom pb-2 pt-2">
+                            </div> --}}
+                            {{!-- <div class="row border-bottom pb-2 pt-2" >
                                 <span class="col-12 col-sm-6 cart__subtotal-title"><strong>Grand Total</strong></span>
                                 <span class="col-12 col-sm-6 cart__subtotal-title cart__subtotal text-right"><span
                                         class="money cart_sub_total">{{total.subtotal.total}}</span></span>
-                            </div>
-                            <input type="text" name="grandTotal" class="cart_sub_total"
-                                value="{{total.subtotal.total}}" hidden>
-                            <div class="cart__shipping">Shipping &amp; taxes calculated at checkout</div>
+                            </div> --}}
+                            {{!-- <div class="cart__shipping">Shipping &amp; taxes calculated at checkout</div> --}}
 
-                            <input type="submit" name="checkout" id="cartCheckout" class="btn btn--small-wide checkout"
+                            <input type="submit" name="checkout" id="cartCheckout" class="btn btn--small-wide checkout mt-4"
                                 value="Proceed To Checkout">
                             <div class="paymnet-img"><img src="/user-assets/images/payment-img.jpg" alt="Payment"></div>
                             <p><a href="#;">Checkout with Multiple Addresses</a></p>
@@ -169,7 +180,7 @@
 
                         </form>
                     </div>
-
+                    {{/if}}
                 </div>
             </div>
             <!--End Main Content-->

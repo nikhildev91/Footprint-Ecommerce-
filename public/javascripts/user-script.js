@@ -254,7 +254,7 @@ function changeQuantity(cartId, proId, count, userId, productTotal) {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Yes, remove it!'
         }).then((result) => {
             if (result.isConfirmed) {
                 location.reload()
@@ -300,6 +300,7 @@ function changeQuantity(cartId, proId, count, userId, productTotal) {
                     $('.cart_sub_total').html(response.subtotal.total)
                     $('.cart_sub_total').val(response.subtotal.total)
                     response.productsTotal.forEach((ele) => {
+
                         $('.product_total' + ele['item']).html(ele['total']);
                         $('.product_total_val' + ele['item']).val(ele['total']);
                     })
@@ -340,8 +341,29 @@ function removeCartProduct(cartId, proId) {
         },
         method: 'post',
         success: (res) => {
-            if (res) {
+            console.log(res)
+            if (res.status) {
                 $('#' + cartId + proId).remove();
+                console.log('var ordebtndisable : ', res.ordebtndisable);
+                if (res.ordebtndisable) {
+                    $('.cart__footer').hide()
+                    Swal.fire({
+                        title: 'Your Cart Is Empty',
+                        text: "Go To Home Page",
+                        confirmButtonColor: 'success',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.href = '/'
+                        }
+                    })
+                } else {
+                    console.log(res.renderCartPage);
+                    var element = $(res.renderCartPage)
+                    var found = $('#sub_total_div', element)
+                    $('#sub_total_div').html(found)
+                }
+
             }
         }
 
@@ -355,46 +377,46 @@ $('.add-to-wishlist').click(function (e) {
     e.preventDefault()
 })
 
-function addtowishlist(proId){
+function addtowishlist(proId) {
     $.ajax({
-        url : '/add-to-wishlist',
-        data : {
+        url: '/add-to-wishlist',
+        data: {
             proId
         },
-        method : 'post',
-        success : (response)=>{
-          if(response.status == true){
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'bottom',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                  toast.addEventListener('mouseenter', Swal.stopTimer)
-                  toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-              })
-              
-              Toast.fire({
-                icon: 'success',
-                title: 'Add to Wishlist successfully'
-              })
-          }else{
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-               
-              })
-              
-              Toast.fire({
-                icon: 'error',
-                title: response.errMsg
-              })
-          }
+        method: 'post',
+        success: (response) => {
+            if (response.status == true) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'bottom',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Add to Wishlist successfully'
+                })
+            } else {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+
+                })
+
+                Toast.fire({
+                    icon: 'error',
+                    title: response.errMsg
+                })
+            }
         }
 
     })
@@ -415,7 +437,7 @@ $('.wishlist_remove').click(function (e) {
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-           
+
             removeWishlistProduct(wishlistId, proId)
         }
     });
@@ -425,14 +447,14 @@ $('.wishlist_remove').click(function (e) {
 function removeWishlistProduct(wishlistId, proId) {
     $.ajax({
         url: '/remove-wishlist-product',
-        data :{
+        data: {
             wishlistId, proId
         },
-        method:'post',
-        success : (response)=>{
-           if(response.status){
-               $('#'+wishlistId+proId).remove()
-           }
+        method: 'post',
+        success: (response) => {
+            if (response.status) {
+                $('#' + wishlistId + proId).remove()
+            }
         }
     })
 }
@@ -473,9 +495,39 @@ $('#coupon-Form').submit((e) => {
         method: 'post',
         data: $('#coupon-Form').serialize(),
         success: (response) => {
-            alert(response)
-            document.getElementById('normalbill').style.visibility = 'hidden'
-            $('.applyCoupon').show();
+            if(response.errMsg){
+                Swal.fire(response.errMsg)
+            }else{
+                $('.appliedCoupon').val('true')
+                $('.appliedgrandTotal').val(response.totalAmount)
+                // var x = document.createElement("INPUT")
+                // x.setAttribute("type", "text")
+                // x.setAttribute("name", "appliedgrandTotal")
+                // x.setAttribute("value", response.totalAmount)
+                // document.body.appendChild(x).hidden = true;
+                // var y = document.createElement("INPUT");
+                // y.setAttribute("type", "text");
+                // y.setAttribute("name", "appliedCoupon");
+                // y.setAttribute("value", "true");
+                // document.body.appendChild(y);
+                var table = document.getElementById('checkout_form');
+                var row = table.insertRow(1);
+                var cell = row.insertCell(0);
+                var cell1 = row.insertCell(1);
+                cell.setAttribute("colspan", "4");
+                cell.setAttribute("class", "text-right");
+                cell.innerHTML = "Coupon Applied "+response.discount + "% OFF";
+                cell1.innerHTML = "-"+response.dis;
+                var row2 = table.insertRow(2);
+                var cell = row2.insertCell(0);
+                var cell1 = row2.insertCell(1);
+                cell.setAttribute("colspan", "4");
+                cell.setAttribute("class", "text-right");
+                cell.innerHTML = "Payable Amount";
+                cell1.innerHTML = response.totalAmount;
+
+             
+            }
         }
     })
 })
@@ -548,96 +600,3 @@ function verifyPayment(payment, order) {
 }
 
 
-
-// index page tabs Products
-
-function getAllProducts() {
-    $.ajax({
-        url: '/get-tab-products',
-        method: 'get',
-        success: (response) => {
-            $('.all_products').html('')
-            console.log(response)
-            response.forEach((ele) => {
-                $('.slick-slide .slick-current .slick-active').append(`<div class="col-12 item">
-                                    <!-- start product image -->
-                                    <div class="product-image">
-                                        <!-- start product image -->
-                                        <a href="product-layout1.html" class="product-img">
-                                            <!-- image -->
-                                            <img class="primary blur-up lazyload" data-src="user-assets/images/product-images/product9-2.jpg" src="user-assets/images/product-images/product9-2.jpg" alt="" title="">
-                                            <!-- End image -->
-                                            <!-- Hover image -->
-                                            <img class="hover blur-up lazyload" data-src="user-assets/images/product-images/product9-1.jpg" src="user-assets/images/product-images/product9-1.jpg" alt="" title="">
-                                            <!-- End hover image -->
-                                            <!-- product label -->
-                                            <div class="product-labels"><span class="lbl on-sale">Sale</span></div>
-                                            <!-- End product label -->
-                                        </a>
-                                        <!-- end product image -->
-
-                                        
-                                        <div class="button-set style2">
-                                            <ul>
-                                                <li>
-                                                    <form class="add" action="https://www.annimexweb.com/items/avone/cart-variant1.html" method="post">
-                                                        <button class="btn-icon btn btn-addto-cart" type="button" tabindex="0">
-                                                            <i class="icon anm anm-cart-l"></i>
-                                                            <span class="tooltip-label">Add to Cart</span>
-                                                        </button>
-                                                    </form>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0)" title="Quick View" class="btn-icon quick-view-popup quick-view" data-toggle="modal" data-target="#content_quickview">
-                                                        <i class="icon anm anm-search-plus-l"></i>
-                                                        <span class="tooltip-label">Quick View</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <div class="wishlist-btn">
-                                                        <a class="btn-icon wishlist add-to-wishlist" href="my-wishlist.html">
-                                                            <i class="icon anm anm-heart-l"></i>
-                                                            <span class="tooltip-label">Add To Wishlist</span>
-                                                        </a>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="compare-btn">
-                                                        <a class="btn-icon compare add-to-compare" href="compare-style2.html" title="Add to Compare">
-                                                            <i class="icon icon-reload"></i>
-                                                            <span class="tooltip-label">Add to Compare</span>
-                                                        </a>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="product-details text-center">
-                                        <div class="product-name">
-                                            <a href="product-layout1.html">Martha Knit Top</a>
-                                        </div>
-                                        <div class="product-price">
-                                            <span class="price">$399.01</span>
-                                        </div>
-                                        <div class="product-review">
-                                            <i class="font-13 fa fa-star"></i>
-                                            <i class="font-13 fa fa-star"></i>
-                                            <i class="font-13 fa fa-star"></i>
-                                            <i class="font-13 fa fa-star"></i>
-                                            <i class="font-13 fa fa-star-o"></i>
-                                        </div>
-                                        <ul class="swatches">
-                                            <li class="swatch small rounded navy"><span class="tooltip-label">Navy</span></li>
-                                            <li class="swatch small rounded green"><span class="tooltip-label">Green</span></li>
-                                            <li class="swatch small rounded gray"><span class="tooltip-label">Gray</span></li>
-                                            <li class="swatch small rounded aqua"><span class="tooltip-label">Aqua</span></li>
-                                            <li class="swatch small rounded orange"><span class="tooltip-label">Orange</span></li>
-                                        </ul>
-                                    </div>
-                                </div>`)
-                                                
-            })
-
-            }
-    })
-}

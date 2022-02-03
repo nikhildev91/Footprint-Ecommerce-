@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var userHelper = require('../../helpers/user-helper')
 var bannerHelper = require('../../helpers/banner-helper');
+var hb = require('express-handlebars').create()
 const async = require('hbs/lib/async');
 const {
   load
@@ -35,9 +36,11 @@ router.get('/', async function (req, res, next) {
 
     var cartProducts = await userHelper.getCartProducts(userSession._id)
   }
+  let wishlistCount = 0;
   let cartCount = 0;
   if (userSession) {
     cartCount = await userHelper.getCartCount(userSession._id)
+    wishlistCount = await userHelper.getWishlistCount(userSession._id)
   }
   res.render('user/index', {
     isUser,
@@ -50,8 +53,17 @@ router.get('/', async function (req, res, next) {
     brands,
     recentProduct,
     cartCount,
+    wishlistCount,
     cartProducts
   });
+
+});
+
+router.post('/search-result', async(req, res, next)=>{
+  let searchItem = req.body.searchItem;
+  let searchCategory = req.body.category;
+  let searchProducts = await userHelper.getSearchProducts(searchCategory, searchItem)
+  res.render('user/search-result', {isUser, searchProducts})
 
 });
 
@@ -170,6 +182,9 @@ router.get('/add-to-cart', async (req, res, next) => {
   if (cartProducts[0]) {
     cartId = cartProducts[0]._id;
   }
+if(cartCount === 0){
+  var ordebtndisable = true
+}
   let total = await userHelper.getTotalAmount(userSession._id)
   res.render('user/cart', {
     isUser,
@@ -178,7 +193,8 @@ router.get('/add-to-cart', async (req, res, next) => {
     cartProducts,
     cartCount,
     cartId,
-    total
+    total,
+    ordebtndisable
   })
 });
 
@@ -208,12 +224,44 @@ router.post('/change-product-quantity', (req, res, next) => {
 router.post('/remove-cart-product', (req, res, next) => {
   console.log(req.body.cart);
   console.log(req.body.product);
-  userHelper.removeCartProduct(req.body.cart, req.body.product).then((response) => {
-    if (response) {
-      res.send(true)
+  userHelper.removeCartProduct(req.body.cart, req.body.product).then(async(response) => {
+    console.log("*********");
+    console.log(response);
+    if (response === true) {
+      console.log("ENtered");
+      // res.send(true)
+      let category = await userHelper.takeCategory()
+  let cartCount = 0;
+  cartCount = await userHelper.getCartCount(userSession._id)
+  let cartProducts = await userHelper.getCartProducts(userSession._id);
+  let cartId = null;
+  if (cartProducts[0]) {
+    cartId = cartProducts[0]._id;
+  }
+  if(cartCount === 0){
+    var ordebtndisable = true
+  }else{
+    var ordebtndisable = false
+  }
+  let total = await userHelper.getTotalAmount(userSession._id)
+  
+  hb.render('views/user/cart.hbs', {
+    isUser,
+    category,
+    userSession,
+    cartProducts,
+    cartCount,
+    cartId,
+    total
+
+  }).then((renderCartPage)=>{
+    console.log("This is then");
+    res.send({status : true,renderCartPage, ordebtndisable})
+  })
     }
-  }).catch(() => {
-    res.send(false)
+  }).catch((err) => {
+    console.log("This is catch"+err );
+    res.send({status : false})
   })
 });
 
@@ -355,16 +403,15 @@ router.post('/place-order/:cartId', async (req, res, next) => {
   let getUserAddressForPlaceOrder = await userHelper.getUserAddressForPlaceOrder(OrderProducts.user)
   let getProductsForPlaceOrder = await userHelper.getProductsForPlaceOrder(req.params.cartId)
   let subTotal = req.body.subTotal;
-  let grandTotal = req.body.grandTotal;
   let productTotal = req.body.productTotal[0]
   let userId = await userHelper.getUserId(req.params.cartId)
+  req.session.couponApplycount =1;
   res.render('user/checkout', {
     isUser,
     buyOne:false,
     getUserAddressForPlaceOrder,
     getProductsForPlaceOrder,
     subTotal,
-    grandTotal,
     productTotal,
     userId
   })
@@ -379,8 +426,10 @@ router.post('/get-confirm-address', async (req, res, next) => {
   res.json(address)
 });
 
+
 router.post('/apply-coupon', async(req, res, next)=>{
   console.log(req.body);
+ var couponApplycount = req.session.couponApplycount
   var couponCode = req.body.couponcode;
   var userId = req.session.userObj._id;
   var resp = await userHelper.checkcouponCode(couponCode)
@@ -390,21 +439,29 @@ router.post('/apply-coupon', async(req, res, next)=>{
         console.log('user already used coupon');
     }else{
       if(req.body.buyone ==="true"){
-        console.log(resp.coupon);
-        console.log("buy One true");
-        let total = req.body.productPrice;
-        let discount = resp.coupon.discount;
-        let grandTotal = total - ((total* discount)/100)
-        console.log(grandTotal);
-        res.json(grandTotal)
+        if(couponApplycount ==1){
+          let total = req.body.productPrice;
+          let discount = resp.coupon.discount;
+          let dis = ((total*discount)/100)
+          let grandTotal = total - dis
+          console.log(grandTotal);
+          req.session.couponApplycount++
+          res.json({totalAmount : grandTotal, discount : discount, dis : dis})
+          
+        }else{
+          res.json({errMsg : "Coupon Exist"})
+        }
       }else if(req.body.buyone === "false"){
-        console.log("buy oNe false");
-        console.log(resp.coupon);
+        if(couponApplycount ==1){
         let total = req.body.grandTotal;
         let discount = resp.coupon.discount;
-        let grandTotal = total - ((total*discount)/100)
-        console.log(grandTotal);
-        res.json(grandTotal)
+        let dis = ((total*discount)/100)
+        let grandTotal = total - dis
+        req.session.couponApplycount++
+        res.json({totalAmount : grandTotal, discount : discount, dis : dis})
+      }else{
+        res.json({errMsg : "Coupon Exist"})
+      }
       }
       
     }
@@ -415,21 +472,36 @@ router.post('/apply-coupon', async(req, res, next)=>{
 })
 
 router.post('/order-placed', async (req, res, next) => {
-  
-  var totalPrice = await userHelper.getTotalAmount(req.body.userId)
-var amount = parseInt(req.body.grandTotal) 
-  userHelper.placeOrder(req.body, totalPrice, req.body.userId).then(async(response)=>{
+  console.log(req.body);
+  if(req.body.appliedCoupon === 'true'){
+    console.log("req.body.appliedgrandTotal >" , req.body.appliedgrandTotal);
+    req.session.appliedgrandTotal = req.body.appliedgrandTotal
+  }
+    var totalprice = await userHelper.getTotalAmount(req.body.userId)
+    
+  userHelper.placeOrder(req.body, totalprice,  req.body.userId).then(async(response)=>{
     req.session.orderId = response.orderId;
+    if(req.body.appliedCoupon === 'true'){
+      console.log("coupon applied");
+      var totalPrice = req.session.appliedgrandTotal
+      var amount = parseInt(totalPrice)
+      console.log(amount);
+    }else{ 
+      var amount = parseInt(req.body.grandTotal)
+    }
     if(req.body.paymentMethod==='COD'){
 
       res.json({codSuccess : true})
     }else if(req.body.paymentMethod==='Razorpay'){
-     
+     console.log("same ;" , amount);
      var response = await userHelper.generateRazorpay(response.orderId, amount)
      res.json({response : response, razorpay : true})
     }else if(req.body.paymentMethod==='Paypal'){
-   
-      var totalPrice = req.body.grandTotal
+      if(req.body.appliedCoupon === 'true'){
+        var totalPrice = req.body.appliedgrandTotal
+      }else{
+        var totalPrice = req.body.grandTotal
+      }
       let amount = parseInt(totalPrice)
       var create_payment_json = {
         "intent": "sale", 
@@ -479,6 +551,7 @@ router.get('/order-success',async(req, res)=>{
 })
 
 router.get('/product-checkout/:proid', async (req, res, next) => {
+  req.session.couponApplycount =1;
   let userId = req.session.userObj._id
   let product = await userHelper.getProductForBuyNow(req.params.proid)
   let getUserAddressForPlaceOrder = await userHelper.getUserAddressForPlaceOrder(userId)
