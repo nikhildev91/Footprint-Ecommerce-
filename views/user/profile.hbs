@@ -28,8 +28,8 @@
                 <!-- Nav tabs -->
                 <ul class="nav flex-column dashboard-list" role="tablist">
                     <li><a class="nav-link active" data-toggle="tab" href="#dashboard">Dashboard</a></li>
+                    <li><a class="nav-link" data-toggle="tab" href="#refferal">Reffer & Earn</a></li>
                     <li><a class="nav-link" data-toggle="tab" href="#orders">My Orders</a></li>
-
                     <li><a class="nav-link" data-toggle="tab" href="#address">Addresses</a></li>
                     <li><a class="nav-link" data-toggle="tab" href="#account-details">Add New Address</a></li>
                     <li><a class="nav-link" data-toggle="tab" href="#change-password">Change Password</a></li>
@@ -113,6 +113,79 @@
                         </div>
                     </div>
                     <!-- End Dashboard -->
+                      <!-- refferal -->
+                    <div id="refferal" class="product-order tab-pane fade">
+                        <h3>Reffer $ Earn</h3>
+                        <div class="row">
+                            <div class="col-md-6 card p-2">
+                                <div class="row">
+                                    <div class="col-md-7">
+                            <img src="/images/walletLogo.png" alt="" class="ms-2 fluid w-80">
+                        </div>
+                        <div class="col-md-5">
+                            <p class="mt-2" style="font-size: 20px; font-weight: bold;">Wallet : </p>
+                            <p class="mt-3" style="font-size: 30px; font-weight: bold;">₹ 1000</p>
+                        </div>
+                                </div>
+                        
+                        </div>
+                        <div class="col-md-6 card">
+
+                        <div class="mx-auto mt-3">
+                            <p style="font-size: 16px;">Reffer Your Friends and Earn <b>₹ 50</b> per Sign Up</p>  
+                        </div>
+                          <div class="row mt-4">
+                                 <div class="col-md-8">
+                                      <input id="myInput" type="text" value="http://localhost:3000/ref?code={{userSession._id}}/#nrae" readonly>
+                            </div>
+                            <div class="col-md-4">
+                                <button style="width: 100px; height : 38px; color:white; background-color: black;" onclick="clickCopyLink()">Copy Link</button>
+                            </div>
+                            </div>
+                        </div>
+
+                        </div>
+                        
+                        {{!-- <div class="table-responsive">
+                            <table class="table">
+                                <thead class="alt-font">
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Address</th>
+                                        <th>Products</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Total</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    {{#each orders}}
+                                    
+
+                                    <tr>
+                                        <td>{{this._id}}</td>
+                                        <td>{{this.data.[0].deliveryDetails.address}}</td>
+                                        <td>
+                                            {{#each this.data}}
+                                            <p style="font-weight: bold;">{{this.productList.productTitle}}</p>
+                                            {{/each}}
+                                            </td>
+                                        <td>{{this.data.[0].date}}</td>
+                                        <td>{{this.data.[0].status}}</td>
+                                        <td>Rs. {{this.data.[0].products.subtotal.total}}</td>
+                                        <td><a class="view text-success" href="/view-myorder_details/{{this._id}}"
+                                                style="font-weight: bold;">View</a><a class="view ms-3 text-danger"
+                                                href="/order-cancel/{{this._id}}" style="font-weight: bold;"> Cancel</a></td>
+                                    </tr>
+                                
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div> --}}
+                    </div>
+                    <!-- End refferal -->
 
                     <!-- Orders -->
                     <div id="orders" class="product-order tab-pane fade">

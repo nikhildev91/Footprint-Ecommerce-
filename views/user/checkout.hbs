@@ -219,11 +219,11 @@
                                     <td><a href="#;" class="thumb"><img class="cart__image"
                                                 src="/product-images/{{this.product._id}}first.jpg" alt=""></a></td>
                                     <td class="text-left">{{this.product.productTitle}}</td>
-                                    <td>Rs. {{this.product.price}}</td>
+                                    <td>₹ {{this.product.price}}</td>
                                     <td>{{this.quantity}}</td>      
                                     
                                    
-                                    <td>Rs. {{this.productTotal}}</td>
+                                    <td>₹  {{this.productTotal}}</td>
                                 </tr>
                                {{/each}}
 
@@ -235,8 +235,10 @@
                                 </tr> --}}
                                 <tr>
                                     <td colspan="4" class="text-right">Total</td>
-                                    <td>{{subTotal}}</td>
+                                    <td>₹ {{subTotal}}</td>
                                     <input type="text"  name="grandTotal" value="{{subTotal}}" hidden>
+                                    <input type="text" id="" name="couponDiscount" class="couponDiscount" value="" hidden >
+                                    <input type="text" id="" name="couponDiscountAmount" class="couponDiscountAmount" value="" hidden>
                                     <input type="text" id="" name="appliedgrandTotal" class="appliedgrandTotal" value="" hidden>
                                      <input type="text" name="appliedCoupon"  class="appliedCoupon" value="false" hidden>
                                 </tr>
@@ -246,6 +248,8 @@
                             {{!-- buy now body start --}}
                             <input type="text" name="proId" value="{{product._id}}" hidden>
                             <input type="text" name="buynow" id="" value="true" hidden>
+                            <input type="text" id="" name="couponDiscount" class="couponDiscount" value="" hidden>
+                                    <input type="text" id="" name="couponDiscountAmount" class="couponDiscountAmount" value="" hidden>
                             <input type="text" id="" name="appliedgrandTotal" class="appliedgrandTotal" value="" hidden>
                                      <input type="text" name="appliedCoupon"  class="appliedCoupon" value="false" hidden>
                     
@@ -255,10 +259,10 @@
                                     <td><a href="#;" class="thumb"><img class="cart__image"
                                                 src="/product-images/{{product._id}}first.jpg" alt=""></a></td>
                                     <td class="text-left">{{product.productTitle}}</td>
-                                    <td>Rs. {{product.price}}</td>
+                                    <td>₹ {{product.price}}</td>
                                     <td>1</td>
                                    
-                                    <td>Rs. {{product.price}}</td>
+                                    <td>₹ {{product.price}}</td>
                                 </tr>
                               
                             </tbody>
@@ -268,7 +272,7 @@
                                 
                                 <tr>
                                     <td colspan="4" class="text-right">Total</td>
-                                    <td>{{product.price}}</td>
+                                    <td>₹ {{product.price}}</td>
                                     <input type="text" name="grandTotal" value="{{product.price}}" hidden>
                                 </tr>
                             </tfoot>

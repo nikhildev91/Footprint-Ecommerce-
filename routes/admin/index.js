@@ -640,7 +640,9 @@ router.get('/rejected/:orderid', async(req, res, next)=>{
 
 router.get('/manage-coupons',async(req, res, next)=>{
  let coupons = await adminHelper.getCoupons()
-  res.render('admin/manage-coupons', {isadmin, coupons})
+ let ExistErrMsg = req.session.couponAlreadyAdded
+ req.session.couponAlreadyAdded = null;
+  res.render('admin/manage-coupons', {isadmin, coupons, ExistErrMsg})
 })
 
 router.post('/manage-coupons', async(req, res,next)=>{
@@ -648,27 +650,18 @@ router.post('/manage-coupons', async(req, res,next)=>{
   let response = await adminHelper.addNewCoupons(req.body)
   if(response){
     res.redirect('/admin/manage-coupons')
+  }else{
+    req.session.couponAlreadyAdded = "This Coupon Already Added"
+    res.redirect('/admin/manage-coupons')
   }
 })
 
 router.post('/delete-coupon',async(req, res, next)=>{
   let response = await adminHelper.deleteCoupons(req.body)
-  if(response){
-  let response = await adminHelper.ProductOffer(req.params.proid, req.body)
-  if(response.already){
-    req.session.already = "This Product Already Have Offer"
-    res.redirect('/admin/product-offer/'+req.params.proid)
-  }
-  if(response.already1){
-    req.session.already = "This Product Already Have Offer"
-    res.redirect('/admin/product-offer/'+req.params.proid)
+  if (response){
+    res.redirect('/admin/manage-coupons')
   }
   
-  if(response.status){
-    let response = await adminHelper.addOfferToProduct(req.params.proid, req.body)
-    res.redirect('/admin/manage-products')
-  }
-}
 
 });
 
@@ -681,15 +674,21 @@ router.get('/product-offer/:proid', (req, res, next)=>{
 
 router.get('/manage-category-offers', async(req, res, next)=>{
   let category = await adminHelper.getCategoryForManageOffer()
+  let categoryOffers = await adminHelper.getCategoryOffers()
  let categoryOfferErrMsg =  req.session.categoryOfferErrMsg 
   req.session.categoryOfferErrMsg = null;
-  res.render('admin/categoryoffer', {isadmin, category, categoryOfferErrMsg})
+  res.render('admin/categoryoffer', {isadmin, category, categoryOfferErrMsg, categoryOffers})
 });
 
 router.post('/manage-category-offers', async(req, res, next)=>{
   console.log(req.body);
   let response = await adminHelper.checkCategoryOffer(req.body.category)
+  console.log(response, "responcefhsdfjasfhbafdhfgsjfhas");
   if(response){
+    req.session.categoryOfferErrMsg = "This Category Already Have Offer"
+    res.redirect('/admin/manage-category-offers')
+    
+  }else{
     let categoryOffer = {
       category : req.body.category,
       discount : parseInt(req.body.discount),
@@ -697,13 +696,41 @@ router.post('/manage-category-offers', async(req, res, next)=>{
     }
     let response = await adminHelper.addCategoryOffer(categoryOffer);
     if(response){
-      res.redirect('/admin/manage-category-offers')
+      let response = await adminHelper.updateCategoryOfferProduct(categoryOffer)
+      if(response){
+
+        res.redirect('/admin/manage-category-offers')
+      }
     }
-  }else{
-    req.session.categoryOfferErrMsg = "This Category Already Have Offer"
-    res.redirect('/admin/manage-category-offers')
   }
 
 })
 
+router.get('/delete-category-offer/:id', async(req, res, next)=>{
+  console.log("delete Category Offer");
+  let response = await adminHelper.deleteCategoryOffer(req.params.id)
+  if(response){
+    res.redirect('/admin/manage-category-offers')
+  }
+})
+
+router.post('/add-product-offer/:proId', async(req, res, next)=>{
+  console.log(req.body);
+  console.log("kfdgdfdfdfgfgjdfgdjfh",req.params.proId);
+  let response = await adminHelper.ProductOffer(req.params.proId, req.body)
+  if(response.already){
+    req.session.already = "This Product Already Have Offer"
+    res.redirect('/admin/product-offer/'+req.params.proId)
+  }
+  if(response.already1){
+    req.session.already = "This Product Already Have Offer"
+    res.redirect('/admin/product-offer/'+req.params.proId)
+  }
+  
+  if(response.status){
+    let response = await adminHelper.addOfferToProduct(req.params.proId, req.body)
+    res.redirect('/admin/manage-products')
+  }
+
+})
 module.exports = router;

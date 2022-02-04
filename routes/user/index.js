@@ -25,6 +25,10 @@ router.use(function (req, res, next) {
 });
 
 /* GET home page. */
+
+
+
+
 router.get('/', async function (req, res, next) {
   let banners = await bannerHelper.takebanners()
   let categoryBanners = await bannerHelper.takeCategoryBanners()
@@ -265,16 +269,17 @@ router.post('/remove-cart-product', (req, res, next) => {
   })
 });
 
-router.get('/profile/:id', async (req, res, next) => {
+router.get('/profile', async (req, res, next) => {
+  let userId = req.session.userObj._id
   let category = await userHelper.takeCategory()
   let cartCount = 0;
   cartCount = await userHelper.getCartCount(userSession._id)
   let cartProducts = await userHelper.getCartProducts(userSession._id)
-  let user = await userHelper.getUser(req.params.id)
-  let userAddress = await userHelper.getAddress(req.params.id)
+  let user = await userHelper.getUser(userId)
+  let userAddress = await userHelper.getAddress(userId)
 
 
-  let orders = await userHelper.myOrders(req.params.id)
+  let orders = await userHelper.myOrders(userId)
   console.log("user Session Undo",userSession);
   res.render('user/profile', {
       isUser,
@@ -398,13 +403,35 @@ router.post('/change-password/:userid', async (req, res, next) => {
   }
 });
 
-router.post('/place-order/:cartId', async (req, res, next) => {
-  let OrderProducts = await userHelper.getCartOrderProducts(req.params.cartId)
+router.get('/place-order', async(req, res, next)=>{
+  let OrderProducts = await userHelper.getCartOrderProducts(req.session.cartId)
   let getUserAddressForPlaceOrder = await userHelper.getUserAddressForPlaceOrder(OrderProducts.user)
-  let getProductsForPlaceOrder = await userHelper.getProductsForPlaceOrder(req.params.cartId)
-  let subTotal = req.body.subTotal;
-  let productTotal = req.body.productTotal[0]
-  let userId = await userHelper.getUserId(req.params.cartId)
+  let getProductsForPlaceOrder = await userHelper.getProductsForPlaceOrder(req.session.cartId)
+  let subTotal =  req.session.subTotal 
+  let productTotal = req.session.productTotal
+  let userId = await userHelper.getUserId(req.session.cartId)
+  req.session.couponApplycount =1;
+  res.render('user/checkout', {
+    isUser,
+    buyOne:false,
+    getUserAddressForPlaceOrder,
+    getProductsForPlaceOrder,
+    subTotal,
+    productTotal,
+    userId
+  })
+})
+
+router.post('/place-order', async (req, res, next) => {
+  req.session.cartId = req.body.cartId
+  req.session.subTotal = req.body.subTotal
+  req.session.productTotal = req.body.productTotal[0]
+  let OrderProducts = await userHelper.getCartOrderProducts(req.session.cartId)
+  let getUserAddressForPlaceOrder = await userHelper.getUserAddressForPlaceOrder(OrderProducts.user)
+  let getProductsForPlaceOrder = await userHelper.getProductsForPlaceOrder(req.session.cartId)
+  let subTotal =  req.session.subTotal 
+  let productTotal = req.session.productTotal
+  let userId = await userHelper.getUserId(req.session.cartId)
   req.session.couponApplycount =1;
   res.render('user/checkout', {
     isUser,
@@ -431,12 +458,13 @@ router.post('/apply-coupon', async(req, res, next)=>{
   console.log(req.body);
  var couponApplycount = req.session.couponApplycount
   var couponCode = req.body.couponcode;
+  req.session.couponCode = couponCode;
   var userId = req.session.userObj._id;
   var resp = await userHelper.checkcouponCode(couponCode)
   if(resp.status){
     let response = await userHelper.checkUserUsedCoupon(resp.coupon, userId)
     if(response.status){
-        console.log('user already used coupon');
+        res.json({couponalreadyUserUsedErrMsg : "Already Used This Coupon"})
     }else{
       if(req.body.buyone ==="true"){
         if(couponApplycount ==1){
@@ -445,6 +473,8 @@ router.post('/apply-coupon', async(req, res, next)=>{
           let dis = ((total*discount)/100)
           let grandTotal = total - dis
           console.log(grandTotal);
+          req.session.discount = discount;
+          req.session.disAmount = dis
           req.session.couponApplycount++
           res.json({totalAmount : grandTotal, discount : discount, dis : dis})
           
@@ -466,34 +496,28 @@ router.post('/apply-coupon', async(req, res, next)=>{
       
     }
   }else{
-    console.log(resp.status);
-    console.log("date not match");
+    res.json({CouponInvaliderrMsg : "Invalid Coupon Code"})
   }
 })
 
 router.post('/order-placed', async (req, res, next) => {
-  console.log(req.body);
   if(req.body.appliedCoupon === 'true'){
-    console.log("req.body.appliedgrandTotal >" , req.body.appliedgrandTotal);
     req.session.appliedgrandTotal = req.body.appliedgrandTotal
+    req.body.couponCode = req.session.couponCode
+    req.session.appliedCoupon = req.body.appliedCoupon
   }
-    var totalprice = await userHelper.getTotalAmount(req.body.userId)
-    
+    var totalprice = await userHelper.getTotalAmount(req.body.userId) 
   userHelper.placeOrder(req.body, totalprice,  req.body.userId).then(async(response)=>{
     req.session.orderId = response.orderId;
     if(req.body.appliedCoupon === 'true'){
-      console.log("coupon applied");
       var totalPrice = req.session.appliedgrandTotal
       var amount = parseInt(totalPrice)
-      console.log(amount);
     }else{ 
       var amount = parseInt(req.body.grandTotal)
     }
     if(req.body.paymentMethod==='COD'){
-
       res.json({codSuccess : true})
     }else if(req.body.paymentMethod==='Razorpay'){
-     console.log("same ;" , amount);
      var response = await userHelper.generateRazorpay(response.orderId, amount)
      res.json({response : response, razorpay : true})
     }else if(req.body.paymentMethod==='Paypal'){
@@ -503,6 +527,14 @@ router.post('/order-placed', async (req, res, next) => {
         var totalPrice = req.body.grandTotal
       }
       let amount = parseInt(totalPrice)
+      console.log("payapal cancel ", req.session.cartId);
+      console.log(req.body.buynow);
+      if(req.body.buynow === 'true'){
+        var Cancelurl = "http://localhost:3000/product-checkout/"+req.body.proId
+      }else{
+        var Cancelurl = "http://localhost:3000/place-order"
+      }
+      console.log(Cancelurl);
       var create_payment_json = {
         "intent": "sale", 
         "payer": {
@@ -510,7 +542,7 @@ router.post('/order-placed', async (req, res, next) => {
         },
         "redirect_urls": {
             "return_url": "http://localhost:3000/order-success",
-            "cancel_url": "http://localhost:3000"
+            "cancel_url": Cancelurl
         },
         "transactions": [{
             "amount": {
@@ -527,11 +559,7 @@ router.post('/order-placed', async (req, res, next) => {
       } else {
         for(let i = 0;i < payment.links.length;i++){
           if(payment.links[i].rel === "approval_url"){
-            userHelper.changePaymentStatus(response.orderId).then(()=>{
-
-              res.send({forwardLink: payment.links[i].href});
-            })
-          
+            res.send({forwardLink: payment.links[i].href});
           }
         }
         
@@ -545,9 +573,27 @@ router.post('/order-placed', async (req, res, next) => {
 router.get('/order-success',async(req, res)=>{
   let userId = req.session.userObj._id;
   let orderId = req.session.orderId;
-  let orderDetails = await userHelper.getOrderDetalis(userId, orderId)
-  let products = await userHelper.getProducts(orderId)
-  res.render('user/thankyouPage', {isUser, products, orderDetails})
+
+  userHelper.changePaymentStatus(orderId, userId).then(async()=>{
+    if(req.session.appliedCoupon === 'true'){
+      let couponcode = req.session.couponCode
+      let userId = req.session.userObj._id
+      let response = await userHelper.addcoupontoUser(userId, couponcode)
+      if (response){
+        let orderDetails = await userHelper.getOrderDetalis(userId, orderId)
+        console.log("order Details : nidfsd : ", orderDetails);
+        let products = await userHelper.getProducts(orderId)
+        res.render('user/thankyouPage', {isUser, products, orderDetails})
+      } 
+   }else{
+    let orderDetails = await userHelper.getOrderDetalis(userId, orderId)
+    console.log("order Details : nidfsd : ", orderDetails);
+    let products = await userHelper.getProducts(orderId)
+    res.render('user/thankyouPage', {isUser, products, orderDetails})
+   }
+
+  })
+  
 })
 
 router.get('/product-checkout/:proid', async (req, res, next) => {
@@ -617,11 +663,18 @@ router.get('/order-cancel/:orderid', async (req, res) => {
 });
 
 router.post('/verify_payment', (req, res)=>{
-  console.log(req.body);
+  var userId = req.session.userObj._id
   userHelper.verifyPayment(req.body).then(()=>{
-    userHelper.changePaymentStatus(req.body['order[receipt]']).then(()=>{
-      console.log("payment success");
+    userHelper.changePaymentStatus(req.body['order[receipt]'], userId).then(async()=>{
+      if(req.session.appliedCoupon === 'true'){
+       let couponcode = req.session.couponCode
+       let response = await userHelper.addcoupontoUser(userId, couponcode)
+       if (response){
+        res.json({status:true})
+       } 
+    }else{
       res.json({status:true})
+    }
     })
   }).catch((err)=>{
     console.log(err);

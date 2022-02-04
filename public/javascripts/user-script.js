@@ -495,39 +495,54 @@ $('#coupon-Form').submit((e) => {
         method: 'post',
         data: $('#coupon-Form').serialize(),
         success: (response) => {
-            if(response.errMsg){
-                Swal.fire(response.errMsg)
+            if(response.CouponInvaliderrMsg){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: response.CouponInvaliderrMsg
+                    
+                  })
             }else{
-                $('.appliedCoupon').val('true')
-                $('.appliedgrandTotal').val(response.totalAmount)
-                // var x = document.createElement("INPUT")
-                // x.setAttribute("type", "text")
-                // x.setAttribute("name", "appliedgrandTotal")
-                // x.setAttribute("value", response.totalAmount)
-                // document.body.appendChild(x).hidden = true;
-                // var y = document.createElement("INPUT");
-                // y.setAttribute("type", "text");
-                // y.setAttribute("name", "appliedCoupon");
-                // y.setAttribute("value", "true");
-                // document.body.appendChild(y);
-                var table = document.getElementById('checkout_form');
-                var row = table.insertRow(1);
-                var cell = row.insertCell(0);
-                var cell1 = row.insertCell(1);
-                cell.setAttribute("colspan", "4");
-                cell.setAttribute("class", "text-right");
-                cell.innerHTML = "Coupon Applied "+response.discount + "% OFF";
-                cell1.innerHTML = "-"+response.dis;
-                var row2 = table.insertRow(2);
-                var cell = row2.insertCell(0);
-                var cell1 = row2.insertCell(1);
-                cell.setAttribute("colspan", "4");
-                cell.setAttribute("class", "text-right");
-                cell.innerHTML = "Payable Amount";
-                cell1.innerHTML = response.totalAmount;
+                if(response.couponalreadyUserUsedErrMsg){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: response.couponalreadyUserUsedErrMsg
+                        
+                      })
 
-             
+                }
+                else{
+    
+                    if(response.errMsg){
+                        Swal.fire(response.errMsg)
+                    }else{
+                        $('.appliedCoupon').val('true')
+                        $('.appliedgrandTotal').val(response.totalAmount)
+                        $('.couponDiscount').val(response.discount)
+                        $('.couponDiscountAmount').val(response.dis)
+                        var table = document.getElementById('checkout_form');
+                        var row = table.insertRow(1);
+                        var cell = row.insertCell(0);
+                        var cell1 = row.insertCell(1);
+                        cell.setAttribute("colspan", "4");
+                        cell.setAttribute("class", "text-right");
+                        cell.innerHTML = "Coupon Applied "+response.discount + "% OFF";
+                        cell1.innerHTML = "- ₹"+response.dis;
+                        var row2 = table.insertRow(2);
+                        var cell = row2.insertCell(0);
+                        var cell1 = row2.insertCell(1);
+                        cell.setAttribute("colspan", "4");
+                        cell.setAttribute("class", "text-right");
+                        cell.innerHTML = "Payable Amount";
+                        cell1.innerHTML = "₹"+response.totalAmount;
+        
+                     
+                    }
+                }
             }
+            
+            
         }
     })
 })
@@ -599,4 +614,27 @@ function verifyPayment(payment, order) {
     })
 }
 
+// refferal offer copy
 
+function clickCopyLink() {
+    var copyText = document.getElementById("myInput");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); 
+    navigator.clipboard.writeText(copyText.value);
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+      
+      Toast.fire({
+        icon: 'success',
+        title: 'Successfully Link Copied'
+      })
+  }

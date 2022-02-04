@@ -273,10 +273,17 @@ addNewCoupons : (couponDetails)=>{
             discount : parseInt(couponDetails.discount),
             date : new Date(couponDetails.date)
         }
-        database.get().collection('coupons').insertOne(coupon).then(()=>{
-            database.get().collection("coupons").createIndex( { date: 1 }, { expireAfterSeconds: 0 } ).then(()=>{
-                resolve(true)
-            })
+        database.get().collection('coupons').findOne({couponcode : couponDetails.couponcode}).then((result)=>{
+            if(result){
+                resolve(false)
+            }else{
+
+                database.get().collection('coupons').insertOne(coupon).then(()=>{
+                    database.get().collection("coupons").createIndex( { date: 1 }, { expireAfterSeconds: 0 } ).then(()=>{
+                        resolve(true)
+                    })
+                })
+            }
         })
     })
 },
@@ -300,6 +307,20 @@ return new Promise(async(resolve, reject)=>{
    resolve(category)
 })
 },
+getCategoryOffers : ()=>{
+    return new Promise(async(resolve, reject)=>{
+        var categoryOffer = await database.get().collection('caregoryOffer').find().toArray()
+        resolve(categoryOffer)
+        
+    })
+},
+// deleteCategoryOffer : (categoryOferId)=>{
+//     return new Promise((resolve, reject)=>{
+//         database.get().collection('categoryOffer').deleteOne({_id : ObjectId(categoryOferId)}).then(()=>{
+//             resolve(true)
+//         })
+//     })
+// },
 checkCategoryOffer : (category)=>{
     return new Promise((resolve, reject)=>{
     database.get().collection("categoryOffer").findOne({category : category}).then((result)=>{
@@ -344,7 +365,7 @@ getCategoryOffers : ()=>{
        resolve(categoryOffer)
     })
 },
-deleteCategory : (categoryId)=>{
+deleteCategoryOffer : (categoryId)=>{
     return new Promise(async(resolve, reject)=>{
         let category = await database.get().collection('categoryOffer').findOne({_id : ObjectId(categoryId)})
          category = category.category
@@ -417,6 +438,7 @@ ProductOffer : (proId, offerDetails)=>{
                     if(result){
                         resolve({already1 : true})
                     }else{
+
                         let productOffer ={
                             proId : proId,
                             discount : parseInt(offerDetails.discount),
@@ -434,6 +456,7 @@ ProductOffer : (proId, offerDetails)=>{
     })
 },
 addOfferToProduct : (proId, offerDetails)=>{
+    console.log("prodIdsd : ", proId);
     return new Promise(async(resolve, reject)=>{
         let products = await database.get().collection('products').findOne({_id : ObjectId(proId)})
         console.log("products : ",products);

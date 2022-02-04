@@ -17,6 +17,10 @@ const isUser = true;
 
 
 /* GET users listing. */
+router.get('/ref?code=/:id', (req, res, next)=>{
+  console.log('vanneeee');
+});
+
 router.get('/', function(req, res, next) {
   if (req.session.isLoggedin || req.session.otpUserLoggedin || req.session.isFreshUserLoggedin){
     res.redirect('/')

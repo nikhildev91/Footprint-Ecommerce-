@@ -19,7 +19,8 @@
             <div class="col-12 col-sm-12 col-md-12 col-lg-12 main-col">
 
                 {{!-- <form action="#" method="post" class="cart style2"> --}}
-                <form action="/place-order/{{cartId}}" method="post">
+                <form action="/place-order" method="post">
+                <input type="text" name="cartId" value="{{cartId}}" hidden>
                     <table>
                         <thead class="cart__row cart__header">
                             <tr>

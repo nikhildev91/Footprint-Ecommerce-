@@ -36,12 +36,14 @@
                                   
                                   
                                     <tr>
-                                        <td width="20%"> <img src="/product-images/{{this.proId}}first.jpg" width="90"> </td>
-                                        <td width="60%"> <span class="font-weight-bold">{{this.title}}</span>
-                                            <div class="product-qty"> <span class="d-block">Quantity : {{../orderDetails.products.quantity}}</span></div>
+                                        <td width="20%"> <img src="/product-images/{{this.productList._id}}first.jpg" width="90"> </td>
+                                        <td width="60%"> <span class="font-weight-bold">{{this.productList.productTitle}}</span>
+                                      
+                                            <div class="product-qty"> <span class="d-block">Quantity : {{this.products.productsTotal.quantity}}</span></div>
+                                      
                                         </td>
                                         <td width="20%">
-                                            <div class="text-right"> <span class="font-weight-bold">Rs. {{../orderDetails.products.subtotal.total}}</span> </div>
+                                            <div class="text-right"> <span class="font-weight-bold">₹ {{this.products.productsTotal.total}}</span> </div>
                                         </td>
                                     </tr>
                                  
@@ -59,41 +61,38 @@
                                                 <div class="text-left"> <span class="text-muted">Subtotal</span> </div>
                                             </td>
                                             <td>
-                                                <div class="text-right"> <span>$168.50</span> </div>
+                                                <div class="text-right"> <span>₹ {{products.[0].products.subtotal.total}}</span> </div>
                                             </td>
                                         </tr>
+                                        
+                                        {{#if orderDetails.couponApplied}}
                                         <tr>
                                             <td>
-                                                <div class="text-left"> <span class="text-muted">Shipping Fee</span> </div>
+                                                <div class="text-left"> <span class="text-muted">Coupon Applied <b>{{orderDetails.couponDiscount}}% OFF</b></span> </div>
                                             </td>
                                             <td>
-                                                <div class="text-right"> <span>$22</span> </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="text-left"> <span class="text-muted">Tax Fee</span> </div>
-                                            </td>
-                                            <td>
-                                                <div class="text-right"> <span>$7.65</span> </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="text-left"> <span class="text-muted">Discount</span> </div>
-                                            </td>
-                                            <td>
-                                                <div class="text-right"> <span class="text-success">$168.50</span> </div>
+                                                <div class="text-right"> <span class="text-success">₹ {{orderDetails.couponDiscountAmount}}</span> </div>
                                             </td>
                                         </tr>
                                         <tr class="border-top border-bottom">
                                             <td>
-                                                <div class="text-left"> <span class="font-weight-bold">Grand Total</span> </div>
+                                                <div class="text-left"> <span class="font-weight-bold">Payable Amount</span> </div>
                                             </td>
                                             <td>
-                                                <div class="text-right"> <span class="font-weight-bold">Rs. {{orderDetails.grandTotal}}</span> </div>
+                                                <div class="text-right"> <span class="font-weight-bold">₹ {{orderDetails.payableAmount}}</span> </div>
                                             </td>
                                         </tr>
+                                        {{else}}
+                                        
+                                        <tr class="border-top border-bottom">
+                                            <td>
+                                                <div class="text-left"> <span class="font-weight-bold">Payable Amount</span> </div>
+                                            </td>
+                                            <td>
+                                                <div class="text-right"> <span class="font-weight-bold">₹ {{products.[0].products.subtotal.total}}</span> </div>
+                                            </td>
+                                        </tr>
+                                        {{/if}}
                                     </tbody>
                                 </table>
                             </div>

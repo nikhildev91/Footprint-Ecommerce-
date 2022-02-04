@@ -34,8 +34,11 @@
         <td>{{this.category}}</td>
         <td>{{this.subcategory}}</td>
         <td>{{this.brand}}</td>
+        {{#if this.offer}}
+        <td>Already Have Offer</td>
+        {{else}}
         <td><a class="btn btn-primary" href="/admin/product-offer/{{this._id}}">Add Offer</a></td>
-        
+        {{/if}}
         <td><a href="/admin/edit-product/{{this._id}}" onclick="return confirm('Are You Sure Edit This Product?') "><i class="fas fa-edit" style="font-size: 25px; color: blue;"></i> </a><a href="/admin/delete-product/{{this._id}}" onclick="return confirm('Are You Sure Delete This Product?')"><i class="fas fa-trash ml-3" style="font-size: 25px; color: red;"></i></a></td>
          </tr>
          {{/each}}

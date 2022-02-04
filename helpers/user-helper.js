@@ -951,7 +951,8 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             if (order.buynow ==='true') {
                 let status = order.paymentMethod === 'COD' ? 'Placed' : 'Pending'
-                let product = await database.get().collection('products').findOne({
+             
+                var product = await database.get().collection('products').findOne({
                     _id: ObjectId(order.proId)
                 })
                 let date = new Date()
@@ -960,31 +961,80 @@ module.exports = {
                 let year = date.getFullYear();
 
                 let fullDate = `${day}-${month}-${year}`;
-                var orderObj = {
-                    date: fullDate,
-                    deliveryDetails: {
-                        name: order.firstname,
-                        mobile: order.phone,
-                        address: order.address,
-                        pincode: order.pincode
-                    },
-                    userId: ObjectId(userid),
-                    paymentMethod: order.paymentMethod,
-                    products: {
-                        subtotal: {
-                            _id: null,
-                            total: product.price
+
+                if(order.appliedCoupon === 'true'){
+                    let payableAmount = parseInt(order.appliedgrandTotal)
+                    var orderObj = {
+                        date: fullDate,
+                        deliveryDetails: {
+                            name: order.firstname,
+                            mobile: order.phone,
+                            address: order.address,
+                            pincode: order.pincode
                         },
-                        productsTotal: [{
-                            item: ObjectId(order.proId),
-                            quantity: 1,
-                            total: product.price
-                        }]
-                    },
-                    buynow :order.buynow,
-                    status: status
+                        userId: ObjectId(userid),
+                        paymentMethod: order.paymentMethod,
+                        products: {
+                            subtotal: {
+                                _id: null,
+                                total: product.price
+                            },
+                            productsTotal: [{
+                                item: ObjectId(order.proId),
+                                quantity: 1,
+                                total: product.price
+                            }]
+                        },
+                        buynow :order.buynow,
+                        status: status,
+                        couponApplied : true,
+                        payableAmount : payableAmount,
+                        couponDiscount : order.couponDiscount,
+                        couponDiscountAmount : order.couponDiscountAmount
+
+                    }
+
+                }else{
+                    var orderObj = {
+                        date: fullDate,
+                        deliveryDetails: {
+                            name: order.firstname,
+                            mobile: order.phone,
+                            address: order.address,
+                            pincode: order.pincode
+                        },
+                        userId: ObjectId(userid),
+                        paymentMethod: order.paymentMethod,
+                        products: {
+                            subtotal: {
+                                _id: null,
+                                total: product.price
+                            },
+                            productsTotal: [{
+                                item: ObjectId(order.proId),
+                                quantity: 1,
+                                total: product.price
+                            }]
+                        },
+                        buynow :order.buynow,
+                        status: status
+                    }
                 }
+                    
                 database.get().collection('orderPlaced').insertOne(orderObj).then((result) => {
+                    if(order.appliedCoupon === 'true' && order.paymentMethod === 'COD'){
+                        database.get().collection('userUsedCoupons').findOne({userId : ObjectId(order.userId)}).then((result)=>{
+                            if(result){
+                                database.get().collection('userUsedCoupons').updateOne({userId : ObjectId(order.userId)}, 
+                                {
+                                    $push : {couponcodes: order.couponCode}
+                                })
+                            }else{
+
+                                database.get().collection('userUsedCoupons').insertOne({userId : ObjectId(order.userId), couponcodes: [order.couponCode]})
+                            }
+                        })
+                    }
                     resolve({
                         orderId: result.insertedId
                     })
@@ -996,6 +1046,32 @@ module.exports = {
                 let month = date.getMonth() + 1;
                 let year = date.getFullYear();
                 let fullDate = `${day}-${month}-${year}`;
+                if(order.appliedCoupon === 'true'){
+                    let payableAmount = parseInt(order.appliedgrandTotal)
+                    var orderObj = {
+                        date: fullDate,
+                        deliveryDetails: {
+                            name: order.firstname,
+                            mobile: order.phone,
+                            address: order.address,
+                            district : order.district,
+                            pincode: order.pincode,
+                            landmark: order.landmark,
+                            altenativePhone : order.altenativePhone,
+    
+                        },
+                        userId: ObjectId(order.userId),
+                        paymentMethod: order.paymentMethod,
+                        products: productstotalPrice,
+                        buynow :order.buynow,
+                        status: status,
+                        couponApplied : true,
+                        payableAmount : payableAmount,
+                        couponDiscount : order.couponDiscount,
+                        couponDiscountAmount : order.couponDiscountAmount
+                    }
+
+                }else{
                 var orderObj = {
                     date: fullDate,
                     deliveryDetails: {
@@ -1014,13 +1090,25 @@ module.exports = {
                     buynow :order.buynow,
                     status: status
                 }
+            }
                 database.get().collection('orderPlaced').insertOne(orderObj).then((result) => {
-                    database.get().collection('cart').deleteOne({
-                        user: ObjectId(order.userId)
-                    })
-                    resolve({
-                        orderId: result.insertedId
-                    })
+                    if(order.paymentMethod === 'COD'){
+                        database.get().collection('cart').deleteOne({ user: ObjectId(order.userId) })
+                    }
+                    if(order.appliedCoupon === 'true' && order.paymentMethod === 'COD'){
+                        database.get().collection('userUsedCoupons').findOne({userId : ObjectId(order.userId)}).then((result)=>{
+                            if(result){
+                                database.get().collection('userUsedCoupons').updateOne({userId : ObjectId(order.userId)}, 
+                                {
+                                    $push : {couponcodes: order.couponCode}
+                                })
+                            }else{
+
+                                database.get().collection('userUsedCoupons').insertOne({userId : ObjectId(order.userId), couponcodes: [order.couponCode]})
+                            }
+                        })
+                    }
+                    resolve({ orderId: result.insertedId})
                 })
             }
         })
@@ -1044,31 +1132,30 @@ module.exports = {
                         _id: ObjectId(orderId)
                     }
                 },
-                {
-                    $project: {
-                        'productArr': '$products.productsTotal'
-                    }
-                },
+                { $unwind: 
+                        '$products.productsTotal'
+},
                 {
                     $lookup: {
                         from: 'products',
-                        localField: 'productArr.item',
+                        localField: 'products.productsTotal.item',
                         foreignField: '_id',
                         as: 'productList'
                     }
                 },
                 {
                     $unwind: "$productList"
-                },
-                {
-                    $project: {
-                        'title': '$productList.productTitle',
-                        'price': '$productList.price',
-                        'proId': '$productList._id'
-
-                    }
                 }
+                // {
+                //     $project: {
+                //         'title': '$productList.productTitle',
+                //         'price': '$productList.price',
+                //         'proId': '$productList._id'
+
+                //     }
+                // }
             ]).toArray()
+            console.log(products[0]);
             resolve(products);
         })
     },
@@ -1225,9 +1312,10 @@ module.exports = {
         })
     },
 
-    checkUserUsedCoupon : (couponCode, userId)=>{
+        checkUserUsedCoupon : (couponCode, userId)=>{
         return new Promise((resolve,reject)=>{
-            database.get().collection('userUsedCoupons').findOne({$and : [{userId : ObjectId(userId)}, {couponcode : couponCode}]}).then((result)=>{
+            database.get().collection('userUsedCoupons').findOne({$and : [{userId : ObjectId(userId)}, {couponcodes : couponCode.couponcode}]}).then((result)=>{
+                console.log("coupon used", result);
                 if(result){
                     resolve({status : true})
                 }else{
@@ -1256,12 +1344,7 @@ module.exports = {
             var options ={
                 amount: rupees,
                 currency: "INR",
-                receipt: ""+orderId,
-                // notes: {
-                //   key1: "pay now",
-                  
-                // }
-                
+                receipt: ""+orderId
               }
 
               console.log(options.amount);
@@ -1291,7 +1374,7 @@ module.exports = {
 
         })
     },
-    changePaymentStatus : (orderId)=>{
+    changePaymentStatus : (orderId, userId)=>{
         console.log("order Id : ", orderId);
         return new Promise(async(resolve, reject) => {
            await database.get().collection('orderPlaced').updateOne({
@@ -1301,15 +1384,35 @@ module.exports = {
                     status: "Placed"
                 }
             }).then((result) => {
-                console.log("result : ", result);
-                if(result){
+                 database.get().collection('cart').deleteOne({ user: ObjectId(userId) }).then(()=>{
 
-                    resolve(true)
-                }
+                     if(result){
+     
+                         resolve(true)
+                     }
+                 })
             })
         })
 
     },
+    addcoupontoUser : (userId, couponcode)=>{
+        return new Promise((resolve, reject)=>{
+            database.get().collection('userUsedCoupons').findOne({userId : ObjectId(userId)}).then((result)=>{
+                if(result){
+                    database.get().collection('userUsedCoupons').updateOne({userId : ObjectId(userId)}, 
+                    {
+                        $push : {couponcodes:couponcode}
+                    }).then(()=>{
+                        resolve(true)
+                    })
+                }else{
+                    database.get().collection('userUsedCoupons').insertOne({userId : ObjectId(userId), couponcodes: [couponcode]}).then(()=>{
+                        resolve(true)
+                    })
+                }
+            })
+        })
+    }
     // generatePaypal:(orderId, amount)=>{
     //     console.log("amount : ", amount);
     //     return new Promise((resolve, reject)=>{
